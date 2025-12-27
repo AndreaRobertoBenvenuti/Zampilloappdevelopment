@@ -4,8 +4,8 @@ export const mockFountains: Fountain[] = [
   {
     id: '1',
     name: 'Vedovella Duomo',
-    lat: 45.4642,
-    lng: 9.1900,
+    lat: 45.4641, // Piazza Duomo area
+    lng: 9.1895,
     condition: 'Ottima',
     checkIns: 1523,
     contributions: 89,
@@ -15,8 +15,8 @@ export const mockFountains: Fountain[] = [
   {
     id: '2',
     name: 'Drago Verde Brera',
-    lat: 45.4719,
-    lng: 9.1881,
+    lat: 45.4720, // Via Brera, quartiere artistico
+    lng: 9.1880,
     condition: 'Ottima',
     checkIns: 1287,
     contributions: 67,
@@ -26,8 +26,8 @@ export const mockFountains: Fountain[] = [
   {
     id: '3',
     name: 'Vedovella Parco Sempione',
-    lat: 45.4729,
-    lng: 9.1774,
+    lat: 45.4730, // Parco Sempione centrale
+    lng: 9.1750,
     condition: 'Buona',
     checkIns: 2341,
     contributions: 134,
@@ -37,8 +37,8 @@ export const mockFountains: Fountain[] = [
   {
     id: '4',
     name: 'Drago Verde Navigli',
-    lat: 45.4524,
-    lng: 9.1772,
+    lat: 45.4495, // Ripa di Porta Ticinese, zona Navigli
+    lng: 9.1765,
     condition: 'Ottima',
     checkIns: 1876,
     contributions: 95,
@@ -48,8 +48,8 @@ export const mockFountains: Fountain[] = [
   {
     id: '5',
     name: 'Vedovella Porta Venezia',
-    lat: 45.4761,
-    lng: 9.2071,
+    lat: 45.4765, // Giardini Pubblici Indro Montanelli
+    lng: 9.2050,
     condition: 'Buona',
     checkIns: 1654,
     contributions: 78,
@@ -59,8 +59,8 @@ export const mockFountains: Fountain[] = [
   {
     id: '6',
     name: 'Drago Verde Città Studi',
-    lat: 45.4783,
-    lng: 9.2341,
+    lat: 45.4785, // Campus Politecnico
+    lng: 9.2310,
     condition: 'Ottima',
     checkIns: 987,
     contributions: 45,
@@ -70,8 +70,8 @@ export const mockFountains: Fountain[] = [
   {
     id: '7',
     name: 'Vedovella Corso Buenos Aires',
-    lat: 45.4797,
-    lng: 9.2104,
+    lat: 45.4820, // Corso Buenos Aires (zona centrale)
+    lng: 9.2085,
     condition: 'Discreta',
     checkIns: 765,
     contributions: 34,
@@ -81,8 +81,8 @@ export const mockFountains: Fountain[] = [
   {
     id: '8',
     name: 'Drago Verde Isola',
-    lat: 45.4873,
-    lng: 9.1889,
+    lat: 45.4890, // Quartiere Isola
+    lng: 9.1895,
     condition: 'Ottima',
     checkIns: 1432,
     contributions: 82,
