@@ -88,7 +88,7 @@ export function MapView() {
   };
 
   useEffect(() => {
-    setFountains(loadMilanFountains());
+    loadMilanFountains().then(data => setFountains(data));
   }, []);
 
   const filteredFountains = fountains.filter(f =>

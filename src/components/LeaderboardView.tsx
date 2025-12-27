@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Trophy, Users, MapPin, TrendingUp } from 'lucide-react';
-import { mockUsers } from '../data/mockData';
-import { loadMilanFountains } from '../utils/fountainDataLoader';
+import { mockFountains, mockUsers } from '../data/mockData';
 import { FountainDetailView } from './FountainDetailView';
 import { UserProfileView } from './UserProfileView';
 import { Fountain } from '../types';
@@ -15,7 +14,7 @@ export function LeaderboardView() {
   const [selectedFountain, setSelectedFountain] = useState<Fountain | null>(null);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
-  const sortedFountains = [...loadMilanFountains()].sort((a, b) => b.checkIns - a.checkIns);
+  const sortedFountains = [...mockFountains].sort((a, b) => b.checkIns - a.checkIns);
   const sortedUsers = [...mockUsers].sort((a, b) => b.points - a.points);
 
   const getMedalEmoji = (index: number) => {
