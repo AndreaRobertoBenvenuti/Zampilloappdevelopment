@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MessageSquare, Calendar, Users, Plus, Filter, ChevronDown, UserPlus, X } from 'lucide-react';
-import { mockChats, mockFountains } from '../data/mockData';
+import { mockChats } from '../data/mockData';
 import { FountainChat } from '../types';
 import { ChatRoom } from './ChatRoom';
 import { CreateChatModal } from './CreateChatModal';
