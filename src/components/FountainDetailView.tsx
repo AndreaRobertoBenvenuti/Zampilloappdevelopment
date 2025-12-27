@@ -1,10 +1,10 @@
-import { 
-  ArrowLeft, 
-  MapPin, 
-  Droplet, 
-  Calendar, 
-  Users, 
-  Camera, 
+import {
+  ArrowLeft,
+  MapPin,
+  Droplet,
+  Calendar,
+  Users,
+  Camera,
   MessageSquare,
   Navigation,
   Clock,
@@ -15,7 +15,8 @@ import {
   Star,
   Thermometer,
   Wind,
-  CheckCircle2
+  CheckCircle2,
+  ExternalLink
 } from 'lucide-react';
 import { useState } from 'react';
 import { Fountain } from '../types';
@@ -53,6 +54,12 @@ export function FountainDetailView({ fountain, distance, onBack }: FountainDetai
 
   const handleShare = () => {
     alert('Condividi questa fontanella con gli amici!');
+  };
+
+  const handleNavigate = () => {
+    // Apre Google Maps con navigazione verso la fontanella
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${fountain.lat},${fountain.lng}`;
+    window.open(url, '_blank');
   };
 
   // Mock data per attività recenti
@@ -328,15 +335,24 @@ export function FountainDetailView({ fountain, distance, onBack }: FountainDetai
           </div>
         </div>
 
-        {/* Report Issue */}
+        {/* Quick Actions */}
         <div className="p-6">
-          <button
-            onClick={() => setReportDialogOpen(true)}
-            className="w-full flex items-center justify-center gap-2 text-amber-700 bg-amber-50 border border-amber-200 py-3 rounded-lg hover:bg-amber-100 transition-colors"
-          >
-            <AlertCircle className="w-5 h-5" />
-            <span>Segnala un Problema</span>
-          </button>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={handleNavigate}
+              className="w-full flex items-center justify-center gap-2 text-teal-700 bg-teal-50 border border-teal-200 py-3 rounded-lg hover:bg-teal-100 transition-colors font-medium"
+            >
+              <ExternalLink className="w-5 h-5" />
+              <span>Indicazioni</span>
+            </button>
+            <button
+              onClick={() => setReportDialogOpen(true)}
+              className="w-full flex items-center justify-center gap-2 text-amber-700 bg-amber-50 border border-amber-200 py-3 rounded-lg hover:bg-amber-100 transition-colors font-medium"
+            >
+              <AlertCircle className="w-5 h-5" />
+              <span>Segnala Problema</span>
+            </button>
+          </div>
         </div>
 
         {/* Bottom Spacing for fixed buttons */}

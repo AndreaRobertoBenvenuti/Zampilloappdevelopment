@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
-import { Search, MapPin, Navigation, X, Camera, Locate } from 'lucide-react';
-import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
+import { Search, MapPin, Navigation, X, Camera, Locate, ExternalLink } from 'lucide-react';
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { loadMilanFountains } from '../utils/fountainDataLoader';
 import { Fountain } from '../types';
 import { FountainDetailView } from './FountainDetailView';
@@ -87,6 +87,12 @@ export function MapView() {
     return Math.round(timeMinutes);
   };
 
+  const handleNavigate = (fountain: Fountain) => {
+    // Apre Google Maps con navigazione verso la fontanella
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${fountain.lat},${fountain.lng}`;
+    window.open(url, '_blank');
+  };
+
   useEffect(() => {
     setFountains(loadMilanFountains());
   }, []);
@@ -97,9 +103,10 @@ export function MapView() {
 
   const handleMarkerClick = (fountain: Fountain) => {
     setShowPopup(fountain);
-    // Centra la mappa sul marker cliccato
+    // Centra la mappa sul marker cliccato, spostandola un po' verso l'alto per non essere coperta dalla bottom sheet
     if (mapRef.current) {
-      mapRef.current.panTo({ lat: fountain.lat, lng: fountain.lng });
+      const offsetLat = fountain.lat + 0.002; // Sposta leggermente verso l'alto
+      mapRef.current.panTo({ lat: offsetLat, lng: fountain.lng });
     }
   };
 
@@ -186,7 +193,7 @@ export function MapView() {
   const customMarkerIcon = {
     url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
       <svg width="40" height="48" viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 0C7.589 0 4 3.589 4 8c0 5.5 8 14 8 14s8-8.5 8-14c0-4.411-3.589-8-8-8z" 
+        <path d="M12 0C7.589 0 4 3.589 4 8c0 5.5 8 14 8 14s8-8.5 8-14c0-4.411-3.589-8-8-8z"
               fill="#14b8a6" stroke="#0f766e" stroke-width="1.5"/>
         <circle cx="12" cy="8" r="3" fill="white"/>
       </svg>
@@ -220,7 +227,7 @@ export function MapView() {
             className="flex-1 outline-none"
           />
           {searchQuery && (
-            <button 
+            <button
               onClick={() => setSearchQuery('')}
               className="p-1 hover:bg-gray-100 rounded-full transition-colors"
             >
@@ -232,7 +239,7 @@ export function MapView() {
 
       {/* QR Code Scanner Button */}
       <div className="absolute top-20 right-4 z-10">
-        <button 
+        <button
           onClick={handleQRScan}
           className="bg-white rounded-lg shadow-lg p-3 hover:bg-gray-50 transition-colors"
           title="Scansiona QR Code"
@@ -272,54 +279,18 @@ export function MapView() {
             title={fountain.name}
           />
         ))}
-
-        {/* Info Window (Popup) */}
-        {showPopup && (
-          <InfoWindow
-            position={{ lat: showPopup.lat, lng: showPopup.lng }}
-            onCloseClick={() => setShowPopup(null)}
-            options={{
-              pixelOffset: new google.maps.Size(0, -48)
-            }}
-          >
-            <div className="p-2 max-w-xs">
-              <h3 className="font-semibold text-gray-900 mb-2">{showPopup.name}</h3>
-              <div className="flex items-center gap-2 mb-2">
-                <span className={`px-2 py-1 rounded-full text-white text-xs ${getConditionColor(showPopup.condition)}`}>
-                  {showPopup.condition}
-                </span>
-              </div>
-              <div className="flex items-center gap-3 mb-3 text-sm text-gray-600">
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-4 h-4" />
-                  <span>{calculateDistance(showPopup)}m</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Navigation className="w-4 h-4" />
-                  <span>{getWalkingTime(calculateDistance(showPopup))} min</span>
-                </div>
-              </div>
-              <button 
-                onClick={handleDetailsClick}
-                className="w-full bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors text-sm font-medium"
-              >
-                Vedi Dettagli
-              </button>
-            </div>
-          </InfoWindow>
-        )}
       </GoogleMap>
 
       {/* Map Controls */}
       <div className="absolute right-4 bottom-32 z-10 flex flex-col gap-2">
-        <button 
+        <button
           onClick={handleRecenter}
           className="bg-white rounded-lg shadow-lg p-3 hover:bg-gray-50 transition-colors"
           title="Centra mappa"
         >
           <Locate className="w-5 h-5 text-teal-600" />
         </button>
-        <button 
+        <button
           onClick={handleZoomIn}
           className="bg-white rounded-lg shadow-lg p-3 hover:bg-gray-50 transition-colors"
           title="Zoom in"
@@ -328,7 +299,7 @@ export function MapView() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
         </button>
-        <button 
+        <button
           onClick={handleZoomOut}
           className="bg-white rounded-lg shadow-lg p-3 hover:bg-gray-50 transition-colors"
           title="Zoom out"
@@ -338,6 +309,66 @@ export function MapView() {
           </svg>
         </button>
       </div>
+
+      {/* Bottom Sheet Preview - Appare sopra la navigation bar */}
+      {showPopup && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/10 z-40 animate-in fade-in duration-200"
+            onClick={() => setShowPopup(null)}
+          />
+
+          {/* Bottom Sheet */}
+          <div className="fixed bottom-16 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300">
+            <div className="bg-white mx-4 rounded-2xl shadow-2xl p-4">
+              {/* Maniglia per swipe */}
+              <div className="flex justify-center mb-3">
+                <div className="w-12 h-1.5 bg-gray-300 rounded-full" />
+              </div>
+
+              {/* Contenuto */}
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{showPopup.name}</h3>
+
+                <div className="flex items-center gap-2 mb-3">
+                  <span className={`px-3 py-1 rounded-full text-white text-sm font-medium ${getConditionColor(showPopup.condition)}`}>
+                    {showPopup.condition}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-4 text-sm text-gray-600">
+                  <div className="flex items-center gap-1.5">
+                    <MapPin className="w-4 h-4" />
+                    <span>{calculateDistance(showPopup)}m</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Navigation className="w-4 h-4" />
+                    <span>{getWalkingTime(calculateDistance(showPopup))} min</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottoni azioni */}
+              <div className="flex gap-3">
+                <button
+                  onClick={() => handleNavigate(showPopup)}
+                  className="flex-1 bg-white border-2 border-teal-600 text-teal-600 py-3 px-4 rounded-lg hover:bg-teal-50 transition-colors font-medium flex items-center justify-center gap-2"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  Indicazioni
+                </button>
+                <button
+                  onClick={handleDetailsClick}
+                  className="flex-1 bg-teal-600 text-white py-3 px-4 rounded-lg hover:bg-teal-700 transition-colors font-medium"
+                >
+                  Vedi Dettagli
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
