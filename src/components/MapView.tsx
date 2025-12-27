@@ -320,7 +320,7 @@ export function MapView() {
           />
 
           {/* Bottom Sheet */}
-          <div className="fixed bottom-16 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300">
+          <div className="fixed bottom-20 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300">
             <div className="bg-white mx-4 rounded-2xl shadow-2xl p-4">
               {/* Maniglia per swipe */}
               <div className="flex justify-center mb-3">
