@@ -42,14 +42,14 @@ export function ReportProblemDialog({ isOpen, fountainName, onClose }: ReportPro
 
   if (submitted) {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end sm:items-center sm:justify-center">
-        <div className="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-8 text-center">
+      <div className="fixed inset-0 backdrop-blur-md bg-black/20 z-50 flex items-end sm:items-center sm:justify-center animate-in fade-in duration-200">
+        <div className="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-8 text-center shadow-2xl animate-in slide-in-from-bottom duration-300">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle2 className="w-8 h-8 text-green-600" />
           </div>
           <h2 className="text-gray-900 mb-2">Segnalazione Inviata!</h2>
           <p className="text-gray-600">
-            Grazie per aiutarci a mantenere le fontanelle in ottime condizioni. 
+            Grazie per aiutarci a mantenere le fontanelle in ottime condizioni.
             Il nostro team verificherà la segnalazione al più presto.
           </p>
         </div>
@@ -58,8 +58,14 @@ export function ReportProblemDialog({ isOpen, fountainName, onClose }: ReportPro
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end sm:items-center sm:justify-center">
-      <div className="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[85vh] overflow-y-auto">
+    <div
+      className="fixed inset-0 backdrop-blur-md bg-black/20 z-50 flex items-end sm:items-center sm:justify-center animate-in fade-in duration-200"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[85vh] overflow-y-auto shadow-2xl animate-in slide-in-from-bottom duration-300"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
