@@ -312,20 +312,22 @@ export function MapView() {
 
       {/* Bottom Sheet Preview - Appare sopra la navigation bar */}
       {showPopup && (
-        <>
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 bg-black/10 z-40 animate-in fade-in duration-200"
-            onClick={() => setShowPopup(null)}
-          />
-
-          {/* Bottom Sheet */}
-          <div className="fixed bottom-20 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300">
-            <div className="bg-white mx-4 rounded-2xl shadow-2xl p-4">
+        <div className="fixed bottom-20 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300">
+          <div className="bg-white mx-4 rounded-2xl shadow-2xl p-4">
+            {/* Header con X per chiudere */}
+            <div className="flex items-center justify-between mb-3">
               {/* Maniglia per swipe */}
-              <div className="flex justify-center mb-3">
+              <div className="flex-1 flex justify-center">
                 <div className="w-12 h-1.5 bg-gray-300 rounded-full" />
               </div>
+              {/* Bottone chiudi */}
+              <button
+                onClick={() => setShowPopup(null)}
+                className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
 
               {/* Contenuto */}
               <div className="mb-4">
@@ -367,7 +369,6 @@ export function MapView() {
               </div>
             </div>
           </div>
-        </>
       )}
     </div>
   );
