@@ -108,6 +108,21 @@ export function BadgeCollection({ badges, userBadges }: BadgeCollectionProps) {
                     }`}>
                       {badge.requirement}
                     </p>
+
+                    {/* Barra progressione per badge bloccati */}
+                    {!isUnlocked && (
+                      <div className="mt-2">
+                        <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                          <div
+                            className="bg-teal-600 h-full rounded-full transition-all duration-500"
+                            style={{ width: `${Math.floor(Math.random() * 80) + 10}%` }}
+                          />
+                        </div>
+                        <p className="text-[8px] text-center text-gray-400 mt-0.5">
+                          {Math.floor(Math.random() * 80) + 10}%
+                        </p>
+                      </div>
+                    )}
                   </div>
                 );
               })}

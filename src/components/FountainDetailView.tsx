@@ -16,7 +16,9 @@ import {
   Thermometer,
   Wind,
   CheckCircle2,
-  ExternalLink
+  ExternalLink,
+  ThumbsUp,
+  ThumbsDown
 } from 'lucide-react';
 import { useState } from 'react';
 import { Fountain } from '../types';
@@ -31,6 +33,8 @@ interface FountainDetailViewProps {
 }
 
 export function FountainDetailView({ fountain, distance, onBack, isFavorite, toggleFavorite }: FountainDetailViewProps) {
+  const [userReview, setUserReview] = useState<'up' | 'down' | null>(null);
+
   const getConditionColor = (condition: string) => {
     switch (condition) {
       case 'Ottima': return 'bg-green-500';
@@ -166,13 +170,47 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
           )}
 
           {/* Rating */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-4">
             <div className="flex items-center gap-0.5">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               ))}
             </div>
             <span className="text-sm text-gray-600">(4.8 · 234 recensioni)</span>
+          </div>
+
+          {/* Recensione Rapida */}
+          <div className="bg-gray-50 rounded-lg p-3">
+            <p className="text-sm font-medium text-gray-900 mb-2">La tua esperienza?</p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setUserReview(userReview === 'up' ? null : 'up')}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg border-2 transition-all ${
+                  userReview === 'up'
+                    ? 'border-green-500 bg-green-50 text-green-700'
+                    : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                }`}
+              >
+                <ThumbsUp className={`w-5 h-5 ${userReview === 'up' ? 'fill-green-700' : ''}`} />
+                <span className="font-medium">Ottima</span>
+              </button>
+              <button
+                onClick={() => setUserReview(userReview === 'down' ? null : 'down')}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg border-2 transition-all ${
+                  userReview === 'down'
+                    ? 'border-red-500 bg-red-50 text-red-700'
+                    : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                }`}
+              >
+                <ThumbsDown className={`w-5 h-5 ${userReview === 'down' ? 'fill-red-700' : ''}`} />
+                <span className="font-medium">Scarsa</span>
+              </button>
+            </div>
+            {userReview && (
+              <p className="text-xs text-center text-gray-500 mt-2">
+                Grazie per il tuo feedback! 🙏
+              </p>
+            )}
           </div>
         </div>
 
