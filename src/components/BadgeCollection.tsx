@@ -68,42 +68,42 @@ export function BadgeCollection({ badges, userBadges }: BadgeCollectionProps) {
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2">
               {categoryBadges.map(badge => {
                 const isUnlocked = userBadges.includes(badge.id);
 
                 return (
                   <div
                     key={badge.id}
-                    className={`relative rounded-xl p-4 transition-all ${
+                    className={`relative rounded-lg p-2.5 transition-all ${
                       isUnlocked
-                        ? `border-2 ${getRarityBorder(badge.rarity)} bg-white shadow-md`
+                        ? `border-2 ${getRarityBorder(badge.rarity)} bg-white shadow-sm`
                         : 'border border-gray-200 bg-gray-50'
                     }`}
                   >
                     {/* Rarity indicator */}
                     {isUnlocked && (
-                      <div className={`absolute -top-1 -right-1 w-7 h-7 rounded-full bg-gradient-to-br ${getRarityColor(badge.rarity)} flex items-center justify-center`}>
-                        {badge.rarity === 'legendary' && <span className="text-sm">⭐</span>}
-                        {badge.rarity === 'epic' && <span className="text-sm">💎</span>}
-                        {badge.rarity === 'rare' && <span className="text-sm">✨</span>}
+                      <div className={`absolute -top-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-br ${getRarityColor(badge.rarity)} flex items-center justify-center`}>
+                        {badge.rarity === 'legendary' && <span className="text-[10px]">⭐</span>}
+                        {badge.rarity === 'epic' && <span className="text-[10px]">💎</span>}
+                        {badge.rarity === 'rare' && <span className="text-[10px]">✨</span>}
                       </div>
                     )}
 
                     {/* Badge icon */}
-                    <div className={`text-5xl mb-3 text-center ${!isUnlocked && 'opacity-30 grayscale'}`}>
+                    <div className={`text-3xl mb-1.5 text-center ${!isUnlocked && 'opacity-30 grayscale'}`}>
                       {isUnlocked ? badge.icon : '🔒'}
                     </div>
 
                     {/* Badge name */}
-                    <p className={`text-sm font-medium text-center line-clamp-2 mb-1 ${
+                    <p className={`text-[11px] font-medium text-center line-clamp-2 mb-0.5 ${
                       isUnlocked ? 'text-gray-900' : 'text-gray-400'
                     }`}>
                       {badge.name}
                     </p>
 
                     {/* Requirement */}
-                    <p className={`text-xs text-center ${
+                    <p className={`text-[9px] text-center ${
                       isUnlocked ? 'text-gray-500' : 'text-gray-400'
                     }`}>
                       {badge.requirement}
