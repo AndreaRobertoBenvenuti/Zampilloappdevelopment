@@ -3,9 +3,10 @@ import { Badge } from '../types';
 interface BadgeCollectionProps {
   badges: Badge[];
   userBadges: string[];
+  onBadgeClick?: (badge: Badge) => void;
 }
 
-export function BadgeCollection({ badges, userBadges }: BadgeCollectionProps) {
+export function BadgeCollection({ badges, userBadges, onBadgeClick }: BadgeCollectionProps) {
   const getRarityColor = (rarity: Badge['rarity']) => {
     switch (rarity) {
       case 'common':
@@ -73,12 +74,13 @@ export function BadgeCollection({ badges, userBadges }: BadgeCollectionProps) {
                 const isUnlocked = userBadges.includes(badge.id);
 
                 return (
-                  <div
+                  <button
                     key={badge.id}
-                    className={`relative rounded-lg p-2.5 transition-all ${
+                    onClick={() => onBadgeClick?.(badge)}
+                    className={`relative rounded-lg p-2.5 transition-all w-full text-left ${
                       isUnlocked
                         ? `border-2 ${getRarityBorder(badge.rarity)} bg-white shadow-sm`
-                        : 'border border-gray-200 bg-gray-50'
+                        : 'border border-gray-200 bg-gray-50 hover:bg-gray-100 cursor-pointer'
                     }`}
                   >
                     {/* Rarity indicator */}
@@ -123,7 +125,7 @@ export function BadgeCollection({ badges, userBadges }: BadgeCollectionProps) {
                         </p>
                       </div>
                     )}
-                  </div>
+                  </button>
                 );
               })}
             </div>

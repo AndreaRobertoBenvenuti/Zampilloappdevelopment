@@ -73,6 +73,12 @@ export function SettingsView({ onBack }: SettingsViewProps) {
       title: 'App',
       items: [
         { icon: Globe, label: 'Lingua', value: 'Italiano', action: () => console.log('Lingua') },
+        { icon: HelpCircle, label: 'Tutorial Iniziale', action: () => {
+          // Chiama la funzione globale per resettare l'onboarding
+          if ((window as any).resetOnboarding) {
+            (window as any).resetOnboarding();
+          }
+        }},
         { icon: HelpCircle, label: 'Aiuto e Supporto', action: () => console.log('Aiuto') },
         { icon: Info, label: 'Info App', value: 'v1.0.0', action: () => console.log('Info') },
       ]

@@ -23,6 +23,7 @@ import {
 import { useState } from 'react';
 import { Fountain } from '../types';
 import { ReportProblemDialog } from './ReportProblemDialog';
+import { PhotoGallery } from './PhotoGallery';
 
 interface FountainDetailViewProps {
   fountain: Fountain;
@@ -34,6 +35,34 @@ interface FountainDetailViewProps {
 
 export function FountainDetailView({ fountain, distance, onBack, isFavorite, toggleFavorite }: FountainDetailViewProps) {
   const [userReview, setUserReview] = useState<'up' | 'down' | null>(null);
+
+  // Mock data per galleria foto
+  const fountainPhotos = [
+    {
+      id: '1',
+      url: 'https://images.unsplash.com/photo-1541544181051-e46607bc22a4?w=800&h=600&fit=crop',
+      user: 'Marco R.',
+      date: '2 giorni fa'
+    },
+    {
+      id: '2',
+      url: 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=600&fit=crop',
+      user: 'Giulia B.',
+      date: '5 giorni fa'
+    },
+    {
+      id: '3',
+      url: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800&h=600&fit=crop',
+      user: 'Alessandro V.',
+      date: '1 settimana fa'
+    },
+    {
+      id: '4',
+      url: 'https://images.unsplash.com/photo-1541675154750-0444c7d51e8e?w=800&h=600&fit=crop',
+      user: 'Sofia M.',
+      date: '2 settimane fa'
+    }
+  ];
 
   const getConditionColor = (condition: string) => {
     switch (condition) {
@@ -221,6 +250,12 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
             <p className="text-gray-700">{fountain.description}</p>
           </div>
         )}
+
+        {/* Photo Gallery */}
+        <div className="p-6 border-b border-gray-200">
+          <h3 className="font-medium text-gray-900 mb-4">Foto dalla Community</h3>
+          <PhotoGallery photos={fountainPhotos} />
+        </div>
 
         {/* Stats Grid */}
         <div className="p-6 border-b border-gray-200">
