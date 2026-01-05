@@ -6,6 +6,7 @@ import { ChatView } from './components/ChatView';
 import { SettingsView } from './components/SettingsView';
 import { BottomNavigation } from './components/BottomNavigation';
 import { TopBar } from './components/TopBar';
+import { OnboardingTutorial } from './components/OnboardingTutorial';
 
 type View = 'map' | 'leaderboard' | 'profile' | 'chat' | 'settings';
 
@@ -43,6 +44,9 @@ export default function App() {
       {currentView !== 'settings' && (
         <BottomNavigation currentView={currentView} onViewChange={setCurrentView} />
       )}
+
+      {/* Onboarding Tutorial - Shows on first visit */}
+      <OnboardingTutorial />
     </div>
   );
 }

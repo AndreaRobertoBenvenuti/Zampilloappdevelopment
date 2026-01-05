@@ -1,10 +1,11 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
-import { Search, MapPin, Navigation, X, Camera, Locate, ExternalLink, Filter } from 'lucide-react';
+import { Search, MapPin, Navigation, X, Camera, Locate, ExternalLink, Filter, Heart, ArrowUpDown } from 'lucide-react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { loadMilanFountains } from '../utils/fountainDataLoader';
 import { Fountain, FilterOptions } from '../types';
 import { FountainDetailView } from './FountainDetailView';
 import { FilterPanel } from './FilterPanel';
+import { useFavorites } from '../hooks/useFavorites';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyARUY0tCHG2jJBP0nHuHKL1REFDd0he-gg';
 
@@ -67,7 +68,11 @@ export function MapView() {
     isRefrigerated: null,
     condition: 'all'
   });
+  const [distanceFilter, setDistanceFilter] = useState<number | null>(null); // in metri
+  const [sortBy, setSortBy] = useState<'distance' | 'quality' | 'popular' | 'none'>('none');
+  const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
   const mapRef = useRef<google.maps.Map | null>(null);
+  const { favorites, toggleFavorite, isFavorite } = useFavorites();
 
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
@@ -113,6 +118,19 @@ export function MapView() {
       return false;
     }
 
+    // Filtro solo preferite
+    if (showOnlyFavorites && !isFavorite(fountain.id)) {
+      return false;
+    }
+
+    // Filtro distanza
+    if (distanceFilter !== null) {
+      const distance = calculateDistance(fountain);
+      if (distance > distanceFilter) {
+        return false;
+      }
+    }
+
     // Filtro accessibilità
     if (filters.accessibility && filters.accessibility !== 'all') {
       if (fountain.accessibility !== filters.accessibility) {
@@ -151,7 +169,30 @@ export function MapView() {
     return true;
   };
 
-  const filteredFountains = fountains.filter(applyFilters);
+  // Funzione per ottenere il punteggio qualità
+  const getQualityScore = (fountain: Fountain): number => {
+    const qualityScores = { excellent: 3, good: 2, average: 1 };
+    return qualityScores[fountain.waterQuality || 'average'] || 0;
+  };
+
+  // Applica filtri e ordinamento
+  let filteredFountains = fountains.filter(applyFilters);
+
+  // Ordinamento
+  if (sortBy !== 'none') {
+    filteredFountains = [...filteredFountains].sort((a, b) => {
+      switch (sortBy) {
+        case 'distance':
+          return calculateDistance(a) - calculateDistance(b);
+        case 'quality':
+          return getQualityScore(b) - getQualityScore(a);
+        case 'popular':
+          return b.checkIns - a.checkIns;
+        default:
+          return 0;
+      }
+    });
+  }
 
   // Conta i filtri attivi
   const activeFiltersCount = [
@@ -224,6 +265,8 @@ export function MapView() {
           setShowDetailModal(false);
           setSelectedFountain(null);
         }}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavorite}
       />
     );
   }
@@ -296,10 +339,89 @@ export function MapView() {
             </button>
           )}
         </div>
+
+        {/* Filtri rapidi e ordinamento */}
+        <div className="mt-2 flex gap-2 overflow-x-auto pb-2">
+          {/* Filtro Distanza */}
+          <div className="flex gap-1 bg-white rounded-lg shadow-lg p-1">
+            <button
+              onClick={() => setDistanceFilter(null)}
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+                distanceFilter === null ? 'bg-teal-600 text-white' : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              Tutte
+            </button>
+            <button
+              onClick={() => setDistanceFilter(500)}
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+                distanceFilter === 500 ? 'bg-teal-600 text-white' : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              500m
+            </button>
+            <button
+              onClick={() => setDistanceFilter(1000)}
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+                distanceFilter === 1000 ? 'bg-teal-600 text-white' : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              1km
+            </button>
+            <button
+              onClick={() => setDistanceFilter(5000)}
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+                distanceFilter === 5000 ? 'bg-teal-600 text-white' : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              5km
+            </button>
+          </div>
+
+          {/* Ordinamento */}
+          <div className="flex gap-1 bg-white rounded-lg shadow-lg p-1">
+            <ArrowUpDown className="w-4 h-4 text-gray-400 self-center ml-1" />
+            <button
+              onClick={() => setSortBy('distance')}
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+                sortBy === 'distance' ? 'bg-teal-600 text-white' : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              📍 Vicine
+            </button>
+            <button
+              onClick={() => setSortBy('quality')}
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+                sortBy === 'quality' ? 'bg-teal-600 text-white' : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              💎 Qualità
+            </button>
+            <button
+              onClick={() => setSortBy('popular')}
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+                sortBy === 'popular' ? 'bg-teal-600 text-white' : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              🔥 Popolari
+            </button>
+          </div>
+
+          {/* Filtro Preferiti */}
+          <button
+            onClick={() => setShowOnlyFavorites(!showOnlyFavorites)}
+            className={`px-3 py-1.5 rounded-lg shadow-lg text-xs font-medium transition-colors flex items-center gap-1 ${
+              showOnlyFavorites ? 'bg-teal-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            <Heart className={`w-4 h-4 ${showOnlyFavorites ? 'fill-white' : ''}`} />
+            Preferite
+          </button>
+        </div>
       </div>
 
       {/* QR Code Scanner & Filter Buttons */}
-      <div className="absolute top-20 right-4 z-10 flex flex-col gap-2">
+      <div className="absolute top-36 right-4 z-10 flex flex-col gap-2">
         <button
           onClick={handleQRScan}
           className="bg-white rounded-lg shadow-lg p-3 hover:bg-gray-50 transition-colors"
@@ -387,29 +509,53 @@ export function MapView() {
       {showPopup && (
         <div className="fixed bottom-20 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300">
           <div className="bg-white mx-4 rounded-2xl shadow-2xl p-4">
-            {/* Header con X per chiudere */}
+            {/* Header con cuore e X */}
             <div className="flex items-center justify-between mb-3">
               {/* Maniglia per swipe */}
               <div className="flex-1 flex justify-center">
                 <div className="w-12 h-1.5 bg-gray-300 rounded-full" />
               </div>
-              {/* Bottone chiudi */}
-              <button
-                onClick={() => setShowPopup(null)}
-                className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-              >
-                <X className="w-5 h-5 text-gray-500" />
-              </button>
+              {/* Bottoni azioni */}
+              <div className="flex gap-1">
+                <button
+                  onClick={() => toggleFavorite(showPopup.id)}
+                  className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                  title={isFavorite(showPopup.id) ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}
+                >
+                  <Heart className={`w-5 h-5 ${isFavorite(showPopup.id) ? 'fill-red-500 text-red-500' : 'text-gray-500'}`} />
+                </button>
+                <button
+                  onClick={() => setShowPopup(null)}
+                  className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <X className="w-5 h-5 text-gray-500" />
+                </button>
+              </div>
             </div>
 
               {/* Contenuto */}
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{showPopup.name}</h3>
 
-                <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center gap-2 mb-3 flex-wrap">
                   <span className={`px-3 py-1 rounded-full text-white text-sm font-medium ${getConditionColor(showPopup.condition)}`}>
                     {showPopup.condition}
                   </span>
+                  {showPopup.accessibility === 'wheelchair' && (
+                    <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium flex items-center gap-1">
+                      ♿ Accessibile
+                    </span>
+                  )}
+                  {showPopup.isRefrigerated && (
+                    <span className="px-2 py-1 bg-cyan-100 text-cyan-700 rounded-full text-xs font-medium flex items-center gap-1">
+                      ❄️ Refrigerata
+                    </span>
+                  )}
+                  {showPopup.hasPetBowl && (
+                    <span className="px-2 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium flex items-center gap-1">
+                      🐕 Pet-friendly
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-4 text-sm text-gray-600">

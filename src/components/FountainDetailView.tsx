@@ -16,19 +16,54 @@ import {
   Thermometer,
   Wind,
   CheckCircle2,
-  ExternalLink
+  ExternalLink,
+  ThumbsUp,
+  ThumbsDown
 } from 'lucide-react';
 import { useState } from 'react';
 import { Fountain } from '../types';
 import { ReportProblemDialog } from './ReportProblemDialog';
+import { PhotoGallery } from './PhotoGallery';
 
 interface FountainDetailViewProps {
   fountain: Fountain;
   distance: number;
   onBack: () => void;
+  isFavorite: (id: string) => boolean;
+  toggleFavorite: (id: string) => void;
 }
 
-export function FountainDetailView({ fountain, distance, onBack }: FountainDetailViewProps) {
+export function FountainDetailView({ fountain, distance, onBack, isFavorite, toggleFavorite }: FountainDetailViewProps) {
+  const [userReview, setUserReview] = useState<'up' | 'down' | null>(null);
+
+  // Mock data per galleria foto
+  const fountainPhotos = [
+    {
+      id: '1',
+      url: 'https://images.unsplash.com/photo-1541544181051-e46607bc22a4?w=800&h=600&fit=crop',
+      user: 'Marco R.',
+      date: '2 giorni fa'
+    },
+    {
+      id: '2',
+      url: 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=600&fit=crop',
+      user: 'Giulia B.',
+      date: '5 giorni fa'
+    },
+    {
+      id: '3',
+      url: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800&h=600&fit=crop',
+      user: 'Alessandro V.',
+      date: '1 settimana fa'
+    },
+    {
+      id: '4',
+      url: 'https://images.unsplash.com/photo-1541675154750-0444c7d51e8e?w=800&h=600&fit=crop',
+      user: 'Sofia M.',
+      date: '2 settimane fa'
+    }
+  ];
+
   const getConditionColor = (condition: string) => {
     switch (condition) {
       case 'Ottima': return 'bg-green-500';
@@ -98,8 +133,12 @@ export function FountainDetailView({ fountain, distance, onBack }: FountainDetai
           >
             <Share2 className="w-5 h-5 text-gray-900" />
           </button>
-          <button className="bg-white bg-opacity-90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all">
-            <Heart className="w-5 h-5 text-red-500" />
+          <button
+            onClick={() => toggleFavorite(fountain.id)}
+            className="bg-white bg-opacity-90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all"
+            title={isFavorite(fountain.id) ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}
+          >
+            <Heart className={`w-5 h-5 ${isFavorite(fountain.id) ? 'fill-red-500 text-red-500' : 'text-gray-900'}`} />
           </button>
         </div>
 
@@ -138,14 +177,69 @@ export function FountainDetailView({ fountain, distance, onBack }: FountainDetai
             )}
           </div>
 
+          {/* Caratteristiche Speciali */}
+          {(fountain.accessibility === 'wheelchair' || fountain.isRefrigerated || fountain.hasPetBowl) && (
+            <div className="flex items-center gap-2 mb-4 flex-wrap">
+              {fountain.accessibility === 'wheelchair' && (
+                <span className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium flex items-center gap-1.5">
+                  ♿ Accessibile
+                </span>
+              )}
+              {fountain.isRefrigerated && (
+                <span className="px-3 py-1.5 bg-cyan-100 text-cyan-700 rounded-lg text-sm font-medium flex items-center gap-1.5">
+                  ❄️ Acqua Refrigerata
+                </span>
+              )}
+              {fountain.hasPetBowl && (
+                <span className="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-lg text-sm font-medium flex items-center gap-1.5">
+                  🐕 Ciotola Animali
+                </span>
+              )}
+            </div>
+          )}
+
           {/* Rating */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-4">
             <div className="flex items-center gap-0.5">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               ))}
             </div>
             <span className="text-sm text-gray-600">(4.8 · 234 recensioni)</span>
+          </div>
+
+          {/* Recensione Rapida */}
+          <div className="bg-gray-50 rounded-lg p-3">
+            <p className="text-sm font-medium text-gray-900 mb-2">La tua esperienza?</p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setUserReview(userReview === 'up' ? null : 'up')}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg border-2 transition-all ${
+                  userReview === 'up'
+                    ? 'border-green-500 bg-green-50 text-green-700'
+                    : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                }`}
+              >
+                <ThumbsUp className={`w-5 h-5 ${userReview === 'up' ? 'fill-green-700' : ''}`} />
+                <span className="font-medium">Ottima</span>
+              </button>
+              <button
+                onClick={() => setUserReview(userReview === 'down' ? null : 'down')}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg border-2 transition-all ${
+                  userReview === 'down'
+                    ? 'border-red-500 bg-red-50 text-red-700'
+                    : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                }`}
+              >
+                <ThumbsDown className={`w-5 h-5 ${userReview === 'down' ? 'fill-red-700' : ''}`} />
+                <span className="font-medium">Scarsa</span>
+              </button>
+            </div>
+            {userReview && (
+              <p className="text-xs text-center text-gray-500 mt-2">
+                Grazie per il tuo feedback! 🙏
+              </p>
+            )}
           </div>
         </div>
 
@@ -156,6 +250,12 @@ export function FountainDetailView({ fountain, distance, onBack }: FountainDetai
             <p className="text-gray-700">{fountain.description}</p>
           </div>
         )}
+
+        {/* Photo Gallery */}
+        <div className="p-6 border-b border-gray-200">
+          <h3 className="font-medium text-gray-900 mb-4">Foto dalla Community</h3>
+          <PhotoGallery photos={fountainPhotos} />
+        </div>
 
         {/* Stats Grid */}
         <div className="p-6 border-b border-gray-200">

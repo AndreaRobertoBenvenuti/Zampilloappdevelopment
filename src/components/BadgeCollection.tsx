@@ -3,9 +3,10 @@ import { Badge } from '../types';
 interface BadgeCollectionProps {
   badges: Badge[];
   userBadges: string[];
+  onBadgeClick?: (badge: Badge) => void;
 }
 
-export function BadgeCollection({ badges, userBadges }: BadgeCollectionProps) {
+export function BadgeCollection({ badges, userBadges, onBadgeClick }: BadgeCollectionProps) {
   const getRarityColor = (rarity: Badge['rarity']) => {
     switch (rarity) {
       case 'common':
@@ -68,47 +69,63 @@ export function BadgeCollection({ badges, userBadges }: BadgeCollectionProps) {
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2">
               {categoryBadges.map(badge => {
                 const isUnlocked = userBadges.includes(badge.id);
 
                 return (
-                  <div
+                  <button
                     key={badge.id}
-                    className={`relative rounded-xl p-4 transition-all ${
+                    onClick={() => onBadgeClick?.(badge)}
+                    className={`relative rounded-lg p-2.5 transition-all w-full text-left ${
                       isUnlocked
-                        ? `border-2 ${getRarityBorder(badge.rarity)} bg-white shadow-md`
-                        : 'border border-gray-200 bg-gray-50'
+                        ? `border-2 ${getRarityBorder(badge.rarity)} bg-white shadow-sm`
+                        : 'border border-gray-200 bg-gray-50 hover:bg-gray-100 cursor-pointer'
                     }`}
                   >
                     {/* Rarity indicator */}
                     {isUnlocked && (
-                      <div className={`absolute -top-1 -right-1 w-7 h-7 rounded-full bg-gradient-to-br ${getRarityColor(badge.rarity)} flex items-center justify-center`}>
-                        {badge.rarity === 'legendary' && <span className="text-sm">⭐</span>}
-                        {badge.rarity === 'epic' && <span className="text-sm">💎</span>}
-                        {badge.rarity === 'rare' && <span className="text-sm">✨</span>}
+                      <div className={`absolute -top-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-br ${getRarityColor(badge.rarity)} flex items-center justify-center`}>
+                        {badge.rarity === 'legendary' && <span className="text-[10px]">⭐</span>}
+                        {badge.rarity === 'epic' && <span className="text-[10px]">💎</span>}
+                        {badge.rarity === 'rare' && <span className="text-[10px]">✨</span>}
                       </div>
                     )}
 
                     {/* Badge icon */}
-                    <div className={`text-5xl mb-3 text-center ${!isUnlocked && 'opacity-30 grayscale'}`}>
+                    <div className={`text-3xl mb-1.5 text-center ${!isUnlocked && 'opacity-30 grayscale'}`}>
                       {isUnlocked ? badge.icon : '🔒'}
                     </div>
 
                     {/* Badge name */}
-                    <p className={`text-sm font-medium text-center line-clamp-2 mb-1 ${
+                    <p className={`text-[11px] font-medium text-center line-clamp-2 mb-0.5 ${
                       isUnlocked ? 'text-gray-900' : 'text-gray-400'
                     }`}>
                       {badge.name}
                     </p>
 
                     {/* Requirement */}
-                    <p className={`text-xs text-center ${
+                    <p className={`text-[9px] text-center ${
                       isUnlocked ? 'text-gray-500' : 'text-gray-400'
                     }`}>
                       {badge.requirement}
                     </p>
-                  </div>
+
+                    {/* Barra progressione per badge bloccati */}
+                    {!isUnlocked && (
+                      <div className="mt-2">
+                        <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                          <div
+                            className="bg-teal-600 h-full rounded-full transition-all duration-500"
+                            style={{ width: `${Math.floor(Math.random() * 80) + 10}%` }}
+                          />
+                        </div>
+                        <p className="text-[8px] text-center text-gray-400 mt-0.5">
+                          {Math.floor(Math.random() * 80) + 10}%
+                        </p>
+                      </div>
+                    )}
+                  </button>
                 );
               })}
             </div>

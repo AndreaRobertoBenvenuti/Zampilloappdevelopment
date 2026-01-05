@@ -2,11 +2,24 @@ import { useState } from 'react';
 import { TrendingUp, MapPin, Navigation, Droplet, Camera, Award, Gift, Lock } from 'lucide-react';
 import { currentUser, mockChallenges, mockRewards, mockBadges } from '../data/mockData';
 import { BadgeCollection } from './BadgeCollection';
+import { ActivityChart } from './ActivityChart';
+import { BadgeUnlockModal } from './BadgeUnlockModal';
+import { Badge } from '../types';
 
 type StatsTab = 'weekly' | 'monthly';
 
 export function ProfileView() {
   const [activeTab, setActiveTab] = useState<StatsTab>('weekly');
+  const [unlockedBadge, setUnlockedBadge] = useState<Badge | null>(null);
+  const [showUnlockModal, setShowUnlockModal] = useState(false);
+
+  const handleBadgeClick = (badge: Badge) => {
+    // Mostra animazione di unlock se il badge non è ancora stato sbloccato
+    if (!currentUser.badges?.includes(badge.id)) {
+      setUnlockedBadge(badge);
+      setShowUnlockModal(true);
+    }
+  };
 
   const nextLevelPoints = currentUser.level * 200;
   const progressPercentage = (currentUser.points % 200) / 200 * 100;
@@ -30,6 +43,24 @@ export function ProfileView() {
   };
 
   const stats = activeTab === 'weekly' ? weeklyStats : monthlyStats;
+
+  // Dati attività settimanale per grafico
+  const weeklyActivity = [
+    { day: 'Lun', value: 3 },
+    { day: 'Mar', value: 5 },
+    { day: 'Mer', value: 2 },
+    { day: 'Gio', value: 7 },
+    { day: 'Ven', value: 4 },
+    { day: 'Sab', value: 8 },
+    { day: 'Dom', value: 6 }
+  ];
+
+  const monthlyActivity = [
+    { day: 'Sett 1', value: 18 },
+    { day: 'Sett 2', value: 25 },
+    { day: 'Sett 3', value: 22 },
+    { day: 'Sett 4', value: 24 }
+  ];
 
   const getIconForReward = (iconName: string) => {
     switch (iconName) {
@@ -174,6 +205,12 @@ export function ProfileView() {
               <p className="text-2xl font-semibold text-gray-900">{stats.contributions}</p>
             </div>
           </div>
+
+          {/* Grafico Attività */}
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <h3 className="text-sm font-medium text-gray-900 mb-3">Attività Check-in</h3>
+            <ActivityChart data={activeTab === 'weekly' ? weeklyActivity : monthlyActivity} />
+          </div>
         </div>
       </div>
 
@@ -186,8 +223,24 @@ export function ProfileView() {
           </span>
         </div>
         <div className="bg-white rounded-xl shadow-lg p-4">
-          <BadgeCollection badges={mockBadges} userBadges={currentUser.badges || []} />
+          <BadgeCollection
+            badges={mockBadges}
+            userBadges={currentUser.badges || []}
+            onBadgeClick={handleBadgeClick}
+          />
         </div>
+
+        {/* Demo Button per vedere l'animazione */}
+        <button
+          onClick={() => {
+            const randomBadge = mockBadges[Math.floor(Math.random() * mockBadges.length)];
+            setUnlockedBadge(randomBadge);
+            setShowUnlockModal(true);
+          }}
+          className="mt-3 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2.5 rounded-lg text-sm font-medium hover:shadow-lg transition-all"
+        >
+          ✨ Anteprima Sblocco Badge
+        </button>
       </div>
 
       {/* Challenges Section */}
@@ -266,6 +319,13 @@ export function ProfileView() {
           ))}
         </div>
       </div>
+
+      {/* Badge Unlock Modal */}
+      <BadgeUnlockModal
+        badge={unlockedBadge}
+        isOpen={showUnlockModal}
+        onClose={() => setShowUnlockModal(false)}
+      />
     </div>
   );
 }
