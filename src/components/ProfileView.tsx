@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TrendingUp, MapPin, Navigation, Droplet, Camera, Award, Gift, Lock } from 'lucide-react';
-import { currentUser, mockChallenges, mockRewards } from '../data/mockData';
+import { currentUser, mockChallenges, mockRewards, mockBadges } from '../data/mockData';
+import { BadgeCollection } from './BadgeCollection';
 
 type StatsTab = 'weekly' | 'monthly';
 
@@ -173,6 +174,19 @@ export function ProfileView() {
               <p className="text-2xl font-semibold text-gray-900">{stats.contributions}</p>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Badges Section */}
+      <div className="px-6 mb-6">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="font-medium text-gray-900">Badge Collezione</h2>
+          <span className="text-sm px-3 py-1 bg-teal-100 text-teal-700 rounded-full font-medium">
+            {currentUser.badges?.length || 0}/{mockBadges.length}
+          </span>
+        </div>
+        <div className="bg-white rounded-xl shadow-lg p-4">
+          <BadgeCollection badges={mockBadges} userBadges={currentUser.badges || []} />
         </div>
       </div>
 
