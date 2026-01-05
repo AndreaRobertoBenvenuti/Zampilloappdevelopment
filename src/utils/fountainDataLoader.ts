@@ -50,6 +50,12 @@ export function loadMilanFountains(): Fountain[] {
     const checkIns = Math.floor(Math.random() * 500) + 50;
     const contributions = Math.floor(Math.random() * 50) + 5;
 
+    // Proprietà filtri avanzati (casuali per ora, in futuro dal database)
+    const accessibility = generateAccessibility();
+    const waterQuality = generateWaterQuality();
+    const hasPetBowl = Math.random() > 0.7; // 30% hanno ciotola per animali
+    const isRefrigerated = Math.random() > 0.85; // 15% hanno acqua refrigerata
+
     return {
       id: props.objectID,
       name,
@@ -59,7 +65,11 @@ export function loadMilanFountains(): Fountain[] {
       checkIns,
       contributions,
       description: generateDescription(props),
-      yearInstalled: undefined // Non disponibile nel dataset
+      yearInstalled: undefined, // Non disponibile nel dataset
+      accessibility,
+      waterQuality,
+      hasPetBowl,
+      isRefrigerated
     };
   });
 
@@ -128,4 +138,26 @@ function generateDescription(props: MilanFountainProperties): string {
   parts.push('Fontanella pubblica del Comune di Milano');
 
   return parts.join(' • ');
+}
+
+/**
+ * Genera un livello di accessibilità casuale
+ * In futuro sarà mappato da dati reali del Comune o segnalazioni utenti
+ */
+function generateAccessibility(): 'wheelchair' | 'limited' | 'none' {
+  const rand = Math.random();
+  if (rand < 0.6) return 'wheelchair';  // 60% accessibile
+  if (rand < 0.85) return 'limited';    // 25% parzialmente accessibile
+  return 'none';                         // 15% non accessibile
+}
+
+/**
+ * Genera una qualità dell'acqua casuale
+ * In futuro sarà basato su analisi di laboratorio e segnalazioni utenti
+ */
+function generateWaterQuality(): 'excellent' | 'good' | 'average' {
+  const rand = Math.random();
+  if (rand < 0.75) return 'excellent';  // 75% eccellente
+  if (rand < 0.95) return 'good';       // 20% buona
+  return 'average';                      // 5% media
 }

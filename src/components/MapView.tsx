@@ -1,9 +1,10 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
-import { Search, MapPin, Navigation, X, Camera, Locate, ExternalLink } from 'lucide-react';
+import { Search, MapPin, Navigation, X, Camera, Locate, ExternalLink, Filter } from 'lucide-react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { loadMilanFountains } from '../utils/fountainDataLoader';
-import { Fountain } from '../types';
+import { Fountain, FilterOptions } from '../types';
 import { FountainDetailView } from './FountainDetailView';
+import { FilterPanel } from './FilterPanel';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyARUY0tCHG2jJBP0nHuHKL1REFDd0he-gg';
 
@@ -58,6 +59,14 @@ export function MapView() {
   const [userLocation] = useState(milanCenter);
   const [mapZoom, setMapZoom] = useState(14);
   const [fountains, setFountains] = useState<Fountain[]>([]);
+  const [showFilterPanel, setShowFilterPanel] = useState(false);
+  const [filters, setFilters] = useState<FilterOptions>({
+    accessibility: 'all',
+    waterQuality: 'all',
+    hasPetBowl: null,
+    isRefrigerated: null,
+    condition: 'all'
+  });
   const mapRef = useRef<google.maps.Map | null>(null);
 
   const { isLoaded, loadError } = useJsApiLoader({
@@ -97,9 +106,61 @@ export function MapView() {
     setFountains(loadMilanFountains());
   }, []);
 
-  const filteredFountains = fountains.filter(f =>
-    f.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Funzione per applicare i filtri avanzati
+  const applyFilters = (fountain: Fountain): boolean => {
+    // Filtro nome (ricerca)
+    if (!fountain.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+      return false;
+    }
+
+    // Filtro accessibilità
+    if (filters.accessibility && filters.accessibility !== 'all') {
+      if (fountain.accessibility !== filters.accessibility) {
+        return false;
+      }
+    }
+
+    // Filtro qualità acqua
+    if (filters.waterQuality && filters.waterQuality !== 'all') {
+      if (fountain.waterQuality !== filters.waterQuality) {
+        return false;
+      }
+    }
+
+    // Filtro condizione
+    if (filters.condition && filters.condition !== 'all') {
+      if (fountain.condition !== filters.condition) {
+        return false;
+      }
+    }
+
+    // Filtro ciotola animali
+    if (filters.hasPetBowl === true) {
+      if (!fountain.hasPetBowl) {
+        return false;
+      }
+    }
+
+    // Filtro acqua refrigerata
+    if (filters.isRefrigerated === true) {
+      if (!fountain.isRefrigerated) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const filteredFountains = fountains.filter(applyFilters);
+
+  // Conta i filtri attivi
+  const activeFiltersCount = [
+    filters.accessibility !== 'all' && filters.accessibility !== undefined,
+    filters.waterQuality !== 'all' && filters.waterQuality !== undefined,
+    filters.hasPetBowl !== null,
+    filters.isRefrigerated !== null,
+    filters.condition !== 'all' && filters.condition !== undefined
+  ].filter(Boolean).length;
 
   const handleMarkerClick = (fountain: Fountain) => {
     setShowPopup(fountain);
@@ -237,14 +298,26 @@ export function MapView() {
         </div>
       </div>
 
-      {/* QR Code Scanner Button */}
-      <div className="absolute top-20 right-4 z-10">
+      {/* QR Code Scanner & Filter Buttons */}
+      <div className="absolute top-20 right-4 z-10 flex flex-col gap-2">
         <button
           onClick={handleQRScan}
           className="bg-white rounded-lg shadow-lg p-3 hover:bg-gray-50 transition-colors"
           title="Scansiona QR Code"
         >
           <Camera className="w-6 h-6 text-teal-600" />
+        </button>
+        <button
+          onClick={() => setShowFilterPanel(true)}
+          className="relative bg-white rounded-lg shadow-lg p-3 hover:bg-gray-50 transition-colors"
+          title="Filtri Avanzati"
+        >
+          <Filter className="w-6 h-6 text-teal-600" />
+          {activeFiltersCount > 0 && (
+            <div className="absolute -top-1 -right-1 w-5 h-5 bg-teal-600 rounded-full flex items-center justify-center">
+              <span className="text-white text-xs font-bold">{activeFiltersCount}</span>
+            </div>
+          )}
         </button>
       </div>
 
@@ -370,6 +443,14 @@ export function MapView() {
             </div>
           </div>
       )}
+
+      {/* Filter Panel */}
+      <FilterPanel
+        isOpen={showFilterPanel}
+        onClose={() => setShowFilterPanel(false)}
+        filters={filters}
+        onFiltersChange={setFilters}
+      />
     </div>
   );
 }

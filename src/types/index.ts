@@ -8,6 +8,11 @@ export interface Fountain {
   contributions: number;
   description?: string;
   yearInstalled?: number;
+  // Filtri avanzati
+  accessibility?: 'wheelchair' | 'limited' | 'none';
+  waterQuality?: 'excellent' | 'good' | 'average';
+  hasPetBowl?: boolean;
+  isRefrigerated?: boolean;
 }
 
 export interface User {
@@ -21,6 +26,7 @@ export interface User {
   litersSaved: number;
   contributions: number;
   avatar?: string;
+  badges?: string[]; // Array di ID badge sbloccati
 }
 
 export interface ChatMessage {
@@ -58,4 +64,24 @@ export interface Reward {
   requiredUses: number;
   unlocked: boolean;
   icon: string;
+}
+
+export interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  category: 'explorer' | 'social' | 'eco' | 'special';
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  requirement: string;
+  unlocked: boolean;
+  unlockedDate?: Date;
+}
+
+export interface FilterOptions {
+  accessibility?: 'wheelchair' | 'limited' | 'none' | 'all';
+  waterQuality?: 'excellent' | 'good' | 'average' | 'all';
+  hasPetBowl?: boolean | null;
+  isRefrigerated?: boolean | null;
+  condition?: 'Ottima' | 'Buona' | 'Discreta' | 'all';
 }
