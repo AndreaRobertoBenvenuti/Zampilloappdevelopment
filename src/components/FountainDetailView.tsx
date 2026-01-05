@@ -26,9 +26,11 @@ interface FountainDetailViewProps {
   fountain: Fountain;
   distance: number;
   onBack: () => void;
+  isFavorite: (id: string) => boolean;
+  toggleFavorite: (id: string) => void;
 }
 
-export function FountainDetailView({ fountain, distance, onBack }: FountainDetailViewProps) {
+export function FountainDetailView({ fountain, distance, onBack, isFavorite, toggleFavorite }: FountainDetailViewProps) {
   const getConditionColor = (condition: string) => {
     switch (condition) {
       case 'Ottima': return 'bg-green-500';
@@ -98,8 +100,12 @@ export function FountainDetailView({ fountain, distance, onBack }: FountainDetai
           >
             <Share2 className="w-5 h-5 text-gray-900" />
           </button>
-          <button className="bg-white bg-opacity-90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all">
-            <Heart className="w-5 h-5 text-red-500" />
+          <button
+            onClick={() => toggleFavorite(fountain.id)}
+            className="bg-white bg-opacity-90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all"
+            title={isFavorite(fountain.id) ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}
+          >
+            <Heart className={`w-5 h-5 ${isFavorite(fountain.id) ? 'fill-red-500 text-red-500' : 'text-gray-900'}`} />
           </button>
         </div>
 
@@ -137,6 +143,27 @@ export function FountainDetailView({ fountain, distance, onBack }: FountainDetai
               </div>
             )}
           </div>
+
+          {/* Caratteristiche Speciali */}
+          {(fountain.accessibility === 'wheelchair' || fountain.isRefrigerated || fountain.hasPetBowl) && (
+            <div className="flex items-center gap-2 mb-4 flex-wrap">
+              {fountain.accessibility === 'wheelchair' && (
+                <span className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium flex items-center gap-1.5">
+                  ♿ Accessibile
+                </span>
+              )}
+              {fountain.isRefrigerated && (
+                <span className="px-3 py-1.5 bg-cyan-100 text-cyan-700 rounded-lg text-sm font-medium flex items-center gap-1.5">
+                  ❄️ Acqua Refrigerata
+                </span>
+              )}
+              {fountain.hasPetBowl && (
+                <span className="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-lg text-sm font-medium flex items-center gap-1.5">
+                  🐕 Ciotola Animali
+                </span>
+              )}
+            </div>
+          )}
 
           {/* Rating */}
           <div className="flex items-center gap-2">
