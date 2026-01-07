@@ -31,10 +31,10 @@ export default function App() {
   };
 
   return (
-    <div className="h-screen w-full bg-gray-50 flex flex-col max-w-md mx-auto">
+    <div className="h-screen w-full bg-gray-50 dark:bg-gray-900 flex flex-col max-w-md mx-auto transition-colors">
       {/* Top Bar - Always visible */}
       <TopBar onSettingsClick={() => setCurrentView('settings')} />
-      
+
       {/* Main Content */}
       <div className="flex-1 overflow-hidden">
         {renderView()}

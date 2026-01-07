@@ -23,7 +23,7 @@ export function BottomNavigation({ currentView, onViewChange }: BottomNavigation
   ];
 
   return (
-    <nav className="bg-white border-t border-gray-200 px-4 py-2 safe-area-inset-bottom">
+    <nav className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-4 py-2 safe-area-inset-bottom transition-colors">
       <div className="flex justify-around items-center max-w-md mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -33,7 +33,7 @@ export function BottomNavigation({ currentView, onViewChange }: BottomNavigation
               key={item.id}
               onClick={() => onViewChange(item.id)}
               className={`flex flex-col items-center gap-1 px-4 py-2 transition-colors ${
-                isActive ? 'text-teal-600' : 'text-gray-500'
+                isActive ? 'text-teal-600 dark:text-teal-400' : 'text-gray-500 dark:text-gray-400'
               }`}
             >
               <Icon className="w-6 h-6" />

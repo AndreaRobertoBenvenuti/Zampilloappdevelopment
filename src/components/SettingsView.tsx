@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { 
-  ChevronLeft, 
-  User, 
-  Bell, 
-  Lock, 
-  Globe, 
-  HelpCircle, 
-  Info, 
+import {
+  ChevronLeft,
+  User,
+  Bell,
+  Lock,
+  Globe,
+  HelpCircle,
+  Info,
   LogOut,
   ChevronRight,
   Moon,
@@ -16,6 +16,7 @@ import {
   Mail,
   Trash2
 } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface SettingsViewProps {
   onBack: () => void;
@@ -25,7 +26,8 @@ export function SettingsView({ onBack }: SettingsViewProps) {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [locationEnabled, setLocationEnabled] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const darkMode = theme === 'dark';
 
   const settingsSections = [
     {
@@ -60,12 +62,12 @@ export function SettingsView({ onBack }: SettingsViewProps) {
           value: locationEnabled,
           onChange: setLocationEnabled
         },
-        { 
-          icon: Moon, 
-          label: 'Modalità Scura', 
+        {
+          icon: Moon,
+          label: 'Modalità Scura',
           toggle: true,
           value: darkMode,
-          onChange: setDarkMode
+          onChange: toggleTheme
         },
       ]
     },
@@ -86,7 +88,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
   ];
 
   return (
-    <div className="h-full w-full bg-gray-50 flex flex-col">
+    <div className="h-full w-full bg-gray-50 dark:bg-gray-900 flex flex-col transition-colors">
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white p-4">
         <div className="flex items-center gap-3 mb-2">
@@ -103,7 +105,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
         {/* User Info Card */}
-        <div className="bg-white m-4 rounded-xl p-4 shadow-sm">
+        <div className="bg-white dark:bg-gray-800 m-4 rounded-xl p-4 shadow-sm transition-colors">
           <div className="flex items-center gap-3">
             <img
               src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
@@ -111,8 +113,8 @@ export function SettingsView({ onBack }: SettingsViewProps) {
               className="w-16 h-16 rounded-full object-cover"
             />
             <div className="flex-1">
-              <h3 className="font-medium text-gray-900">Marco Rossi</h3>
-              <p className="text-sm text-gray-600">marco.rossi@email.com</p>
+              <h3 className="font-medium text-gray-900 dark:text-white">Marco Rossi</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">marco.rossi@email.com</p>
               <div className="flex items-center gap-2 mt-1">
                 <span className="px-2 py-0.5 bg-teal-100 text-teal-700 rounded-full text-xs">
                   Livello 7
@@ -126,10 +128,10 @@ export function SettingsView({ onBack }: SettingsViewProps) {
         {/* Settings Sections */}
         {settingsSections.map((section, sectionIndex) => (
           <div key={sectionIndex} className="mb-4">
-            <h2 className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wide">
+            <h2 className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">
               {section.title}
             </h2>
-            <div className="bg-white">
+            <div className="bg-white dark:bg-gray-800 transition-colors">
               {section.items.map((item, itemIndex) => {
                 const Icon = item.icon;
                 return (
@@ -138,10 +140,10 @@ export function SettingsView({ onBack }: SettingsViewProps) {
                       // For toggle items, use div instead of button to avoid nesting
                       <div className="w-full px-4 py-4 flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
-                            <Icon className="w-5 h-5 text-teal-600" />
+                          <div className="w-10 h-10 bg-teal-100 dark:bg-teal-900 rounded-full flex items-center justify-center">
+                            <Icon className="w-5 h-5 text-teal-600 dark:text-teal-400" />
                           </div>
-                          <span className="text-gray-900">{item.label}</span>
+                          <span className="text-gray-900 dark:text-white">{item.label}</span>
                         </div>
                         
                         <button
@@ -173,16 +175,16 @@ export function SettingsView({ onBack }: SettingsViewProps) {
                         
                         {item.value ? (
                           <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-500">{item.value}</span>
-                            <ChevronRight className="w-5 h-5 text-gray-400" />
+                            <span className="text-sm text-gray-500 dark:text-gray-400">{item.value}</span>
+                            <ChevronRight className="w-5 h-5 text-gray-400 dark:text-gray-500" />
                           </div>
                         ) : (
-                          <ChevronRight className="w-5 h-5 text-gray-400" />
+                          <ChevronRight className="w-5 h-5 text-gray-400 dark:text-gray-500" />
                         )}
                       </button>
                     )}
                     {itemIndex < section.items.length - 1 && (
-                      <div className="mx-4 border-b border-gray-100" />
+                      <div className="mx-4 border-b border-gray-100 dark:border-gray-700" />
                     )}
                   </div>
                 );
@@ -193,25 +195,25 @@ export function SettingsView({ onBack }: SettingsViewProps) {
 
         {/* Danger Zone */}
         <div className="mb-4">
-          <h2 className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wide">
+          <h2 className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">
             Zona Pericolosa
           </h2>
-          <div className="bg-white">
-            <button className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+          <div className="bg-white dark:bg-gray-800 transition-colors">
+            <button className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                  <Trash2 className="w-5 h-5 text-red-600" />
+                <div className="w-10 h-10 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center">
+                  <Trash2 className="w-5 h-5 text-red-600 dark:text-red-400" />
                 </div>
-                <span className="text-red-600">Elimina Account</span>
+                <span className="text-red-600 dark:text-red-400">Elimina Account</span>
               </div>
-              <ChevronRight className="w-5 h-5 text-gray-400" />
+              <ChevronRight className="w-5 h-5 text-gray-400 dark:text-gray-500" />
             </button>
           </div>
         </div>
 
         {/* Logout Button */}
         <div className="px-4 pb-6">
-          <button className="w-full bg-white border-2 border-teal-600 text-teal-600 py-3 rounded-xl hover:bg-teal-50 transition-colors flex items-center justify-center gap-2">
+          <button className="w-full bg-white dark:bg-gray-800 border-2 border-teal-600 dark:border-teal-500 text-teal-600 dark:text-teal-400 py-3 rounded-xl hover:bg-teal-50 dark:hover:bg-gray-700 transition-colors flex items-center justify-center gap-2">
             <LogOut className="w-5 h-5" />
             <span>Esci</span>
           </button>
@@ -219,10 +221,10 @@ export function SettingsView({ onBack }: SettingsViewProps) {
 
         {/* Footer */}
         <div className="px-4 pb-8 text-center">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             Zampillo - Promuovere l'uso sostenibile dell'acqua pubblica
           </p>
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
             © 2025 Zampillo. Tutti i diritti riservati.
           </p>
         </div>
