@@ -159,31 +159,7 @@ export function MapView() {
     if (!markerClustererRef.current) {
       markerClustererRef.current = new MarkerClusterer({
         map: mapRef.current,
-        markers: newMarkers,
-        algorithm: new MarkerClusterer.GridAlgorithm({ gridSize: 50 }),
-        renderer: {
-          render: ({ count, position }) => {
-            // Cluster custom con lo stesso stile teal/green
-            return new google.maps.Marker({
-              position,
-              icon: {
-                path: google.maps.SymbolPath.CIRCLE,
-                fillColor: '#14b8a6',
-                fillOpacity: 0.9,
-                strokeColor: '#ffffff',
-                strokeWeight: 3,
-                scale: Math.min(20 + count / 2, 35)
-              },
-              label: {
-                text: String(count),
-                color: '#ffffff',
-                fontSize: '14px',
-                fontWeight: 'bold'
-              },
-              zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count
-            });
-          }
-        }
+        markers: newMarkers
       });
     } else {
       markerClustererRef.current.addMarkers(newMarkers);
