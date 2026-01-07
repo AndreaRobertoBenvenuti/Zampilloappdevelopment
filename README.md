@@ -1,5 +1,5 @@
 # Zampillo - App per le Fontanelle di Milano
-
+1
 Un'applicazione web progressiva (PWA) per trovare e interagire con le fontanelle pubbliche di Milano, utilizzando dati ufficiali del Comune di Milano.
 
 ## Panoramica
