@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { Search, MapPin, Navigation, X, Camera, Locate, ExternalLink, Filter, Heart, ArrowUpDown } from 'lucide-react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { loadMilanFountains } from '../utils/fountainDataLoader';
 import { Fountain, FilterOptions } from '../types';
 import { FountainDetailView } from './FountainDetailView';
@@ -72,6 +73,8 @@ export function MapView() {
   const [sortBy, setSortBy] = useState<'distance' | 'quality' | 'popular' | 'none'>('none');
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
   const mapRef = useRef<google.maps.Map | null>(null);
+  const markerClustererRef = useRef<MarkerClusterer | null>(null);
+  const markersRef = useRef<google.maps.Marker[]>([]);
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
 
   const { isLoaded, loadError } = useJsApiLoader({
@@ -110,6 +113,91 @@ export function MapView() {
   useEffect(() => {
     setFountains(loadMilanFountains());
   }, []);
+
+  // Gestione MarkerClusterer per raggruppare i markers vicini
+  useEffect(() => {
+    if (!mapRef.current || !isLoaded || filteredFountains.length === 0) return;
+
+    // Pulisci i markers precedenti
+    if (markerClustererRef.current) {
+      markerClustererRef.current.clearMarkers();
+    }
+    markersRef.current.forEach(marker => marker.setMap(null));
+    markersRef.current = [];
+
+    // Crea l'icona custom per i markers
+    const customIcon = {
+      path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
+      fillColor: '#14b8a6',
+      fillOpacity: 1,
+      strokeColor: '#ffffff',
+      strokeWeight: 2,
+      scale: 1.5,
+      anchor: new google.maps.Point(12, 22)
+    };
+
+    // Crea i nuovi markers
+    const newMarkers = filteredFountains.map(fountain => {
+      const marker = new google.maps.Marker({
+        position: { lat: fountain.lat, lng: fountain.lng },
+        map: mapRef.current!,
+        title: fountain.name,
+        icon: customIcon
+      });
+
+      // Aggiungi click listener
+      marker.addListener('click', () => {
+        handleMarkerClick(fountain);
+      });
+
+      return marker;
+    });
+
+    markersRef.current = newMarkers;
+
+    // Inizializza o aggiorna il clusterer
+    if (!markerClustererRef.current) {
+      markerClustererRef.current = new MarkerClusterer({
+        map: mapRef.current,
+        markers: newMarkers,
+        algorithm: new MarkerClusterer.GridAlgorithm({ gridSize: 50 }),
+        renderer: {
+          render: ({ count, position }) => {
+            // Cluster custom con lo stesso stile teal/green
+            return new google.maps.Marker({
+              position,
+              icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                fillColor: '#14b8a6',
+                fillOpacity: 0.9,
+                strokeColor: '#ffffff',
+                strokeWeight: 3,
+                scale: Math.min(20 + count / 2, 35)
+              },
+              label: {
+                text: String(count),
+                color: '#ffffff',
+                fontSize: '14px',
+                fontWeight: 'bold'
+              },
+              zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count
+            });
+          }
+        }
+      });
+    } else {
+      markerClustererRef.current.addMarkers(newMarkers);
+    }
+
+    // Cleanup
+    return () => {
+      if (markerClustererRef.current) {
+        markerClustererRef.current.clearMarkers();
+      }
+      markersRef.current.forEach(marker => marker.setMap(null));
+      markersRef.current = [];
+    };
+  }, [filteredFountains, isLoaded]);
 
   // Funzione per applicare i filtri avanzati
   const applyFilters = (fountain: Fountain): boolean => {
@@ -378,32 +466,15 @@ export function MapView() {
             </button>
           </div>
 
-          {/* Ordinamento */}
-          <div className="flex gap-1 bg-white rounded-lg shadow-lg p-1">
-            <ArrowUpDown className="w-4 h-4 text-gray-400 self-center ml-1" />
+          {/* Ordinamento per Qualità */}
+          <div className="bg-white rounded-lg shadow-lg p-1">
             <button
-              onClick={() => setSortBy('distance')}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
-                sortBy === 'distance' ? 'bg-teal-600 text-white' : 'text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              📍 Vicine
-            </button>
-            <button
-              onClick={() => setSortBy('quality')}
+              onClick={() => setSortBy(sortBy === 'quality' ? 'none' : 'quality')}
               className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
                 sortBy === 'quality' ? 'bg-teal-600 text-white' : 'text-gray-600 hover:bg-gray-100'
               }`}
             >
               💎 Qualità
-            </button>
-            <button
-              onClick={() => setSortBy('popular')}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
-                sortBy === 'popular' ? 'bg-teal-600 text-white' : 'text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              🔥 Popolari
             </button>
           </div>
 
@@ -464,16 +535,7 @@ export function MapView() {
           zIndex={1000}
         />
 
-        {/* Fountain Markers */}
-        {filteredFountains.map((fountain) => (
-          <Marker
-            key={fountain.id}
-            position={{ lat: fountain.lat, lng: fountain.lng }}
-            icon={customMarkerIcon}
-            onClick={() => handleMarkerClick(fountain)}
-            title={fountain.name}
-          />
-        ))}
+        {/* I markers delle fontanelle sono gestiti dal MarkerClusterer nell'useEffect */}
       </GoogleMap>
 
       {/* Map Controls */}
