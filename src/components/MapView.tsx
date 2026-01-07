@@ -201,6 +201,15 @@ export function MapView() {
     return filtered;
   }, [fountains, searchQuery, filters, distanceFilter, sortBy, showOnlyFavorites, favorites]);
 
+    const handleMarkerClick = useCallback((fountain: Fountain) => {
+        setShowPopup(fountain);
+        // Centra la mappa sul marker cliccato, spostandola un po' verso l'alto per non essere coperta dalla bottom sheet
+        if (mapRef.current) {
+            const offsetLat = fountain.lat + 0.002; // Sposta leggermente verso l'alto
+            mapRef.current.panTo({ lat: offsetLat, lng: fountain.lng });
+        }
+    }, []);
+
   // Gestione MarkerClusterer per raggruppare i markers vicini
   useEffect(() => {
     if (!mapRef.current || !isLoaded || filteredFountains.length === 0) return;
@@ -271,14 +280,7 @@ export function MapView() {
     filters.condition !== 'all' && filters.condition !== undefined
   ].filter(Boolean).length;
 
-  const handleMarkerClick = useCallback((fountain: Fountain) => {
-    setShowPopup(fountain);
-    // Centra la mappa sul marker cliccato, spostandola un po' verso l'alto per non essere coperta dalla bottom sheet
-    if (mapRef.current) {
-      const offsetLat = fountain.lat + 0.002; // Sposta leggermente verso l'alto
-      mapRef.current.panTo({ lat: offsetLat, lng: fountain.lng });
-    }
-  }, []);
+
 
   const handleDetailsClick = () => {
     setSelectedFountain(showPopup);
