@@ -114,67 +114,6 @@ export function MapView() {
     setFountains(loadMilanFountains());
   }, []);
 
-  // Gestione MarkerClusterer per raggruppare i markers vicini
-  useEffect(() => {
-    if (!mapRef.current || !isLoaded || filteredFountains.length === 0) return;
-
-    // Pulisci i markers precedenti
-    if (markerClustererRef.current) {
-      markerClustererRef.current.clearMarkers();
-    }
-    markersRef.current.forEach(marker => marker.setMap(null));
-    markersRef.current = [];
-
-    // Crea l'icona custom per i markers
-    const customIcon = {
-      path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
-      fillColor: '#14b8a6',
-      fillOpacity: 1,
-      strokeColor: '#ffffff',
-      strokeWeight: 2,
-      scale: 1.5,
-      anchor: new google.maps.Point(12, 22)
-    };
-
-    // Crea i nuovi markers
-    const newMarkers = filteredFountains.map(fountain => {
-      const marker = new google.maps.Marker({
-        position: { lat: fountain.lat, lng: fountain.lng },
-        map: mapRef.current!,
-        title: fountain.name,
-        icon: customIcon
-      });
-
-      // Aggiungi click listener
-      marker.addListener('click', () => {
-        handleMarkerClick(fountain);
-      });
-
-      return marker;
-    });
-
-    markersRef.current = newMarkers;
-
-    // Inizializza o aggiorna il clusterer
-    if (!markerClustererRef.current) {
-      markerClustererRef.current = new MarkerClusterer({
-        map: mapRef.current,
-        markers: newMarkers
-      });
-    } else {
-      markerClustererRef.current.addMarkers(newMarkers);
-    }
-
-    // Cleanup
-    return () => {
-      if (markerClustererRef.current) {
-        markerClustererRef.current.clearMarkers();
-      }
-      markersRef.current.forEach(marker => marker.setMap(null));
-      markersRef.current = [];
-    };
-  }, [filteredFountains, isLoaded]);
-
   // Funzione per applicare i filtri avanzati
   const applyFilters = (fountain: Fountain): boolean => {
     // Filtro nome (ricerca)
@@ -239,24 +178,89 @@ export function MapView() {
     return qualityScores[fountain.waterQuality || 'average'] || 0;
   };
 
-  // Applica filtri e ordinamento
-  let filteredFountains = fountains.filter(applyFilters);
+  // Applica filtri e ordinamento con useMemo per evitare ricalcoli
+  const filteredFountains = useMemo(() => {
+    let filtered = fountains.filter(applyFilters);
 
-  // Ordinamento
-  if (sortBy !== 'none') {
-    filteredFountains = [...filteredFountains].sort((a, b) => {
-      switch (sortBy) {
-        case 'distance':
-          return calculateDistance(a) - calculateDistance(b);
-        case 'quality':
-          return getQualityScore(b) - getQualityScore(a);
-        case 'popular':
-          return b.checkIns - a.checkIns;
-        default:
-          return 0;
-      }
+    // Ordinamento
+    if (sortBy !== 'none') {
+      filtered = [...filtered].sort((a, b) => {
+        switch (sortBy) {
+          case 'distance':
+            return calculateDistance(a) - calculateDistance(b);
+          case 'quality':
+            return getQualityScore(b) - getQualityScore(a);
+          case 'popular':
+            return b.checkIns - a.checkIns;
+          default:
+            return 0;
+        }
+      });
+    }
+
+    return filtered;
+  }, [fountains, searchQuery, filters, distanceFilter, sortBy, showOnlyFavorites, favorites]);
+
+  // Gestione MarkerClusterer per raggruppare i markers vicini
+  useEffect(() => {
+    if (!mapRef.current || !isLoaded || filteredFountains.length === 0) return;
+
+    // Pulisci i markers precedenti
+    if (markerClustererRef.current) {
+      markerClustererRef.current.clearMarkers();
+    }
+    markersRef.current.forEach(marker => marker.setMap(null));
+    markersRef.current = [];
+
+    // Crea l'icona custom per i markers
+    const customIcon = {
+      path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
+      fillColor: '#14b8a6',
+      fillOpacity: 1,
+      strokeColor: '#ffffff',
+      strokeWeight: 2,
+      scale: 1.5,
+      anchor: new google.maps.Point(12, 22)
+    };
+
+    // Crea i nuovi markers
+    const newMarkers = filteredFountains.map(fountain => {
+      const marker = new google.maps.Marker({
+        position: { lat: fountain.lat, lng: fountain.lng },
+        map: mapRef.current!,
+        title: fountain.name,
+        icon: customIcon
+      });
+
+      // Aggiungi click listener
+      marker.addListener('click', () => {
+        handleMarkerClick(fountain);
+      });
+
+      return marker;
     });
-  }
+
+    markersRef.current = newMarkers;
+
+    // Inizializza o aggiorna il clusterer
+    if (!markerClustererRef.current) {
+      markerClustererRef.current = new MarkerClusterer({
+        map: mapRef.current,
+        markers: newMarkers
+      });
+    } else {
+      markerClustererRef.current.addMarkers(newMarkers);
+    }
+
+    // Cleanup
+    return () => {
+      if (markerClustererRef.current) {
+        markerClustererRef.current.clearMarkers();
+      }
+      markersRef.current.forEach(marker => marker.setMap(null));
+      markersRef.current = [];
+    };
+  }, [filteredFountains, isLoaded, handleMarkerClick]);
 
   // Conta i filtri attivi
   const activeFiltersCount = [
@@ -267,14 +271,14 @@ export function MapView() {
     filters.condition !== 'all' && filters.condition !== undefined
   ].filter(Boolean).length;
 
-  const handleMarkerClick = (fountain: Fountain) => {
+  const handleMarkerClick = useCallback((fountain: Fountain) => {
     setShowPopup(fountain);
     // Centra la mappa sul marker cliccato, spostandola un po' verso l'alto per non essere coperta dalla bottom sheet
     if (mapRef.current) {
       const offsetLat = fountain.lat + 0.002; // Sposta leggermente verso l'alto
       mapRef.current.panTo({ lat: offsetLat, lng: fountain.lng });
     }
-  };
+  }, []);
 
   const handleDetailsClick = () => {
     setSelectedFountain(showPopup);
