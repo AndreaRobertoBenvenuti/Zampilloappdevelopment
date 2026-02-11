@@ -24,13 +24,25 @@ export function ProfileView() {
   const nextLevelPoints = currentUser.level * 200;
   const progressPercentage = (currentUser.points % 200) / 200 * 100;
 
+  // Dati attività settimanale per grafico
+  const weeklyActivity = [
+    { day: 'Lun', value: 3 },
+    { day: 'Mar', value: 5 },
+    { day: 'Mer', value: 2 },
+    { day: 'Gio', value: 7 },
+    { day: 'Ven', value: 4 },
+    { day: 'Sab', value: 8 },
+    { day: 'Dom', value: 6 }
+  ];
+  // Totale check-in settimanali: 35
+
   const weeklyStats = {
-    points: 320,
-    checkIns: 12,
-    fountains: 5,
-    distance: 8.4,
-    liters: 24,
-    contributions: 3
+    points: 550,      // ~15 punti per check-in + bonus
+    checkIns: 35,     // Somma di weeklyActivity
+    fountains: 12,    // Fontanelle uniche visitate
+    distance: 15.2,   // Km percorsi
+    liters: 18,       // ~0.5L per check-in
+    contributions: 5  // Foto/segnalazioni
   };
 
   const monthlyStats = {
@@ -43,17 +55,6 @@ export function ProfileView() {
   };
 
   const stats = activeTab === 'weekly' ? weeklyStats : monthlyStats;
-
-  // Dati attività settimanale per grafico
-  const weeklyActivity = [
-    { day: 'Lun', value: 3 },
-    { day: 'Mar', value: 5 },
-    { day: 'Mer', value: 2 },
-    { day: 'Gio', value: 7 },
-    { day: 'Ven', value: 4 },
-    { day: 'Sab', value: 8 },
-    { day: 'Dom', value: 6 }
-  ];
 
   const monthlyActivity = [
     { day: 'Sett 1', value: 18 },
