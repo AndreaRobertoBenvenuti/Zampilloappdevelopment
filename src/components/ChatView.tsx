@@ -74,11 +74,6 @@ export function ChatView() {
     }
   };
 
-  const handleChatCreated = (chatId: string) => {
-    setJoinedChatIds(prev => [chatId, ...prev]);
-    setShowCreateModal(false);
-  };
-
   if (selectedChat) {
     return <ChatRoom chat={selectedChat} onBack={() => setSelectedChat(null)} />;
   }
@@ -88,12 +83,7 @@ export function ChatView() {
   }
 
   if (showCreateModal) {
-    return (
-      <CreateChatModal 
-        onClose={() => setShowCreateModal(false)} 
-        onChatCreated={handleChatCreated}
-      />
-    );
+    return <CreateChatModal onClose={() => setShowCreateModal(false)} />;
   }
 
   // Render item per chat a cui sei già unito
