@@ -35,11 +35,11 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
       onClick={onClose}
     >
       <div
-        className="bg-white w-full rounded-t-3xl max-h-[80vh] overflow-y-auto shadow-2xl animate-in slide-in-from-bottom duration-300"
+        className="bg-white w-full rounded-t-3xl max-h-[80vh] flex flex-col shadow-2xl animate-in slide-in-from-bottom duration-300"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 p-4 rounded-t-3xl">
+        <div className="flex-shrink-0 bg-white border-b border-gray-200 p-4 rounded-t-3xl">
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-xl font-semibold text-gray-900">Filtri Avanzati</h2>
             <button
@@ -64,8 +64,8 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
           )}
         </div>
 
-        {/* Filters Content */}
-        <div className="p-6 space-y-6">
+        {/* Filters Content - Scrollable */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
           {/* Accessibility Filter */}
           <div>
             <div className="flex items-center gap-2 mb-3">
@@ -266,7 +266,7 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
         </div>
 
         {/* Apply Button */}
-        <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4">
+        <div className="flex-shrink-0 bg-white border-t border-gray-200 p-4">
           <button
             onClick={onClose}
             className="w-full bg-teal-600 text-white py-3 rounded-lg hover:bg-teal-700 transition-colors font-medium"
@@ -275,6 +275,23 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
           </button>
         </div>
       </div>
+
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #d1d5db;
+          border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #9ca3af;
+        }
+      `}</style>
     </div>
   );
 }
