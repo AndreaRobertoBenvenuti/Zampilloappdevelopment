@@ -421,7 +421,7 @@ export function MapView() {
               onClick={() =>
                 setSortBy(sortBy === "popular" ? "none" : "popular")
               }
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 w-[64px] ${
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 w-[75px] ${
                 sortBy === "popular"
                   ? "bg-teal-600 text-white"
                   : "text-gray-600 hover:bg-gray-100"
@@ -433,7 +433,7 @@ export function MapView() {
 
             <button
               onClick={() => setShowOnlyFavorites(!showOnlyFavorites)}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 w-[64px] ${
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 w-[75px] ${
                 showOnlyFavorites
                   ? "bg-teal-600 text-white"
                   : "text-gray-600 hover:bg-gray-100"
@@ -445,7 +445,7 @@ export function MapView() {
 
             <button
               onClick={() => setShowFilterPanel(true)}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 w-[64px] relative ${
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 w-[75px] relative ${
                 activeFiltersCount > 0
                   ? "bg-teal-600 text-white"
                   : "text-gray-600 hover:bg-gray-100"
