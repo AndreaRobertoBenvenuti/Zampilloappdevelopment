@@ -421,37 +421,39 @@ export function MapView() {
               onClick={() =>
                 setSortBy(sortBy === "popular" ? "none" : "popular")
               }
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 min-w-[60px] ${
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 w-[64px] ${
                 sortBy === "popular"
                   ? "bg-teal-600 text-white"
                   : "text-gray-600 hover:bg-gray-100"
               }`}
             >
-              <span className="text-lg">🔥</span>
+              <span className="text-lg h-6 flex items-center">🔥</span>
               <span>Popolari</span>
             </button>
 
             <button
               onClick={() => setShowOnlyFavorites(!showOnlyFavorites)}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 min-w-[60px] ${
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 w-[64px] ${
                 showOnlyFavorites
                   ? "bg-teal-600 text-white"
                   : "text-gray-600 hover:bg-gray-100"
               }`}
             >
-              <span className="text-lg">❤️</span>
+              <span className="text-lg h-6 flex items-center">❤️</span>
               <span>Preferiti</span>
             </button>
 
             <button
               onClick={() => setShowFilterPanel(true)}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 min-w-[60px] relative ${
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 w-[64px] relative ${
                 activeFiltersCount > 0
                   ? "bg-teal-600 text-white"
                   : "text-gray-600 hover:bg-gray-100"
               }`}
             >
-              <SlidersHorizontal className={`w-5 h-5 ${activeFiltersCount > 0 ? "text-white" : "text-teal-600"}`} />
+              <div className="h-6 flex items-center">
+                <SlidersHorizontal className={`w-5 h-5 ${activeFiltersCount > 0 ? "text-white" : "text-teal-600"}`} />
+              </div>
               <span>Filtri</span>
               {activeFiltersCount > 0 && (
                 <div className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border border-white" />

@@ -313,7 +313,7 @@ export const mockBadges: Badge[] = [
   },
   {
     id: 'helpful-hand',
-    name: 'Mano Amica',
+    name: 'Sentinella',
     description: 'Aiuta la community con 10 segnalazioni',
     icon: '🤝',
     category: 'social',
