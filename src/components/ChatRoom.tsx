@@ -163,7 +163,7 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
       {/* Events Calendar (if shown) */}
       {showCalendar && events.length > 0 && (
         <div className="bg-amber-50 border-b border-amber-200 p-4 animate-in slide-in-from-top duration-200">
-          <div className="space-y-2">
+          <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
             {events.map(event => (
               <div 
                 key={event.id}

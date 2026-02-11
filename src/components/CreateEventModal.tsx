@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Calendar, ChevronDown, Type, MapPin } from 'lucide-react';
+import { X, Calendar, ChevronDown, MapPin } from 'lucide-react';
 import { EventType, Event } from '../types';
 import { store } from '../data/store';
 
@@ -9,6 +9,13 @@ interface CreateEventModalProps {
 }
 
 const eventCategories: EventType[] = ['Pulizia', 'Passeggiata', 'Incontro', 'Workshop'];
+
+const categoryEmoji: Record<EventType, string> = {
+  'Pulizia': '🧹',
+  'Passeggiata': '🚶',
+  'Incontro': '🤝',
+  'Workshop': '📚',
+};
 
 export function CreateEventModal({ fountainName, onClose }: CreateEventModalProps) {
   const [title, setTitle] = useState('');
@@ -47,7 +54,7 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-3">
             <Calendar className="w-6 h-6" />
-            <h2>Crea Nuovo Evento</h2>
+            <h2 className="font-bold text-lg">Crea Nuovo Evento</h2>
           </div>
           <button 
             onClick={onClose}
@@ -62,7 +69,7 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
       </div>
 
       {/* Form Content */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50">
         {/* Fountain Info Box */}
         <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 flex items-center gap-3">
           <div className="p-2 bg-white rounded-full shadow-sm">
@@ -76,7 +83,7 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
 
         {/* Titolo Evento */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-800 mb-2">
             Titolo Evento *
           </label>
           <input
@@ -84,25 +91,25 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="es. Pulizia di Primavera"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
           />
         </div>
 
         {/* Categoria */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-800 mb-2">
             Categoria *
           </label>
           <div className="relative">
             <button
               onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-              className="w-full flex items-center justify-between gap-2 bg-white border border-gray-300 rounded-lg px-4 py-3 hover:bg-gray-50 transition-colors"
+              className="w-full flex items-center justify-between gap-2 bg-white border border-gray-200 rounded-lg px-4 py-3 hover:bg-teal-50 hover:border-teal-300 transition-colors"
             >
               <div className="flex items-center gap-2">
-                  <Type className="w-5 h-5 text-gray-600" />
+                  <span className="text-lg">{categoryEmoji[selectedCategory]}</span>
                   <span className="text-gray-900">{selectedCategory}</span>
               </div>
-              <ChevronDown className="w-5 h-5 text-gray-600" />
+              <ChevronDown className="w-5 h-5 text-teal-500" />
             </button>
             {showCategoryDropdown && (
               <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-20">
@@ -113,10 +120,11 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
                       setSelectedCategory(category);
                       setShowCategoryDropdown(false);
                     }}
-                    className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors ${
-                      selectedCategory === category ? 'bg-teal-50 text-teal-700' : 'text-gray-900'
+                    className={`w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-teal-50 transition-colors ${
+                      selectedCategory === category ? 'bg-teal-50 text-teal-700 font-medium' : 'text-gray-900'
                     }`}
                   >
+                    <span className="text-lg">{categoryEmoji[category]}</span>
                     {category}
                   </button>
                 ))}
@@ -128,7 +136,7 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
         {/* Data e Ora */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-800 mb-2">
               Data *
               </label>
               <div className="relative">
@@ -136,12 +144,12 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
                       type="date"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
                   />
               </div>
           </div>
           <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-800 mb-2">
               Ora *
               </label>
               <div className="relative">
@@ -149,7 +157,7 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
                       type="time"
                       value={time}
                       onChange={(e) => setTime(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
                   />
               </div>
           </div>
@@ -157,7 +165,7 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
 
         {/* Descrizione */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-800 mb-2">
             Descrizione
           </label>
           <textarea
@@ -165,7 +173,7 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Descrivi i dettagli dell'evento..."
             rows={3}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none resize-none"
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none resize-none"
           />
         </div>
       </div>
@@ -175,7 +183,7 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex-1 px-4 py-3 border border-teal-200 text-teal-700 rounded-lg hover:bg-teal-50 transition-colors font-medium"
           >
             Annulla
           </button>
