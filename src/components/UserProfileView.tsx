@@ -18,7 +18,7 @@ interface UserProfileViewProps {
   onBack: () => void;
 }
 
-// Gradienti diversi per ogni utente
+// Gradienti diversi per ogni utente - Toni pastello chiari per supportare testo scuro
 const avatarGradients = [
   'from-teal-400 to-green-500',
   'from-purple-400 to-pink-500',
@@ -28,11 +28,11 @@ const avatarGradients = [
 ];
 
 const headerGradients = [
-  'from-teal-600 to-green-600',
-  'from-purple-600 to-pink-600',
-  'from-blue-600 to-cyan-600',
-  'from-amber-600 to-orange-600',
-  'from-rose-600 to-red-600',
+  'from-teal-100 to-green-100',
+  'from-purple-100 to-pink-100',
+  'from-blue-100 to-cyan-100',
+  'from-amber-100 to-orange-100',
+  'from-rose-100 to-red-100',
 ];
 
 // Dati profilo estesi per ogni utente mock
@@ -136,29 +136,29 @@ export function UserProfileView({ userId, onBack }: UserProfileViewProps) {
   return (
     <div className="h-full w-full bg-white flex flex-col">
       {/* Header */}
-      <div className={`relative bg-gradient-to-br ${headerGradient} text-white p-6 pb-20`}>
+      <div className={`relative bg-gradient-to-br ${headerGradient} p-6 pb-20`}>
         {/* Back Button */}
         <button
           onClick={onBack}
-          className="absolute top-4 left-4 bg-black bg-opacity-20 backdrop-blur-md p-2 rounded-full hover:bg-opacity-30 transition-all z-10"
+          className="absolute top-4 left-4 bg-white bg-opacity-60 backdrop-blur-md p-2 rounded-full hover:bg-opacity-80 transition-all z-10 shadow-sm"
         >
-          <ArrowLeft className="w-6 h-6 text-white" />
+          <ArrowLeft className="w-6 h-6 text-gray-900" />
         </button>
 
         {/* Profile Info */}
         <div className="mt-12 flex flex-col items-center">
           {/* Avatar */}
-          <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${avatarGradient} flex items-center justify-center text-white text-3xl border-4 border-white border-opacity-30 shadow-xl`}>
+          <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${avatarGradient} flex items-center justify-center text-white text-3xl border-4 border-white shadow-xl`}>
             {mockUser.name.charAt(0)}
           </div>
 
-          <h1 className="mt-4 text-white text-2xl font-bold drop-shadow-md">{mockUser.name}</h1>
-          <p className="text-white text-opacity-90 font-medium drop-shadow-sm">{profile.username}</p>
+          <h1 className="mt-4 text-gray-900 text-2xl font-bold">{mockUser.name}</h1>
+          <p className="text-gray-700 font-medium">{profile.username}</p>
 
           {/* Level Badge */}
-          <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-white bg-opacity-20 backdrop-blur-md rounded-full border border-white border-opacity-20 shadow-sm">
-            <Trophy className="w-5 h-5 text-yellow-300 drop-shadow-sm" />
-            <span className="font-medium">Livello {mockUser.level}</span>
+          <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-white bg-opacity-60 backdrop-blur-md rounded-full border border-white border-opacity-40 shadow-sm">
+            <Trophy className="w-5 h-5 text-amber-500" />
+            <span className="font-medium text-gray-900">Livello {mockUser.level}</span>
           </div>
         </div>
       </div>
