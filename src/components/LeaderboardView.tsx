@@ -184,7 +184,7 @@ export function LeaderboardView() {
               <div 
                 key={user.id}
                 className={`bg-white border rounded-xl p-4 transition-all hover:shadow-md ${
-                  index < 3 ? 'border-amber-300 bg-gradient-to-r from-amber-50 to-transparent' : 'border-gray-200'
+                  index < 3 ? 'border-amber-300 bg-gradient-to-r from-amber-50 to-transparent' : 'border-gray-200 bg-gradient-to-r from-gray-50 to-transparent'
                 }`}
                 onClick={() => handleUserClick(user.id)}
               >
