@@ -6,7 +6,10 @@ interface TopBarProps {
 
 export function TopBar({ onSettingsClick }: TopBarProps) {
   return (
-    <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white px-4 py-3 flex items-center justify-between shadow-md">
+    <div 
+      className="bg-gradient-to-r from-teal-600 to-green-600 text-white px-4 pb-3 shadow-md flex items-center justify-between"
+      style={{ paddingTop: 'max(12px, env(safe-area-inset-top) + 12px)' }}
+    >
       {/* Logo */}
       <div className="flex items-center gap-2">
         <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
