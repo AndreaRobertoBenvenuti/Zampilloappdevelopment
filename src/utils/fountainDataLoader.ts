@@ -29,32 +29,53 @@ interface GeoJSONFeatureCollection {
 }
 
 /**
+ * Generatore pseudo-random deterministico basato su seed.
+ * Produce sempre gli stessi valori per lo stesso seed,
+ * così la classifica è stabile e uguale per tutti.
+ */
+function seededRandom(seed: number): () => number {
+  let state = seed;
+  return () => {
+    state = (state * 1664525 + 1013904223) & 0xffffffff;
+    return (state >>> 0) / 0xffffffff;
+  };
+}
+
+// Cache per evitare ricalcoli ad ogni render
+let cachedFountains: Fountain[] | null = null;
+
+/**
  * Carica i dati delle fontanelle dal file GeoJSON locale
  * Dataset: Comune di Milano - Vedovelle (aggiornato settimanalmente)
  * Fonte: https://dati.comune.milano.it/dataset/ds502_fontanelle-nel-comune-di-milano
  */
 export function loadMilanFountains(): Fountain[] {
+  if (cachedFountains) return cachedFountains;
+
   const data = fountainsData as GeoJSONFeatureCollection;
 
   const fountains: Fountain[] = data.features.map((feature, index) => {
     const props = feature.properties;
     const [lng, lat] = feature.geometry.coordinates;
 
+    // Ogni fontanella ha il suo generatore deterministico basato sull'indice
+    const rand = seededRandom(index + 42);
+
     // Genera nome descrittivo basato sulla zona
     const name = generateFountainName(props, index);
 
-    // Condizione casuale per ora (in futuro potrebbe essere calcolata da segnalazioni utenti)
-    const condition = generateCondition();
+    // Condizione deterministica
+    const condition = generateCondition(rand);
 
-    // Check-in e contributi iniziali casuali (in futuro verranno dal database utenti)
-    const checkIns = Math.floor(Math.random() * 500) + 50;
-    const contributions = Math.floor(Math.random() * 50) + 5;
+    // Check-in e contributi deterministici
+    const checkIns = Math.floor(rand() * 500) + 50;
+    const contributions = Math.floor(rand() * 50) + 5;
 
-    // Proprietà filtri avanzati (casuali per ora, in futuro dal database)
-    const accessibility = generateAccessibility();
-    const waterQuality = generateWaterQuality();
-    const hasPetBowl = Math.random() > 0.7; // 30% hanno ciotola per animali
-    const isRefrigerated = Math.random() > 0.85; // 15% hanno acqua refrigerata
+    // Proprietà filtri avanzati deterministiche
+    const accessibility = generateAccessibility(rand);
+    const waterQuality = generateWaterQuality(rand);
+    const hasPetBowl = rand() > 0.7;
+    const isRefrigerated = rand() > 0.85;
 
     return {
       id: props.objectID,
@@ -65,7 +86,7 @@ export function loadMilanFountains(): Fountain[] {
       checkIns,
       contributions,
       description: generateDescription(props),
-      yearInstalled: undefined, // Non disponibile nel dataset
+      yearInstalled: undefined,
       accessibility,
       waterQuality,
       hasPetBowl,
@@ -74,6 +95,7 @@ export function loadMilanFountains(): Fountain[] {
   });
 
   console.log(`✅ Caricate ${fountains.length} fontanelle dal Comune di Milano`);
+  cachedFountains = fountains;
   return fountains;
 }
 
@@ -107,13 +129,13 @@ function formatNILName(nil: string): string {
 }
 
 /**
- * Genera una condizione casuale ponderata
+ * Genera una condizione deterministica ponderata
  * In futuro sarà calcolata dalle segnalazioni degli utenti
  */
-function generateCondition(): 'Ottima' | 'Buona' | 'Discreta' {
-  const rand = Math.random();
-  if (rand < 0.7) return 'Ottima';  // 70%
-  if (rand < 0.95) return 'Buona';  // 25%
+function generateCondition(rand: () => number): 'Ottima' | 'Buona' | 'Discreta' {
+  const val = rand();
+  if (val < 0.7) return 'Ottima';  // 70%
+  if (val < 0.95) return 'Buona';  // 25%
   return 'Discreta';                 // 5%
 }
 
@@ -141,23 +163,23 @@ function generateDescription(props: MilanFountainProperties): string {
 }
 
 /**
- * Genera un livello di accessibilità casuale
+ * Genera un livello di accessibilità deterministico
  * In futuro sarà mappato da dati reali del Comune o segnalazioni utenti
  */
-function generateAccessibility(): 'wheelchair' | 'limited' | 'none' {
-  const rand = Math.random();
-  if (rand < 0.6) return 'wheelchair';  // 60% accessibile
-  if (rand < 0.85) return 'limited';    // 25% parzialmente accessibile
+function generateAccessibility(rand: () => number): 'wheelchair' | 'limited' | 'none' {
+  const val = rand();
+  if (val < 0.6) return 'wheelchair';  // 60% accessibile
+  if (val < 0.85) return 'limited';    // 25% parzialmente accessibile
   return 'none';                         // 15% non accessibile
 }
 
 /**
- * Genera una qualità dell'acqua casuale
+ * Genera una qualità dell'acqua deterministica
  * In futuro sarà basato su analisi di laboratorio e segnalazioni utenti
  */
-function generateWaterQuality(): 'excellent' | 'good' | 'average' {
-  const rand = Math.random();
-  if (rand < 0.75) return 'excellent';  // 75% eccellente
-  if (rand < 0.95) return 'good';       // 20% buona
+function generateWaterQuality(rand: () => number): 'excellent' | 'good' | 'average' {
+  const val = rand();
+  if (val < 0.75) return 'excellent';  // 75% eccellente
+  if (val < 0.95) return 'good';       // 20% buona
   return 'average';                      // 5% media
 }

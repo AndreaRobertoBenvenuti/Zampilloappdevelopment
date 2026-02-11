@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Trophy, Users, MapPin, TrendingUp } from 'lucide-react';
 import { mockUsers } from '../data/mockData';
 import { loadMilanFountains } from '../utils/fountainDataLoader';
 import { FountainDetailView } from './FountainDetailView';
 import { UserProfileView } from './UserProfileView';
+import { useFavorites } from '../hooks/useFavorites';
 import { Fountain } from '../types';
 
 type LeaderboardTab = 'fountains' | 'users';
@@ -14,8 +15,12 @@ export function LeaderboardView() {
   const [viewMode, setViewMode] = useState<ViewMode>('leaderboard');
   const [selectedFountain, setSelectedFountain] = useState<Fountain | null>(null);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const { isFavorite, toggleFavorite } = useFavorites();
 
-  const sortedFountains = [...loadMilanFountains()].sort((a, b) => b.checkIns - a.checkIns);
+  const sortedFountains = useMemo(
+    () => [...loadMilanFountains()].sort((a, b) => b.checkIns - a.checkIns),
+    []
+  );
   const sortedUsers = [...mockUsers].sort((a, b) => b.points - a.points);
 
   const getMedalEmoji = (index: number) => {
@@ -62,6 +67,8 @@ export function LeaderboardView() {
         fountain={selectedFountain}
         distance={calculateDistance(selectedFountain)}
         onBack={handleBackToLeaderboard}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavorite}
       />
     );
   }
