@@ -4,7 +4,7 @@ interface ActivityChartProps {
 }
 
 export function ActivityChart({ data, maxValue }: ActivityChartProps) {
-  const max = maxValue || Math.max(...data.map(d => d.value));
+  const max = maxValue || Math.max(...data.map(d => d.value), 1); // Evita divisione per zero
 
   return (
     <div className="w-full">
@@ -14,17 +14,17 @@ export function ActivityChart({ data, maxValue }: ActivityChartProps) {
 
           return (
             <div key={index} className="flex-1 flex flex-col items-center gap-2">
+              {/* Valore numerico sopra la barra */}
+              <span className="text-sm font-medium text-gray-800 h-5">
+                {item.value}
+              </span>
+
               {/* Barra */}
               <div className="w-full flex flex-col justify-end h-24">
                 <div
-                  className="w-full bg-gradient-to-t from-teal-600 to-teal-400 rounded-t-lg transition-all duration-500 hover:from-teal-500 hover:to-teal-300 cursor-pointer relative group"
+                  className="w-full bg-gradient-to-t from-teal-600 to-teal-400 rounded-lg transition-all duration-500 hover:from-teal-500 hover:to-teal-300 cursor-pointer"
                   style={{ height: `${heightPercent}%` }}
-                >
-                  {/* Tooltip al hover */}
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                    {item.value} check-in
-                  </div>
-                </div>
+                />
               </div>
 
               {/* Label giorno */}
