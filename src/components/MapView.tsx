@@ -9,7 +9,9 @@ import {
   ExternalLink,
   Filter,
   Heart,
+  ArrowUpDown,
   Flame,
+  SlidersHorizontal,
 } from "lucide-react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { loadMilanFountains } from "../utils/fountainDataLoader";
@@ -196,7 +198,7 @@ export function MapView() {
   // Applica filtri e ordinamento
   let filteredFountains = fountains.filter(applyFilters);
 
-  // Ordinamento
+  // Ordinamento e filtro "Popolari" (Top 30)
   if (sortBy !== "none") {
     filteredFountains = [...filteredFountains].sort((a, b) => {
       switch (sortBy) {
@@ -210,6 +212,11 @@ export function MapView() {
           return 0;
       }
     });
+
+    // Se è attivo il filtro "Popolari", prendi solo le prime 30
+    if (sortBy === "popular") {
+      filteredFountains = filteredFountains.slice(0, 30);
+    }
   }
 
   // Conta i filtri attivi
@@ -420,7 +427,7 @@ export function MapView() {
                   : "text-gray-600 hover:bg-gray-100"
               }`}
             >
-              <Flame className={`w-4 h-4 ${sortBy === "popular" ? "fill-white" : ""}`} />
+              <span className="text-lg">🔥</span>
               <span>Popolari</span>
             </button>
 
@@ -432,9 +439,7 @@ export function MapView() {
                   : "text-gray-600 hover:bg-gray-100"
               }`}
             >
-              <Heart
-                className={`w-4 h-4 ${showOnlyFavorites ? "fill-white" : ""}`}
-              />
+              <span className="text-lg">❤️</span>
               <span>Preferiti</span>
             </button>
 
@@ -446,7 +451,7 @@ export function MapView() {
                   : "text-gray-600 hover:bg-gray-100"
               }`}
             >
-              <Filter className="w-4 h-4" />
+              <SlidersHorizontal className={`w-5 h-5 ${activeFiltersCount > 0 ? "text-white" : "text-teal-600"}`} />
               <span>Filtri</span>
               {activeFiltersCount > 0 && (
                 <div className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border border-white" />
