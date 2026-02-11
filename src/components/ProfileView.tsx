@@ -317,7 +317,7 @@ export function ProfileView() {
                       disabled={userSpendablePoints < (reward.cost || 0)}
                       className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                         userSpendablePoints >= (reward.cost || 0)
-                          ? 'bg-amber-500 text-white hover:bg-amber-600 shadow-sm'
+                          ? 'bg-amber-500 text-gray-900 hover:bg-amber-600 shadow-sm'
                           : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                       }`}
                     >

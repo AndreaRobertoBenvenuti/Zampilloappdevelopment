@@ -445,7 +445,7 @@ export function MapView() {
 
             <button
               onClick={() => setShowFilterPanel(true)}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 w-[75px] ${
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 w-[75px] relative ${
                 activeFiltersCount > 0
                   ? "bg-teal-600 text-white"
                   : "text-gray-600 hover:bg-gray-100"
