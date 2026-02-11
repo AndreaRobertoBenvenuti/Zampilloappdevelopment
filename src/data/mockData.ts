@@ -45,7 +45,7 @@ export const mockUsers: User[] = [
   },
   {
     id: '4',
-    name: 'Matteo Neri',
+    name: 'Matteo Grigioni',
     level: 11,
     points: 2320,
     spendablePoints: 510,

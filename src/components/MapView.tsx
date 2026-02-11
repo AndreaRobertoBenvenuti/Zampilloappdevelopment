@@ -9,7 +9,7 @@ import {
   ExternalLink,
   Filter,
   Heart,
-  ArrowUpDown,
+  Flame,
 } from "lucide-react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { loadMilanFountains } from "../utils/fountainDataLoader";
@@ -408,25 +408,25 @@ export function MapView() {
             </button>
           </div>
 
-          {/* Ordinamento */}
+          {/* Ordinamento e Filtri */}
           <div className="flex gap-1 bg-white rounded-lg shadow-lg p-1">
             <button
               onClick={() =>
                 setSortBy(sortBy === "popular" ? "none" : "popular")
               }
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 ${
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 min-w-[60px] ${
                 sortBy === "popular"
                   ? "bg-teal-600 text-white"
                   : "text-gray-600 hover:bg-gray-100"
               }`}
             >
-              🔥
+              <Flame className={`w-4 h-4 ${sortBy === "popular" ? "fill-white" : ""}`} />
               <span>Popolari</span>
             </button>
 
             <button
               onClick={() => setShowOnlyFavorites(!showOnlyFavorites)}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 ${
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 min-w-[60px] ${
                 showOnlyFavorites
                   ? "bg-teal-600 text-white"
                   : "text-gray-600 hover:bg-gray-100"
@@ -440,16 +440,16 @@ export function MapView() {
 
             <button
               onClick={() => setShowFilterPanel(true)}
-              className="relative bg-white rounded-lg p-3 hover:bg-gray-50 transition-colors"
-              title="Filtri Avanzati"
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors flex flex-col items-center gap-0.5 min-w-[60px] relative ${
+                activeFiltersCount > 0
+                  ? "bg-teal-600 text-white"
+                  : "text-gray-600 hover:bg-gray-100"
+              }`}
             >
-              <Filter className="w-6 h-6 text-teal-600" />
+              <Filter className="w-4 h-4" />
+              <span>Filtri</span>
               {activeFiltersCount > 0 && (
-                <div className="absolute -top-1 -right-1 w-5 h-5 bg-teal-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">
-                    {activeFiltersCount}
-                  </span>
-                </div>
+                <div className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border border-white" />
               )}
             </button>
           </div>
