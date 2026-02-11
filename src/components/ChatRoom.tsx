@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { ChevronLeft, Send, Calendar, Users, Plus } from 'lucide-react';
-import { FountainChat, ChatMessage } from '../types';
+import { useState, useEffect } from 'react';
+import { ChevronLeft, Send, Calendar, Users, CalendarPlus, ChevronDown, ChevronUp } from 'lucide-react';
+import { FountainChat, ChatMessage, Event } from '../types';
 import { CreateEventModal } from './CreateEventModal';
+import { store } from '../data/store';
 
 interface ChatRoomProps {
   chat: FountainChat;
@@ -12,6 +13,21 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
   const [message, setMessage] = useState('');
   const [showCalendar, setShowCalendar] = useState(false);
   const [showCreateEventModal, setShowCreateEventModal] = useState(false);
+  const [events, setEvents] = useState<Event[]>([]);
+
+  // Carica gli eventi dallo store e filtra per questa chat/fontanella
+  useEffect(() => {
+    const loadEvents = () => {
+      const allEvents = store.getEvents();
+      // Filtra gli eventi che corrispondono al nome della fontanella della chat
+      const chatEvents = allEvents.filter(e => e.fountainName === chat.fountainName);
+      setEvents(chatEvents);
+    };
+
+    loadEvents();
+    const unsubscribe = store.subscribe(loadEvents);
+    return unsubscribe;
+  }, [chat.fountainName]);
 
   // Mock messages for demonstration
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -84,12 +100,10 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
     return date.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
   };
 
-  // Mock events data
-  const upcomingEvents = [
-    { id: '1', title: 'Running Group', date: '20 Dic, 7:30', participants: 12 },
-    { id: '2', title: 'Picnic Community', date: '22 Dic, 12:00', participants: 23 },
-    { id: '3', title: 'Tour Fotografico', date: '24 Dic, 15:00', participants: 8 }
-  ];
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('it-IT', { day: 'numeric', month: 'short' });
+  };
 
   if (showCreateEventModal) {
     return (
@@ -101,10 +115,10 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
   }
 
   return (
-    <div className="h-full w-full bg-white flex flex-col">
+    <div className="h-full w-full bg-white flex flex-col relative">
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white p-4 shadow-lg">
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex items-center gap-3 mb-3">
           <button 
             onClick={onBack}
             className="p-1 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
@@ -112,52 +126,58 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
             <ChevronLeft className="w-6 h-6" />
           </button>
           <div className="flex-1 min-w-0">
-            <h2 className="truncate">{chat.fountainName}</h2>
-            <div className="flex items-center gap-3 text-sm text-teal-100 mt-1">
-              <span className="flex items-center gap-1">
-                <Users className="w-4 h-4" />
-                {chat.memberCount} membri
-              </span>
-              {chat.hasEvents && (
-                <button 
-                  onClick={() => setShowCalendar(!showCalendar)}
-                  className="flex items-center gap-1 hover:text-white transition-colors"
-                >
-                  <Calendar className="w-4 h-4" />
-                  Eventi
-                </button>
-              )}
+            <h2 className="truncate font-semibold text-lg">{chat.fountainName}</h2>
+            <div className="flex items-center gap-2 text-sm text-teal-100">
+              <Users className="w-4 h-4" />
+              <span>{chat.memberCount} membri</span>
             </div>
           </div>
           <button
             onClick={() => setShowCreateEventModal(true)}
-            className="p-2 hover:bg-white hover:bg-opacity-20 rounded-full transition-colors"
-            title="Crea Evento"
+            className="flex items-center gap-2 bg-white bg-opacity-20 hover:bg-opacity-30 px-3 py-2 rounded-lg transition-all text-sm font-medium"
+            title="Crea un nuovo evento"
           >
-            <Plus className="w-6 h-6" />
+            <CalendarPlus className="w-4 h-4" />
+            <span>Crea Evento</span>
           </button>
         </div>
+
+        {/* Events Toggle Bar - Mostra solo se ci sono eventi */}
+        {events.length > 0 && (
+          <button 
+            onClick={() => setShowCalendar(!showCalendar)}
+            className="w-full flex items-center justify-between bg-black bg-opacity-10 hover:bg-opacity-20 px-3 py-2 rounded-lg transition-all text-sm"
+          >
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4" />
+              <span className="font-medium">Eventi in programma</span>
+              <span className="bg-white text-teal-600 text-xs px-1.5 py-0.5 rounded-full font-bold">
+                {events.length}
+              </span>
+            </div>
+            {showCalendar ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </button>
+        )}
       </div>
 
       {/* Events Calendar (if shown) */}
-      {showCalendar && (
-        <div className="bg-amber-50 border-b border-amber-200 p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Calendar className="w-5 h-5 text-amber-600" />
-            <h3 className="font-medium text-amber-900">Eventi Programmati</h3>
-          </div>
+      {showCalendar && events.length > 0 && (
+        <div className="bg-amber-50 border-b border-amber-200 p-4 animate-in slide-in-from-top duration-200">
           <div className="space-y-2">
-            {upcomingEvents.map(event => (
+            {events.map(event => (
               <div 
                 key={event.id}
-                className="bg-white rounded-lg p-3 flex items-center justify-between"
+                className="bg-white rounded-lg p-3 flex items-center justify-between shadow-sm border border-amber-100"
               >
                 <div>
                   <p className="font-medium text-gray-900">{event.title}</p>
-                  <p className="text-sm text-gray-600">{event.date}</p>
+                  <p className="text-sm text-gray-600 flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />
+                    {formatDate(event.date)} - {event.time}
+                  </p>
                 </div>
-                <div className="flex items-center gap-1 text-sm text-gray-600">
-                  <Users className="w-4 h-4" />
+                <div className="flex items-center gap-1 text-sm text-teal-600 font-medium bg-teal-50 px-2 py-1 rounded-full">
+                  <Users className="w-3 h-3" />
                   {event.participants}
                 </div>
               </div>
@@ -179,12 +199,12 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
               )}
               <div className={`rounded-2xl px-4 py-2 ${
                 msg.isOwn 
-                  ? 'bg-teal-500 text-white rounded-br-md' 
-                  : 'bg-white text-gray-900 rounded-bl-md shadow-sm'
+                  ? 'bg-teal-500 text-white rounded-br-md shadow-sm' 
+                  : 'bg-white text-gray-900 rounded-bl-md shadow-sm border border-gray-100'
               }`}>
                 <p>{msg.message}</p>
-                <p className={`text-xs mt-1 ${
-                  msg.isOwn ? 'text-teal-100' : 'text-gray-500'
+                <p className={`text-xs mt-1 text-right ${
+                  msg.isOwn ? 'text-teal-100' : 'text-gray-400'
                 }`}>
                   {formatMessageTime(msg.timestamp)}
                 </p>
@@ -197,14 +217,14 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
       {/* Input Area */}
       <div className="bg-white border-t border-gray-200 p-4">
         <div className="flex items-end gap-2">
-          <div className="flex-1 bg-gray-100 rounded-2xl px-4 py-2 min-h-[44px] flex items-center">
+          <div className="flex-1 bg-gray-100 rounded-2xl px-4 py-2 min-h-[44px] flex items-center border border-gray-200 focus-within:border-teal-500 focus-within:ring-1 focus-within:ring-teal-500 transition-all">
             <input
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
               placeholder="Scrivi un messaggio..."
-              className="flex-1 bg-transparent outline-none"
+              className="flex-1 bg-transparent outline-none text-gray-900 placeholder-gray-500"
             />
           </div>
           <button
@@ -212,7 +232,7 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
             disabled={!message.trim()}
             className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${
               message.trim()
-                ? 'bg-teal-500 text-white hover:bg-teal-600 shadow-lg' 
+                ? 'bg-teal-500 text-white hover:bg-teal-600 shadow-lg transform hover:scale-105'
                 : 'bg-gray-200 text-gray-400'
             }`}
           >
