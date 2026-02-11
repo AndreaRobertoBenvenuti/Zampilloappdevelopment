@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Calendar, ChevronDown, Type } from 'lucide-react';
+import { X, Calendar, ChevronDown, Type, MapPin } from 'lucide-react';
 import { EventType } from '../types';
 
 interface CreateEventModalProps {
@@ -51,12 +51,23 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
           </button>
         </div>
         <p className="text-teal-50 text-sm">
-          Organizza un evento per la community di {fountainName}.
+          Organizza un evento per la community
         </p>
       </div>
 
       {/* Form Content */}
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        {/* Fountain Info Box */}
+        <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 flex items-center gap-3">
+          <div className="p-2 bg-white rounded-full shadow-sm">
+            <MapPin className="w-5 h-5 text-teal-600" />
+          </div>
+          <div>
+            <p className="text-xs text-teal-600 font-medium uppercase tracking-wide">Luogo Evento</p>
+            <p className="text-gray-900 font-medium">{fountainName}</p>
+          </div>
+        </div>
+
         {/* Titolo Evento */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
