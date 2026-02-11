@@ -91,8 +91,17 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
     { id: '3', title: 'Tour Fotografico', date: '24 Dic, 15:00', participants: 8 }
   ];
 
+  if (showCreateEventModal) {
+    return (
+      <CreateEventModal
+        fountainName={chat.fountainName}
+        onClose={() => setShowCreateEventModal(false)}
+      />
+    );
+  }
+
   return (
-    <div className="h-full w-full bg-white flex flex-col relative">
+    <div className="h-full w-full bg-white flex flex-col">
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white p-4 shadow-lg">
         <div className="flex items-center gap-3 mb-2">
@@ -211,14 +220,6 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
           </button>
         </div>
       </div>
-
-      {/* Create Event Modal */}
-      {showCreateEventModal && (
-        <CreateEventModal
-          fountainName={chat.fountainName}
-          onClose={() => setShowCreateEventModal(false)}
-        />
-      )}
     </div>
   );
 }
