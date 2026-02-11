@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MessageSquare, Calendar, Users, Plus, Filter, ChevronDown, UserPlus, X } from 'lucide-react';
-import { mockChats } from '../data/mockData';
 import { FountainChat } from '../types';
+import { store } from '../data/store';
 import { ChatRoom } from './ChatRoom';
 import { CreateChatModal } from './CreateChatModal';
 import { EventsModal } from './EventsModal';
@@ -22,6 +22,14 @@ export function ChatView() {
   const [showTypeFilter, setShowTypeFilter] = useState(false);
   const [joinedChatIds, setJoinedChatIds] = useState<string[]>(initialJoinedChatIds);
   const [showJoinDialog, setShowJoinDialog] = useState<FountainChat | null>(null);
+  const [chats, setChats] = useState<FountainChat[]>(store.getChats());
+
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => {
+      setChats(store.getChats());
+    });
+    return unsubscribe;
+  }, []);
 
   const formatTime = (date: Date) => {
     const now = new Date();
@@ -34,8 +42,8 @@ export function ChatView() {
   };
 
   // Separare chat unite e disponibili
-  const joinedChats = mockChats.filter(chat => joinedChatIds.includes(chat.id));
-  const availableChats = mockChats.filter(chat => !joinedChatIds.includes(chat.id));
+  const joinedChats = chats.filter(chat => joinedChatIds.includes(chat.id));
+  const availableChats = chats.filter(chat => !joinedChatIds.includes(chat.id));
 
   // Funzione per ottenere il quartiere dalla fontana
   const getFountainDistrict = (fountainName: string): string => {

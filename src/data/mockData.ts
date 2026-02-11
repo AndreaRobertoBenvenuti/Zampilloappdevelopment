@@ -1,4 +1,4 @@
-import { User, FountainChat, Challenge, Reward, Badge } from '../types';
+import { User, FountainChat, Challenge, Reward, Badge, Event } from '../types';
 
 // Le fontanelle reali vengono ora caricate da src/utils/fountainDataLoader.ts
 // usando il dataset ufficiale del Comune di Milano (719 fontanelle)
@@ -313,7 +313,7 @@ export const mockBadges: Badge[] = [
   },
   {
     id: 'helpful-hand',
-    name: 'Sentinella',
+    name: 'Mano Solidale',
     description: 'Aiuta la community con 10 segnalazioni',
     icon: '🤝',
     category: 'social',
@@ -406,4 +406,564 @@ export const mockBadges: Badge[] = [
     requirement: 'Fontanelle storiche',
     unlocked: false
   }
+];
+
+export const mockEvents: Event[] = [
+  // Dicembre 2025
+  {
+    id: '1',
+    title: 'Pulizia Collettiva Vedovella Duomo',
+    fountainName: 'Vedovella Duomo',
+    district: 'Centro',
+    type: 'Pulizia',
+    date: '2025-12-21',
+    time: '10:00',
+    participants: 12,
+    description: 'Uniamoci per pulire e valorizzare la storica vedovella del Duomo!'
+  },
+  {
+    id: '2',
+    title: 'Aperitivo Natalizio',
+    fountainName: 'Drago Verde Navigli',
+    district: 'Navigli',
+    type: 'Incontro',
+    date: '2025-12-21',
+    time: '18:00',
+    participants: 32,
+    description: 'Incontro pre-natalizio della community Zampillo'
+  },
+  {
+    id: '3',
+    title: 'Tour delle Vedovelle di Brera',
+    fountainName: 'Drago Verde Brera',
+    district: 'Brera',
+    type: 'Passeggiata',
+    date: '2025-12-23',
+    time: '15:00',
+    participants: 24,
+    description: 'Passeggiata culturale alla scoperta delle fontanelle storiche del quartiere'
+  },
+  {
+    id: '4',
+    title: 'Pulizia Post-Natale',
+    fountainName: 'Vedovella Parco Sempione',
+    district: 'Sempione',
+    type: 'Pulizia',
+    date: '2025-12-27',
+    time: '10:30',
+    participants: 18,
+    description: 'Manteniamo pulita la vedovella del parco dopo le feste'
+  },
+  {
+    id: '5',
+    title: 'Workshop Storia Vedovelle',
+    fountainName: 'Vedovella Duomo',
+    district: 'Centro',
+    type: 'Workshop',
+    date: '2025-12-28',
+    time: '14:00',
+    participants: 15,
+    description: 'Scopri la storia delle fontanelle milanesi con un esperto locale'
+  },
+  {
+    id: '6',
+    title: 'Passeggiata di Fine Anno',
+    fountainName: 'Vedovella Porta Venezia',
+    district: 'Porta Venezia',
+    type: 'Passeggiata',
+    date: '2025-12-30',
+    time: '11:00',
+    participants: 28,
+    description: 'Tour delle vedovelle per chiudere l\'anno in bellezza'
+  },
+  
+  // Gennaio 2026
+  {
+    id: '7',
+    title: 'Brindisi di Capodanno',
+    fountainName: 'Drago Verde Brera',
+    district: 'Brera',
+    type: 'Incontro',
+    date: '2026-01-01',
+    time: '12:00',
+    participants: 45,
+    description: 'Brindisi con acqua di vedovella per iniziare il nuovo anno'
+  },
+  {
+    id: '8',
+    title: 'Pulizia Inizio Anno',
+    fountainName: 'Drago Verde Navigli',
+    district: 'Navigli',
+    type: 'Pulizia',
+    date: '2026-01-04',
+    time: '09:00',
+    participants: 20,
+    description: 'Iniziamo l\'anno prendendoci cura delle nostre vedovelle'
+  },
+  {
+    id: '9',
+    title: 'Workshop Fotografia',
+    fountainName: 'Vedovella Duomo',
+    district: 'Centro',
+    type: 'Workshop',
+    date: '2026-01-05',
+    time: '15:30',
+    participants: 16,
+    description: 'Impara a fotografare le vedovelle storiche con un fotografo professionista'
+  },
+  {
+    id: '10',
+    title: 'Passeggiata Befana',
+    fountainName: 'Vedovella Parco Sempione',
+    district: 'Sempione',
+    type: 'Passeggiata',
+    date: '2026-01-06',
+    time: '10:00',
+    participants: 35,
+    description: 'Tour speciale della Befana con sorprese per i bambini'
+  },
+  {
+    id: '11',
+    title: 'Incontro Community Gennaio',
+    fountainName: 'Vedovella Porta Venezia',
+    district: 'Porta Venezia',
+    type: 'Incontro',
+    date: '2026-01-08',
+    time: '19:00',
+    participants: 22,
+    description: 'Pianifichiamo insieme le attività del mese'
+  },
+  {
+    id: '12',
+    title: 'Pulizia Collaborativa',
+    fountainName: 'Drago Verde Brera',
+    district: 'Brera',
+    type: 'Pulizia',
+    date: '2026-01-11',
+    time: '10:00',
+    participants: 25,
+    description: 'Giornata di pulizia e manutenzione straordinaria'
+  },
+  {
+    id: '13',
+    title: 'Workshop Sostenibilità',
+    fountainName: 'Vedovella Parco Sempione',
+    district: 'Sempione',
+    type: 'Workshop',
+    date: '2026-01-12',
+    time: '11:00',
+    participants: 18,
+    description: 'Scopri come ridurre l\'uso della plastica grazie alle vedovelle'
+  },
+  {
+    id: '14',
+    title: 'Aperitivo alla Vedovella',
+    fountainName: 'Drago Verde Navigli',
+    district: 'Navigli',
+    type: 'Incontro',
+    date: '2026-01-14',
+    time: '18:30',
+    participants: 30,
+    description: 'Incontro sociale della community Zampillo ai Navigli'
+  },
+  {
+    id: '15',
+    title: 'Tour Storico Centro',
+    fountainName: 'Vedovella Duomo',
+    district: 'Centro',
+    type: 'Passeggiata',
+    date: '2026-01-17',
+    time: '15:00',
+    participants: 28,
+    description: 'Alla scoperta delle vedovelle del centro storico'
+  },
+  {
+    id: '16',
+    title: 'Pulizia Weekend',
+    fountainName: 'Vedovella Porta Venezia',
+    district: 'Porta Venezia',
+    type: 'Pulizia',
+    date: '2026-01-18',
+    time: '09:30',
+    participants: 15,
+    description: 'Pulizia del weekend per mantenere le vedovelle splendenti'
+  },
+  {
+    id: '17',
+    title: 'Workshop Idratazione',
+    fountainName: 'Drago Verde Brera',
+    district: 'Brera',
+    type: 'Workshop',
+    date: '2026-01-21',
+    time: '17:00',
+    participants: 20,
+    description: 'L\'importanza dell\'idratazione con nutrizionisti esperti'
+  },
+  {
+    id: '18',
+    title: 'Incontro Giovani Zampillo',
+    fountainName: 'Drago Verde Navigli',
+    district: 'Navigli',
+    type: 'Incontro',
+    date: '2026-01-23',
+    time: '20:00',
+    participants: 40,
+    description: 'Serata dedicata ai giovani della community'
+  },
+  {
+    id: '19',
+    title: 'Passeggiata Domenicale',
+    fountainName: 'Vedovella Parco Sempione',
+    district: 'Sempione',
+    type: 'Passeggiata',
+    date: '2026-01-25',
+    time: '10:30',
+    participants: 32,
+    description: 'Tour rilassante delle vedovelle del parco'
+  },
+  {
+    id: '20',
+    title: 'Pulizia Fine Mese',
+    fountainName: 'Vedovella Duomo',
+    district: 'Centro',
+    type: 'Pulizia',
+    date: '2026-01-28',
+    time: '09:00',
+    participants: 18,
+    description: 'Pulizia mensile della vedovella più iconica'
+  },
+  {
+    id: '21',
+    title: 'Workshop Arte Urbana',
+    fountainName: 'Vedovella Porta Venezia',
+    district: 'Porta Venezia',
+    type: 'Workshop',
+    date: '2026-01-30',
+    time: '16:00',
+    participants: 14,
+    description: 'Le vedovelle come arte urbana milanese'
+  },
+  
+  // Febbraio 2026
+  {
+    id: '22',
+    title: 'Incontro Mensile Community',
+    fountainName: 'Drago Verde Brera',
+    district: 'Brera',
+    type: 'Incontro',
+    date: '2026-02-01',
+    time: '18:00',
+    participants: 35,
+    description: 'Incontro mensile per pianificare le attività di febbraio'
+  },
+  {
+    id: '23',
+    title: 'Workshop Restauro Fontanelle',
+    fountainName: 'Vedovella Duomo',
+    district: 'Centro',
+    type: 'Workshop',
+    date: '2026-02-03',
+    time: '14:00',
+    participants: 18,
+    description: 'Impara le tecniche di restauro delle vedovelle storiche'
+  },
+  {
+    id: '24',
+    title: 'Passeggiata Carnevale',
+    fountainName: 'Drago Verde Navigli',
+    district: 'Navigli',
+    type: 'Passeggiata',
+    date: '2026-02-05',
+    time: '15:30',
+    participants: 42,
+    description: 'Tour in maschera delle vedovelle dei Navigli'
+  },
+  {
+    id: '25',
+    title: 'Pulizia Vedovella Navigli',
+    fountainName: 'Drago Verde Navigli',
+    district: 'Navigli',
+    type: 'Pulizia',
+    date: '2026-02-07',
+    time: '10:30',
+    participants: 16,
+    description: 'Giornata di pulizia e manutenzione della fontanella'
+  },
+  {
+    id: '26',
+    title: 'Workshop Bambini',
+    fountainName: 'Vedovella Parco Sempione',
+    district: 'Sempione',
+    type: 'Workshop',
+    date: '2026-02-08',
+    time: '11:00',
+    participants: 25,
+    description: 'Laboratorio educativo sull\'acqua per bambini'
+  },
+  {
+    id: '27',
+    title: 'Incontro San Valentino',
+    fountainName: 'Vedovella Porta Venezia',
+    district: 'Porta Venezia',
+    type: 'Incontro',
+    date: '2026-02-12',
+    time: '19:30',
+    participants: 28,
+    description: 'Aperitivo pre-San Valentino alla vedovella'
+  },
+  {
+    id: '28',
+    title: 'Tour Fotografico Vedovelle',
+    fountainName: 'Drago Verde Brera',
+    district: 'Brera',
+    type: 'Passeggiata',
+    date: '2026-02-14',
+    time: '10:00',
+    participants: 30,
+    description: 'Tour fotografico delle fontanelle storiche per San Valentino'
+  },
+  {
+    id: '29',
+    title: 'Aperitivo Sostenibile',
+    fountainName: 'Vedovella Parco Sempione',
+    district: 'Sempione',
+    type: 'Incontro',
+    date: '2026-02-14',
+    time: '19:00',
+    participants: 25,
+    description: 'Aperitivo ecologico al parco con borracce riutilizzabili'
+  },
+  {
+    id: '30',
+    title: 'Pulizia Straordinaria',
+    fountainName: 'Vedovella Duomo',
+    district: 'Centro',
+    type: 'Pulizia',
+    date: '2026-02-17',
+    time: '09:00',
+    participants: 22,
+    description: 'Pulizia straordinaria della vedovella del Duomo'
+  },
+  {
+    id: '31',
+    title: 'Workshop Idratazione e Salute',
+    fountainName: 'Drago Verde Navigli',
+    district: 'Navigli',
+    type: 'Workshop',
+    date: '2026-02-19',
+    time: '15:30',
+    participants: 17,
+    description: 'Scopri i benefici dell\'acqua pubblica con nutrizionisti esperti'
+  },
+  {
+    id: '32',
+    title: 'Passeggiata Weekend',
+    fountainName: 'Vedovella Porta Venezia',
+    district: 'Porta Venezia',
+    type: 'Passeggiata',
+    date: '2026-02-21',
+    time: '14:00',
+    participants: 26,
+    description: 'Tour rilassante del weekend tra le vedovelle'
+  },
+  {
+    id: '33',
+    title: 'Incontro Volontari',
+    fountainName: 'Drago Verde Brera',
+    district: 'Brera',
+    type: 'Incontro',
+    date: '2026-02-24',
+    time: '18:30',
+    participants: 20,
+    description: 'Incontro per i volontari Zampillo più attivi'
+  },
+  {
+    id: '34',
+    title: 'Pulizia Parco Sempione',
+    fountainName: 'Vedovella Parco Sempione',
+    district: 'Sempione',
+    type: 'Pulizia',
+    date: '2026-02-26',
+    time: '10:00',
+    participants: 24,
+    description: 'Giornata di pulizia al Parco Sempione'
+  },
+  {
+    id: '35',
+    title: 'Workshop Design Urbano',
+    fountainName: 'Vedovella Duomo',
+    district: 'Centro',
+    type: 'Workshop',
+    date: '2026-02-28',
+    time: '16:00',
+    participants: 15,
+    description: 'Le vedovelle come elemento di design urbano'
+  },
+  
+  // Marzo 2026
+  {
+    id: '36',
+    title: 'Passeggiata Storica Milano',
+    fountainName: 'Drago Verde Brera',
+    district: 'Brera',
+    type: 'Passeggiata',
+    date: '2026-03-01',
+    time: '11:00',
+    participants: 35,
+    description: 'Tour delle vedovelle più antiche di Milano con guida storica'
+  },
+  {
+    id: '37',
+    title: 'Incontro Primavera',
+    fountainName: 'Drago Verde Navigli',
+    district: 'Navigli',
+    type: 'Incontro',
+    date: '2026-03-03',
+    time: '19:00',
+    participants: 30,
+    description: 'Celebriamo l\'arrivo della primavera insieme'
+  },
+  {
+    id: '38',
+    title: 'Workshop Fotografia Avanzata',
+    fountainName: 'Vedovella Porta Venezia',
+    district: 'Porta Venezia',
+    type: 'Workshop',
+    date: '2026-03-05',
+    time: '15:00',
+    participants: 12,
+    description: 'Corso avanzato di fotografia urbana con le vedovelle'
+  },
+  {
+    id: '39',
+    title: 'Pulizia di Primavera',
+    fountainName: 'Vedovella Parco Sempione',
+    district: 'Sempione',
+    type: 'Pulizia',
+    date: '2026-03-07',
+    time: '09:30',
+    participants: 28,
+    description: 'Grande giornata di pulizia per celebrare l\'arrivo della primavera'
+  },
+  {
+    id: '40',
+    title: 'Passeggiata Festa Donna',
+    fountainName: 'Vedovella Duomo',
+    district: 'Centro',
+    type: 'Passeggiata',
+    date: '2026-03-08',
+    time: '10:00',
+    participants: 50,
+    description: 'Tour dedicato alle donne della community Zampillo'
+  },
+  {
+    id: '41',
+    title: 'Workshop Ecologia',
+    fountainName: 'Drago Verde Brera',
+    district: 'Brera',
+    type: 'Workshop',
+    date: '2026-03-10',
+    time: '17:00',
+    participants: 19,
+    description: 'L\'impatto ecologico delle vedovelle sulla città'
+  },
+  {
+    id: '42',
+    title: 'Incontro Studenti',
+    fountainName: 'Drago Verde Navigli',
+    district: 'Navigli',
+    type: 'Incontro',
+    date: '2026-03-12',
+    time: '18:00',
+    participants: 45,
+    description: 'Incontro dedicato agli studenti universitari'
+  },
+  {
+    id: '43',
+    title: 'Pulizia Collaborativa Centro',
+    fountainName: 'Vedovella Duomo',
+    district: 'Centro',
+    type: 'Pulizia',
+    date: '2026-03-14',
+    time: '10:00',
+    participants: 20,
+    description: 'Pulizia delle vedovelle del centro storico'
+  },
+  {
+    id: '44',
+    title: 'Incontro Zampillo Kids',
+    fountainName: 'Vedovella Parco Sempione',
+    district: 'Sempione',
+    type: 'Incontro',
+    date: '2026-03-15',
+    time: '15:00',
+    participants: 40,
+    description: 'Attività educative per bambini sull\'importanza dell\'acqua pubblica'
+  },
+  {
+    id: '45',
+    title: 'Passeggiata Naturalistica',
+    fountainName: 'Vedovella Porta Venezia',
+    district: 'Porta Venezia',
+    type: 'Passeggiata',
+    date: '2026-03-18',
+    time: '14:30',
+    participants: 24,
+    description: 'Tour delle vedovelle con focus sulla natura urbana'
+  },
+  {
+    id: '46',
+    title: 'Workshop Arte e Vedovelle',
+    fountainName: 'Drago Verde Navigli',
+    district: 'Navigli',
+    type: 'Workshop',
+    date: '2026-03-20',
+    time: '16:30',
+    participants: 16,
+    description: 'Laboratorio artistico ispirato alle fontanelle storiche milanesi'
+  },
+  {
+    id: '47',
+    title: 'Pulizia Weekend Brera',
+    fountainName: 'Drago Verde Brera',
+    district: 'Brera',
+    type: 'Pulizia',
+    date: '2026-03-21',
+    time: '09:00',
+    participants: 18,
+    description: 'Pulizia del weekend a Brera'
+  },
+  {
+    id: '48',
+    title: 'Incontro Fine Mese',
+    fountainName: 'Vedovella Duomo',
+    district: 'Centro',
+    type: 'Incontro',
+    date: '2026-03-26',
+    time: '19:00',
+    participants: 32,
+    description: 'Riunione finale del mese per la community'
+  },
+  {
+    id: '49',
+    title: 'Passeggiata Primavera',
+    fountainName: 'Vedovella Parco Sempione',
+    district: 'Sempione',
+    type: 'Passeggiata',
+    date: '2026-03-28',
+    time: '11:00',
+    participants: 38,
+    description: 'Celebriamo la primavera con un tour nel verde'
+  },
+  {
+    id: '50',
+    title: 'Workshop Storytelling',
+    fountainName: 'Vedovella Porta Venezia',
+    district: 'Porta Venezia',
+    type: 'Workshop',
+    date: '2026-03-29',
+    time: '15:30',
+    participants: 14,
+    description: 'Raccontare le storie delle vedovelle milanesi'
+  },
 ];

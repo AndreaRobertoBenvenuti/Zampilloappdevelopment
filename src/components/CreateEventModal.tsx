@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { X, Calendar, ChevronDown, Type, MapPin } from 'lucide-react';
-import { EventType } from '../types';
+import { EventType, Event } from '../types';
+import { store } from '../data/store';
 
 interface CreateEventModalProps {
   fountainName: string;
@@ -22,15 +23,20 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
       alert('Per favore, compila tutti i campi obbligatori.');
       return;
     }
-    // In a real app, you would handle the event creation here
-    console.log('Creating event:', {
-      title,
-      description,
-      date,
-      time,
-      category: selectedCategory,
-      fountainName,
-    });
+
+    const newEvent: Event = {
+      id: Date.now().toString(),
+      title: title.trim(),
+      fountainName: fountainName,
+      district: 'Centro', // Mock district, in real app would come from fountain data
+      type: selectedCategory,
+      date: date,
+      time: time,
+      participants: 1, // Start with creator
+      description: description.trim() || 'Nessuna descrizione fornita.'
+    };
+
+    store.addEvent(newEvent);
     onClose();
   };
 

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { X, MessageSquare, MapPin, Calendar, Users, ChevronDown } from 'lucide-react';
+import { FountainChat } from '../types';
+import { store } from '../data/store';
 
 interface CreateChatModalProps {
   onClose: () => void;
@@ -22,8 +24,18 @@ export function CreateChatModal({ onClose }: CreateChatModalProps) {
       alert('Inserisci un nome per la chat');
       return;
     }
-    // In una vera app, qui si creerebbe la chat
-    console.log('Creazione chat:', { chatName, selectedCategory, selectedDistrict, description, isEventChat });
+
+    const newChat: FountainChat = {
+      id: Date.now().toString(),
+      fountainId: 'new-' + Date.now(), // Mock ID
+      fountainName: chatName.trim(),
+      memberCount: 1, // Start with creator
+      hasEvents: isEventChat,
+      lastMessage: 'Chat creata!',
+      lastMessageTime: new Date()
+    };
+
+    store.addChat(newChat);
     onClose();
   };
 
