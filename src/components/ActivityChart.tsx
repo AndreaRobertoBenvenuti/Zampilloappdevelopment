@@ -5,34 +5,36 @@ interface ActivityChartProps {
 
 export function ActivityChart({ data, maxValue }: ActivityChartProps) {
   // Calcola il valore massimo per scalare le barre.
-  // Se non viene fornito un maxValue, lo calcoliamo dai dati.
-  // Usiamo 1 come minimo per evitare divisioni per zero.
   const max = maxValue || Math.max(...data.map(d => d.value), 1);
 
-  // Altezza massima in pixel che una barra può raggiungere all'interno del suo contenitore.
-  const maxBarHeight = 80; // es. 80px
+  // Altezza massima in pixel che una barra può raggiungere.
+  const maxBarHeight = 100; 
 
   return (
-    <div className="w-full h-36 flex items-end justify-between gap-2 text-center">
+    <div className="w-full h-48 flex items-end justify-between gap-2">
       {data.map((item, index) => {
-        // Calcola l'altezza della barra in pixel, proporzionale al valore massimo.
-        const barHeight = max > 0 ? (item.value / max) * maxBarHeight : 0;
+        // Calcola l'altezza della barra in pixel.
+        // Se il valore è > 0, assicuriamo un'altezza minima di 4px per visibilità.
+        let barHeight = 0;
+        if (item.value > 0) {
+          barHeight = Math.max((item.value / max) * maxBarHeight, 4);
+        }
 
         return (
-          <div key={index} className="flex-1 flex flex-col justify-end items-center">
+          <div key={index} className="flex-1 flex flex-col justify-end items-center h-full">
             {/* Valore numerico */}
-            <span className="text-sm font-semibold text-gray-800">
+            <span className="text-xs font-semibold text-gray-600 mb-1">
               {item.value}
             </span>
             
             {/* Barra */}
             <div
-              className="w-3/4 bg-gradient-to-t from-teal-500 to-green-400 rounded-md transition-all duration-500 mt-1"
+              className="w-full max-w-[24px] bg-teal-500 rounded-t-md transition-all duration-500"
               style={{ height: `${barHeight}px` }}
             />
             
             {/* Giorno della settimana */}
-            <span className="text-xs text-gray-500 font-medium border-t w-full pt-1 mt-2">
+            <span className="text-xs text-gray-500 font-medium mt-2 border-t border-gray-200 w-full text-center pt-1">
               {item.day}
             </span>
           </div>
