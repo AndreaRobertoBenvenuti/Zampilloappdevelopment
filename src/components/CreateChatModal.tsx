@@ -5,17 +5,17 @@ import { store } from '../data/store';
 
 interface CreateChatModalProps {
   onClose: () => void;
+  onChatCreated?: (chatId: string) => void;
 }
 
 const categories = ['Generale', 'Manutenzione', 'Eventi', 'Sport', 'Social'];
 const districts = ['Centro', 'Brera', 'Navigli', 'Sempione', 'Porta Venezia', 'Città Studi', 'Isola'];
 
-export function CreateChatModal({ onClose }: CreateChatModalProps) {
+export function CreateChatModal({ onClose, onChatCreated }: CreateChatModalProps) {
   const [chatName, setChatName] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Generale');
   const [selectedDistrict, setSelectedDistrict] = useState('Centro');
   const [description, setDescription] = useState('');
-  const [isEventChat, setIsEventChat] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showDistrictDropdown, setShowDistrictDropdown] = useState(false);
 
@@ -30,13 +30,18 @@ export function CreateChatModal({ onClose }: CreateChatModalProps) {
       fountainId: 'new-' + Date.now(), // Mock ID
       fountainName: chatName.trim(),
       memberCount: 1, // Start with creator
-      hasEvents: isEventChat,
+      hasEvents: false, // Default false, will be true if events are added
       lastMessage: 'Chat creata!',
       lastMessageTime: new Date()
     };
 
     store.addChat(newChat);
-    onClose();
+    
+    if (onChatCreated) {
+      onChatCreated(newChat.id);
+    } else {
+      onClose();
+    }
   };
 
   return (
@@ -166,27 +171,6 @@ export function CreateChatModal({ onClose }: CreateChatModalProps) {
               rows={4}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none resize-none"
             />
-          </div>
-
-          {/* Chat con Eventi */}
-          <div className="bg-gray-50 rounded-lg p-4">
-            <label className="flex items-center gap-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={isEventChat}
-                onChange={(e) => setIsEventChat(e.target.checked)}
-                className="w-5 h-5 text-teal-600 rounded focus:ring-2 focus:ring-teal-500"
-              />
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-teal-600" />
-                  <span className="font-medium text-gray-900">Chat con Eventi</span>
-                </div>
-                <p className="text-sm text-gray-600 mt-1">
-                  Organizza eventi e attività per questa vedovella
-                </p>
-              </div>
-            </label>
           </div>
 
           {/* Info Box */}
