@@ -140,36 +140,36 @@ export function UserProfileView({ userId, onBack }: UserProfileViewProps) {
         {/* Back Button */}
         <button
           onClick={onBack}
-          className="absolute top-4 left-4 bg-white bg-opacity-20 backdrop-blur-sm p-2 rounded-full hover:bg-opacity-30 transition-all"
+          className="absolute top-4 left-4 bg-black bg-opacity-20 backdrop-blur-md p-2 rounded-full hover:bg-opacity-30 transition-all z-10"
         >
-          <ArrowLeft className="w-6 h-6" />
+          <ArrowLeft className="w-6 h-6 text-white" />
         </button>
 
         {/* Profile Info */}
         <div className="mt-12 flex flex-col items-center">
           {/* Avatar */}
-          <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${avatarGradient} flex items-center justify-center text-white text-3xl border-4 border-white border-opacity-30`}>
+          <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${avatarGradient} flex items-center justify-center text-white text-3xl border-4 border-white border-opacity-30 shadow-xl`}>
             {mockUser.name.charAt(0)}
           </div>
 
-          <h1 className="mt-4 text-white">{mockUser.name}</h1>
-          <p className="text-white text-opacity-70">{profile.username}</p>
+          <h1 className="mt-4 text-white text-2xl font-bold drop-shadow-md">{mockUser.name}</h1>
+          <p className="text-white text-opacity-90 font-medium drop-shadow-sm">{profile.username}</p>
 
           {/* Level Badge */}
-          <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-white bg-opacity-20 backdrop-blur-sm rounded-full">
-            <Trophy className="w-5 h-5" />
-            <span>Livello {mockUser.level}</span>
+          <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-white bg-opacity-20 backdrop-blur-md rounded-full border border-white border-opacity-20 shadow-sm">
+            <Trophy className="w-5 h-5 text-yellow-300 drop-shadow-sm" />
+            <span className="font-medium">Livello {mockUser.level}</span>
           </div>
         </div>
       </div>
 
       {/* Action Buttons */}
       <div className="px-6 -mt-6 mb-4 flex gap-3 relative z-10">
-        <button className="flex-1 bg-white border-2 border-teal-600 text-teal-600 py-3 rounded-xl hover:bg-teal-50 transition-colors shadow-lg flex items-center justify-center gap-2">
+        <button className="flex-1 bg-white border-2 border-teal-600 text-teal-600 py-3 rounded-xl hover:bg-teal-50 transition-colors shadow-lg flex items-center justify-center gap-2 font-medium">
           <UserPlus className="w-5 h-5" />
           Segui
         </button>
-        <button className="flex-1 bg-teal-600 text-white py-3 rounded-xl hover:bg-teal-700 transition-colors shadow-lg flex items-center justify-center gap-2">
+        <button className="flex-1 bg-teal-600 text-white py-3 rounded-xl hover:bg-teal-700 transition-colors shadow-lg flex items-center justify-center gap-2 font-medium">
           <MessageSquare className="w-5 h-5" />
           Messaggio
         </button>
