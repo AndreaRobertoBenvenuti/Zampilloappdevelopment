@@ -14,7 +14,8 @@ export const mockUsers: User[] = [
     fountainsVisited: 43,
     distanceKm: 127.5,
     litersSaved: 312,
-    contributions: 28
+    contributions: 28,
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop' // Uomo
   },
   {
     id: '2',
@@ -26,7 +27,8 @@ export const mockUsers: User[] = [
     fountainsVisited: 38,
     distanceKm: 98.3,
     litersSaved: 284,
-    contributions: 22
+    contributions: 22,
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop' // Donna
   },
   {
     id: '3',
@@ -38,7 +40,8 @@ export const mockUsers: User[] = [
     fountainsVisited: 35,
     distanceKm: 86.7,
     litersSaved: 256,
-    contributions: 19
+    contributions: 19,
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop' // Donna
   },
   {
     id: '4',
@@ -50,7 +53,8 @@ export const mockUsers: User[] = [
     fountainsVisited: 41,
     distanceKm: 156.2,
     litersSaved: 296,
-    contributions: 25
+    contributions: 25,
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop' // Uomo
   },
   {
     id: '5',
@@ -62,7 +66,8 @@ export const mockUsers: User[] = [
     fountainsVisited: 29,
     distanceKm: 67.4,
     litersSaved: 196,
-    contributions: 15
+    contributions: 15,
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop' // Donna
   }
 ];
 
@@ -77,7 +82,8 @@ export const currentUser: User = {
   distanceKm: 54.8,
   litersSaved: 178,
   contributions: 12,
-  badges: ['first-drop', 'explorer-bronze', 'eco-warrior', 'social-butterfly']
+  badges: ['first-drop', 'explorer-bronze', 'eco-warrior', 'social-butterfly'],
+  avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&h=400&fit=crop' // Uomo (Utente corrente)
 };
 
 export const mockChats: FountainChat[] = [

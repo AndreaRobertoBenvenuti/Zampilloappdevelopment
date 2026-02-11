@@ -148,8 +148,16 @@ export function UserProfileView({ userId, onBack }: UserProfileViewProps) {
         {/* Profile Info */}
         <div className="mt-12 flex flex-col items-center">
           {/* Avatar */}
-          <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${avatarGradient} flex items-center justify-center text-white text-3xl border-4 border-white shadow-xl`}>
-            {mockUser.name.charAt(0)}
+          <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${avatarGradient} flex items-center justify-center text-white text-3xl border-4 border-white shadow-xl overflow-hidden`}>
+            {mockUser.avatar ? (
+              <img 
+                src={mockUser.avatar} 
+                alt={mockUser.name} 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              mockUser.name.charAt(0)
+            )}
           </div>
 
           <h1 className="mt-4 text-gray-900 text-2xl font-bold">{mockUser.name}</h1>
@@ -272,11 +280,19 @@ export function UserProfileView({ userId, onBack }: UserProfileViewProps) {
           <div className="space-y-3">
             {profile.recentActivity.map((activity) => (
               <div key={activity.id} className="flex items-center gap-3 bg-white border border-gray-200 rounded-lg p-3">
-                <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradient} flex items-center justify-center text-white flex-shrink-0`}>
-                  {activity.type === 'check-in' ? (
-                    <MapPin className="w-5 h-5" />
+                <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarGradient} flex items-center justify-center text-white flex-shrink-0 overflow-hidden`}>
+                  {mockUser.avatar ? (
+                    <img 
+                      src={mockUser.avatar} 
+                      alt={mockUser.name} 
+                      className="w-full h-full object-cover"
+                    />
                   ) : (
-                    <Star className="w-5 h-5" />
+                    activity.type === 'check-in' ? (
+                      <MapPin className="w-5 h-5" />
+                    ) : (
+                      <Star className="w-5 h-5" />
+                    )
                   )}
                 </div>
                 <div className="flex-1 min-w-0">

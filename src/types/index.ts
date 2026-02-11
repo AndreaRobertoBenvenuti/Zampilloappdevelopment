@@ -65,6 +65,7 @@ export interface Reward {
   type: 'permanent' | 'consumable';
   cost?: number; // Costo in punti spendibili (solo per consumable)
   requiredLevel?: number; // Livello richiesto (solo per permanent)
+  requiredUses?: number; // Utilizzi richiesti (alternativa per permanent)
   unlocked: boolean; // Se l'utente ha già sbloccato questo premio permanente
   icon: string;
 }
