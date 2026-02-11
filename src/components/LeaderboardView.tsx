@@ -195,7 +195,13 @@ export function LeaderboardView() {
                   </div>
 
                   {/* Avatar */}
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-teal-400 to-green-500 flex items-center justify-center text-white flex-shrink-0 text-xl">
+                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br flex items-center justify-center text-white flex-shrink-0 text-xl ${
+                    index === 0 ? 'from-teal-400 to-green-500' :
+                    index === 1 ? 'from-orange-400 to-amber-500' :
+                    index === 2 ? 'from-violet-400 to-purple-500' :
+                    index === 3 ? 'from-blue-400 to-cyan-500' :
+                                  'from-pink-400 to-rose-500'
+                  }`}>
                     {user.name.charAt(0)}
                   </div>
 
