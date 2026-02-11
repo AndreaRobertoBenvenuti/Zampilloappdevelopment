@@ -136,7 +136,7 @@ export function UserProfileView({ userId, onBack }: UserProfileViewProps) {
   return (
     <div className="h-full w-full bg-white flex flex-col">
       {/* Header */}
-      <div className={`relative bg-gradient-to-br ${headerGradient} p-6 pb-20`}>
+      <div className={`relative bg-gradient-to-br ${headerGradient} p-6 pb-12`}>
         {/* Back Button */}
         <button
           onClick={onBack}
@@ -146,9 +146,9 @@ export function UserProfileView({ userId, onBack }: UserProfileViewProps) {
         </button>
 
         {/* Profile Info */}
-        <div className="mt-12 flex flex-col items-center">
+        <div className="mt-4 flex flex-col items-center">
           {/* Avatar */}
-          <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${avatarGradient} flex items-center justify-center text-white text-3xl border-4 border-white shadow-xl overflow-hidden`}>
+          <div className={`w-20 h-20 rounded-full bg-gradient-to-br ${avatarGradient} flex items-center justify-center text-white text-3xl border-4 border-white shadow-xl overflow-hidden`}>
             {mockUser.avatar ? (
               <img 
                 src={mockUser.avatar} 
@@ -160,11 +160,11 @@ export function UserProfileView({ userId, onBack }: UserProfileViewProps) {
             )}
           </div>
 
-          <h1 className="mt-4 text-gray-900 text-2xl font-bold">{mockUser.name}</h1>
+          <h1 className="mt-2 text-gray-900 text-2xl font-bold">{mockUser.name}</h1>
           <p className="text-gray-700 font-medium">{profile.username}</p>
 
           {/* Level Badge */}
-          <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-white bg-opacity-60 backdrop-blur-md rounded-full border border-white border-opacity-40 shadow-sm">
+          <div className="mt-2 inline-flex items-center gap-2 px-4 py-2 bg-white bg-opacity-60 backdrop-blur-md rounded-full border border-white border-opacity-40 shadow-sm">
             <Trophy className="w-5 h-5 text-amber-500" />
             <span className="font-medium text-gray-900">Livello {mockUser.level}</span>
           </div>

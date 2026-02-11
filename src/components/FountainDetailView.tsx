@@ -114,7 +114,7 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
   const [isReportDialogOpen, setReportDialogOpen] = useState(false);
 
   return (
-    <div className="h-full w-full bg-white flex flex-col">
+    <div className="h-full w-full bg-white flex flex-col relative">
       {/* Header Image */}
       <div className="relative w-full h-64 bg-gradient-to-br from-teal-400 to-green-500 flex items-center justify-center flex-shrink-0">
         {/* Back Button */}
@@ -154,7 +154,7 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto pb-32">
         {/* Title & Info */}
         <div className="p-6 border-b border-gray-200">
           <h1 className="text-gray-900 mb-3">{fountain.name}</h1>
@@ -454,13 +454,10 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
             </button>
           </div>
         </div>
-
-        {/* Bottom Spacing for fixed buttons */}
-        <div className="h-24" />
       </div>
 
       {/* Fixed Bottom Actions */}
-      <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg">
+      <div className="absolute bottom-20 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg">
         <div className="flex gap-3">
           <button
             onClick={handleCheckIn}
