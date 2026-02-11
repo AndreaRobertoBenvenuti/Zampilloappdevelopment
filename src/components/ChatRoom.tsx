@@ -134,7 +134,7 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
           </div>
           <button
             onClick={() => setShowCreateEventModal(true)}
-            className="flex items-center gap-2 bg-white bg-opacity-20 hover:bg-opacity-30 px-3 py-2 rounded-lg transition-all text-sm font-medium"
+            className="flex items-center gap-2 bg-black bg-opacity-20 hover:bg-opacity-30 px-3 py-2 rounded-lg transition-all text-sm font-medium"
             title="Crea un nuovo evento"
           >
             <CalendarPlus className="w-4 h-4" />
