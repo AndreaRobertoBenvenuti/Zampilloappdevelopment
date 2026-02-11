@@ -9,6 +9,7 @@ export const mockUsers: User[] = [
     name: 'Marco Rossi',
     level: 12,
     points: 2450,
+    spendablePoints: 450,
     totalCheckIns: 156,
     fountainsVisited: 43,
     distanceKm: 127.5,
@@ -20,6 +21,7 @@ export const mockUsers: User[] = [
     name: 'Alessia Bianchi',
     level: 10,
     points: 2180,
+    spendablePoints: 320,
     totalCheckIns: 142,
     fountainsVisited: 38,
     distanceKm: 98.3,
@@ -31,6 +33,7 @@ export const mockUsers: User[] = [
     name: 'Giulia Verdi',
     level: 9,
     points: 1920,
+    spendablePoints: 180,
     totalCheckIns: 128,
     fountainsVisited: 35,
     distanceKm: 86.7,
@@ -42,6 +45,7 @@ export const mockUsers: User[] = [
     name: 'Matteo Neri',
     level: 11,
     points: 2320,
+    spendablePoints: 510,
     totalCheckIns: 148,
     fountainsVisited: 41,
     distanceKm: 156.2,
@@ -53,6 +57,7 @@ export const mockUsers: User[] = [
     name: 'Sofia Romano',
     level: 8,
     points: 1650,
+    spendablePoints: 120,
     totalCheckIns: 98,
     fountainsVisited: 29,
     distanceKm: 67.4,
@@ -66,6 +71,7 @@ export const currentUser: User = {
   name: 'Marco',
   level: 7,
   points: 1420,
+  spendablePoints: 850, // Punti disponibili per acquisti
   totalCheckIns: 89,
   fountainsVisited: 24,
   distanceKm: 54.8,
@@ -177,11 +183,14 @@ export const mockChallenges: Challenge[] = [
 ];
 
 export const mockRewards: Reward[] = [
+  // Premi Permanenti (Sbloccabili con Livello/Utilizzi)
   {
     id: '1',
     title: 'Acqua Fredda',
     description: 'Sblocca la funzione acqua refrigerata',
+    type: 'permanent',
     requiredUses: 25,
+    requiredLevel: 3,
     unlocked: true,
     icon: 'snowflake'
   },
@@ -189,15 +198,21 @@ export const mockRewards: Reward[] = [
     id: '2',
     title: 'Acqua Frizzante',
     description: 'Sblocca la funzione acqua frizzante',
+    type: 'permanent',
     requiredUses: 50,
+    requiredLevel: 5,
     unlocked: true,
     icon: 'sparkles'
   },
+  
+  // Premi Consumabili (Acquistabili con Punti)
   {
     id: '3',
     title: 'Buono BikeMi €5',
     description: 'Ricevi un buono per il bike sharing',
-    requiredUses: 75,
+    type: 'consumable',
+    cost: 500,
+    requiredUses: 0,
     unlocked: false,
     icon: 'bike'
   },
@@ -205,7 +220,9 @@ export const mockRewards: Reward[] = [
     id: '4',
     title: 'Buono ATM €10',
     description: 'Buono per i trasporti pubblici',
-    requiredUses: 100,
+    type: 'consumable',
+    cost: 900,
+    requiredUses: 0,
     unlocked: false,
     icon: 'bus'
   },
@@ -213,7 +230,9 @@ export const mockRewards: Reward[] = [
     id: '5',
     title: 'Merchandising Lamperti',
     description: 'Merchandising esclusivo Fonderie Lamperti',
-    requiredUses: 200,
+    type: 'consumable',
+    cost: 2500,
+    requiredUses: 0,
     unlocked: false,
     icon: 'gift'
   }

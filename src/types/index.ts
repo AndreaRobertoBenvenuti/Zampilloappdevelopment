@@ -19,7 +19,8 @@ export interface User {
   id: string;
   name: string;
   level: number;
-  points: number;
+  points: number; // Punti esperienza (XP) totali
+  spendablePoints: number; // Punti spendibili per premi
   totalCheckIns: number;
   fountainsVisited: number;
   distanceKm: number;
@@ -61,8 +62,10 @@ export interface Reward {
   id: string;
   title: string;
   description: string;
-  requiredUses: number;
-  unlocked: boolean;
+  type: 'permanent' | 'consumable';
+  cost?: number; // Costo in punti spendibili (solo per consumable)
+  requiredLevel?: number; // Livello richiesto (solo per permanent)
+  unlocked: boolean; // Se l'utente ha già sbloccato questo premio permanente
   icon: string;
 }
 
