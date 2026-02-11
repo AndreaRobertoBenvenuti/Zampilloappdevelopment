@@ -64,7 +64,7 @@ export function CreateEventModal({ fountainName, onClose }: CreateEventModalProp
           </div>
           <div>
             <p className="text-xs text-teal-600 font-medium uppercase tracking-wide">Luogo Evento</p>
-            <p className="text-gray-900 font-medium">{fountainName}</p>
+            <p className="text-gray-900">{fountainName}</p>
           </div>
         </div>
 
