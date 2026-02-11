@@ -65,7 +65,7 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
         </div>
 
         {/* Filters Content - Scrollable */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar min-h-0 overscroll-contain">
           {/* Accessibility Filter */}
           <div>
             <div className="flex items-center gap-2 mb-3">
