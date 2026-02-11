@@ -85,3 +85,17 @@ export interface FilterOptions {
   isRefrigerated?: boolean | null;
   condition?: 'Ottima' | 'Buona' | 'Discreta' | 'all';
 }
+
+export type EventType = 'Pulizia' | 'Passeggiata' | 'Incontro' | 'Workshop';
+
+export interface Event {
+  id: string;
+  title: string;
+  fountainName: string;
+  district: string;
+  type: EventType;
+  date: string;
+  time: string;
+  participants: number;
+  description: string;
+}

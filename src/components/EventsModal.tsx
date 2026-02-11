@@ -1,17 +1,6 @@
 import { useState } from 'react';
 import { X, MapPin, Users, Filter, ChevronDown, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
-
-interface Event {
-  id: string;
-  title: string;
-  fountainName: string;
-  district: string;
-  type: 'Pulizia' | 'Passeggiata' | 'Incontro' | 'Workshop';
-  date: string;
-  time: string;
-  participants: number;
-  description: string;
-}
+import { Event, EventType } from '../types';
 
 const mockEvents: Event[] = [
   // Dicembre 2025
@@ -573,7 +562,7 @@ const mockEvents: Event[] = [
   },
 ];
 
-const eventTypes = ['Tutti', 'Pulizia', 'Passeggiata', 'Incontro', 'Workshop'];
+const eventTypes: EventType[] = ['Pulizia', 'Passeggiata', 'Incontro', 'Workshop'];
 const districts = ['Tutti', 'Centro', 'Brera', 'Navigli', 'Sempione', 'Porta Venezia'];
 
 interface EventsModalProps {
@@ -581,7 +570,7 @@ interface EventsModalProps {
 }
 
 export function EventsModal({ onClose }: EventsModalProps) {
-  const [selectedType, setSelectedType] = useState('Tutti');
+  const [selectedType, setSelectedType] = useState<EventType | 'Tutti'>('Tutti');
   const [selectedDistrict, setSelectedDistrict] = useState('Tutti');
   const [showTypeFilter, setShowTypeFilter] = useState(false);
   const [showDistrictFilter, setShowDistrictFilter] = useState(false);
@@ -702,6 +691,17 @@ export function EventsModal({ onClose }: EventsModalProps) {
               </button>
               {showTypeFilter && (
                 <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-20">
+                  <button
+                    onClick={() => {
+                      setSelectedType('Tutti');
+                      setShowTypeFilter(false);
+                    }}
+                    className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
+                      selectedType === 'Tutti' ? 'bg-teal-50 text-teal-700' : 'text-gray-700'
+                    }`}
+                  >
+                    Tutti
+                  </button>
                   {eventTypes.map(type => (
                     <button
                       key={type}

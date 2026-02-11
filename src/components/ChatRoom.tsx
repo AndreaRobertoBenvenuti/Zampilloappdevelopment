@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { ChevronLeft, Send, Calendar, Users, MapPin } from 'lucide-react';
+import { ChevronLeft, Send, Calendar, Users, Plus } from 'lucide-react';
 import { FountainChat, ChatMessage } from '../types';
+import { CreateEventModal } from './CreateEventModal';
 
 interface ChatRoomProps {
   chat: FountainChat;
@@ -10,6 +11,7 @@ interface ChatRoomProps {
 export function ChatRoom({ chat, onBack }: ChatRoomProps) {
   const [message, setMessage] = useState('');
   const [showCalendar, setShowCalendar] = useState(false);
+  const [showCreateEventModal, setShowCreateEventModal] = useState(false);
 
   // Mock messages for demonstration
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -90,7 +92,7 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
   ];
 
   return (
-    <div className="h-full w-full bg-white flex flex-col">
+    <div className="h-full w-full bg-white flex flex-col relative">
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white p-4 shadow-lg">
         <div className="flex items-center gap-3 mb-2">
@@ -118,6 +120,13 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
               )}
             </div>
           </div>
+          <button
+            onClick={() => setShowCreateEventModal(true)}
+            className="p-2 hover:bg-white hover:bg-opacity-20 rounded-full transition-colors"
+            title="Crea Evento"
+          >
+            <Plus className="w-6 h-6" />
+          </button>
         </div>
       </div>
 
@@ -202,6 +211,14 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
           </button>
         </div>
       </div>
+
+      {/* Create Event Modal */}
+      {showCreateEventModal && (
+        <CreateEventModal
+          fountainName={chat.fountainName}
+          onClose={() => setShowCreateEventModal(false)}
+        />
+      )}
     </div>
   );
 }
