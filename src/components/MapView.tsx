@@ -460,7 +460,7 @@ export function MapView() {
       <div className="absolute top-4 right-4 z-10">
         <button
           onClick={handleQRScan}
-          className="bg-white rounded-lg shadow-lg p-3 hover:bg-gray-50 transition-colors"
+          className="bg-white rounded-lg p-3 hover:bg-gray-50 transition-colors"
           title="Scansiona QR Code"
         >
           <QrCode className="w-6 h-6 text-teal-600" />
