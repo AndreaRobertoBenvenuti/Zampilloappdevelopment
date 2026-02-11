@@ -134,7 +134,7 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
           </div>
             <button
                 onClick={() => setShowCreateEventModal(true)}
-                className="flex items-center gap-2 bg-white hover:bg-gray-100 text-black px-3 py-2 rounded-lg transition-all text-sm font-medium border border-gray-200"
+                className="flex items-center gap-2 bg-white hover:bg-teal-50 text-teal-700 px-3 py-2 rounded-lg transition-all text-sm font-semibold border border-white/60"
                 title="Crea un nuovo evento"
             >
                 <CalendarPlus className="w-4 h-4" />
@@ -142,32 +142,37 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
             </button>
         </div>
 
-        {/* Events Toggle Bar - Mostra solo se ci sono eventi */}
-        {events.length > 0 && (
-          <button 
-            onClick={() => setShowCalendar(!showCalendar)}
-            className="w-full flex items-center justify-between bg-black bg-opacity-10 hover:bg-opacity-20 px-3 py-2 rounded-lg transition-all text-sm"
-          >
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
-              <span className="font-medium">Eventi in programma</span>
-              <span className="bg-white text-teal-600 text-xs px-1.5 py-0.5 rounded-full font-bold">
-                {events.length}
-              </span>
-            </div>
-            {showCalendar ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          </button>
-        )}
       </div>
+
+      {/* Events Toggle Bar - Mostra solo se ci sono eventi */}
+      {events.length > 0 && (
+        <button
+          onClick={() => setShowCalendar(!showCalendar)}
+          className={`w-full flex items-center justify-between px-4 py-2.5 transition-all text-sm border-b ${
+            showCalendar
+              ? 'bg-teal-100 border-teal-300 text-teal-800'
+              : 'bg-teal-50 border-teal-200 text-teal-700 hover:bg-teal-100'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <Calendar className="w-4 h-4 text-teal-600" />
+            <span className="font-medium">Eventi in programma</span>
+            <span className="bg-teal-600 text-white text-xs px-1.5 py-0.5 rounded-full font-bold">
+              {events.length}
+            </span>
+          </div>
+          {showCalendar ? <ChevronUp className="w-4 h-4 text-teal-600" /> : <ChevronDown className="w-4 h-4 text-teal-600" />}
+        </button>
+      )}
 
       {/* Events Calendar (if shown) */}
       {showCalendar && events.length > 0 && (
-        <div className="bg-amber-50 border-b border-amber-200 p-4 animate-in slide-in-from-top duration-200">
+        <div className="bg-teal-50 border-b border-teal-200 p-4 animate-in slide-in-from-top duration-200">
           <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
             {events.map(event => (
-              <div 
+              <div
                 key={event.id}
-                className="bg-white rounded-lg p-3 flex items-center justify-between shadow-sm border border-amber-100"
+                className="bg-white rounded-lg p-3 flex items-center justify-between shadow-sm border border-teal-100"
               >
                 <div>
                   <p className="font-medium text-gray-900">{event.title}</p>
