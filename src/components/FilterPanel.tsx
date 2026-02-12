@@ -104,16 +104,6 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
               >
                 Parziale
               </button>
-              <button
-                onClick={() => onFiltersChange({ ...filters, accessibility: 'none' })}
-                className={`p-3 rounded-lg border-2 transition-all ${
-                  filters.accessibility === 'none'
-                    ? 'border-teal-600 bg-teal-50 text-teal-700'
-                    : 'border-gray-200 text-gray-600 hover:border-gray-300'
-                }`}
-              >
-                Non accessibile
-              </button>
             </div>
           </div>
 
@@ -221,26 +211,36 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
           <div>
             <h3 className="font-medium text-gray-900 mb-3">Caratteristiche Speciali</h3>
             <div className="space-y-2">
-              <button
-                onClick={() => onFiltersChange({ ...filters, hasPetBowl: filters.hasPetBowl === true ? null : true })}
-                className={`w-full p-4 rounded-lg border-2 transition-all flex items-center justify-between ${
-                  filters.hasPetBowl === true
-                    ? 'border-teal-600 bg-teal-50'
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Dog className="w-5 h-5 text-teal-600" />
-                  <span className={filters.hasPetBowl === true ? 'text-teal-700 font-medium' : 'text-gray-700'}>
-                    Ciotola per animali
-                  </span>
-                </div>
-                {filters.hasPetBowl === true && (
-                  <div className="w-6 h-6 rounded-full bg-teal-600 flex items-center justify-center">
-                    <span className="text-white text-sm">✓</span>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => onFiltersChange({ ...filters, hasPetBowl: filters.hasPetBowl === true ? null : true })}
+                  className={`p-4 rounded-lg border-2 transition-all flex items-center justify-center gap-2 ${
+                    filters.hasPetBowl === true
+                      ? 'border-teal-600 bg-teal-50 text-teal-700'
+                      : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                  }`}
+                >
+                  <Dog className="w-5 h-5" />
+                  <span className="font-medium">Con ciotola</span>
+                </button>
+
+                <button
+                  onClick={() => onFiltersChange({ ...filters, hasPetBowl: filters.hasPetBowl === false ? null : false })}
+                  className={`p-4 rounded-lg border-2 transition-all flex items-center justify-center gap-2 ${
+                    filters.hasPetBowl === false
+                      ? 'border-teal-600 bg-teal-50 text-teal-700'
+                      : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="relative">
+                    <Dog className="w-5 h-5" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-full h-0.5 bg-current rotate-45"></div>
+                    </div>
                   </div>
-                )}
-              </button>
+                  <span className="font-medium">Senza ciotola</span>
+                </button>
+              </div>
 
               <button
                 onClick={() => onFiltersChange({ ...filters, isRefrigerated: filters.isRefrigerated === true ? null : true })}

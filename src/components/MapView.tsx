@@ -181,6 +181,10 @@ export function MapView({ onNavigate }: MapViewProps) {
       if (!fountain.hasPetBowl) {
         return false;
       }
+    } else if (filters.hasPetBowl === false) {
+      if (fountain.hasPetBowl) {
+        return false;
+      }
     }
 
     // Filtro acqua refrigerata
