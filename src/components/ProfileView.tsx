@@ -96,8 +96,8 @@ export function ProfileView() {
         <div className="flex items-center gap-4 mb-6">
           {/* Profile Photo */}
           <div className="w-20 h-20 rounded-full border-4 border-white border-opacity-30 overflow-hidden flex-shrink-0 shadow-lg">
-            <img 
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+            <img
+              src={currentUser.avatar}
               alt="Profile"
               className="w-full h-full object-cover"
             />

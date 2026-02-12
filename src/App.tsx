@@ -18,7 +18,7 @@ export default function App() {
       case 'map':
         return <MapView />;
       case 'leaderboard':
-        return <LeaderboardView />;
+        return <LeaderboardView onNavigateToProfile={() => setCurrentView('profile')} />;
       case 'profile':
         return <ProfileView />;
       case 'chat':

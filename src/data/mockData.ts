@@ -3,20 +3,23 @@ import { User, FountainChat, Challenge, Reward, Badge, Event } from '../types';
 // Le fontanelle reali vengono ora caricate da src/utils/fountainDataLoader.ts
 // usando il dataset ufficiale del Comune di Milano (719 fontanelle)
 
+export const currentUser: User = {
+  id: '1',
+  name: 'Marco Rossi',
+  level: 7,
+  points: 1420,
+  spendablePoints: 850,
+  totalCheckIns: 89,
+  fountainsVisited: 24,
+  distanceKm: 54.8,
+  litersSaved: 178,
+  contributions: 12,
+  badges: ['first-drop', 'explorer-bronze', 'eco-warrior', 'social-butterfly'],
+  avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&h=400&fit=crop'
+};
+
 export const mockUsers: User[] = [
-  {
-    id: '1',
-    name: 'Marco Rossi',
-    level: 12,
-    points: 2450,
-    spendablePoints: 450,
-    totalCheckIns: 156,
-    fountainsVisited: 43,
-    distanceKm: 127.5,
-    litersSaved: 312,
-    contributions: 28,
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop' // Uomo
-  },
+  { ...currentUser },
   {
     id: '2',
     name: 'Alessia Bianchi',
@@ -71,20 +74,7 @@ export const mockUsers: User[] = [
   }
 ];
 
-export const currentUser: User = {
-  id: 'current',
-  name: 'Marco',
-  level: 7,
-  points: 1420,
-  spendablePoints: 850, // Punti disponibili per acquisti
-  totalCheckIns: 89,
-  fountainsVisited: 24,
-  distanceKm: 54.8,
-  litersSaved: 178,
-  contributions: 12,
-  badges: ['first-drop', 'explorer-bronze', 'eco-warrior', 'social-butterfly'],
-  avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&h=400&fit=crop' // Uomo (Utente corrente)
-};
+// currentUser è definito all'inizio del file e usato anche in mockUsers
 
 export const mockChats: FountainChat[] = [
   {

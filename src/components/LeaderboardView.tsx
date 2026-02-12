@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Trophy, Users, MapPin, TrendingUp } from 'lucide-react';
-import { mockUsers } from '../data/mockData';
+import { mockUsers, currentUser } from '../data/mockData';
 import { loadMilanFountains } from '../utils/fountainDataLoader';
 import { FountainDetailView } from './FountainDetailView';
 import { UserProfileView } from './UserProfileView';
@@ -10,7 +10,11 @@ import { Fountain } from '../types';
 type LeaderboardTab = 'fountains' | 'users';
 type ViewMode = 'leaderboard' | 'fountain-detail' | 'user-profile';
 
-export function LeaderboardView() {
+interface LeaderboardViewProps {
+  onNavigateToProfile?: () => void;
+}
+
+export function LeaderboardView({ onNavigateToProfile }: LeaderboardViewProps) {
   const [activeTab, setActiveTab] = useState<LeaderboardTab>('fountains');
   const [viewMode, setViewMode] = useState<ViewMode>('leaderboard');
   const [selectedFountain, setSelectedFountain] = useState<Fountain | null>(null);
@@ -50,6 +54,10 @@ export function LeaderboardView() {
   };
 
   const handleUserClick = (userId: string) => {
+    if (userId === currentUser.id && onNavigateToProfile) {
+      onNavigateToProfile();
+      return;
+    }
     setSelectedUserId(userId);
     setViewMode('user-profile');
   };
@@ -195,14 +203,18 @@ export function LeaderboardView() {
                   </div>
 
                   {/* Avatar */}
-                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br flex items-center justify-center text-white flex-shrink-0 text-xl ${
+                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br flex items-center justify-center text-white flex-shrink-0 text-xl overflow-hidden ${
                     index === 0 ? 'from-teal-400 to-green-500' :
                     index === 1 ? 'from-orange-400 to-amber-500' :
                     index === 2 ? 'from-violet-400 to-purple-500' :
                     index === 3 ? 'from-blue-400 to-cyan-500' :
                                   'from-pink-400 to-rose-500'
                   }`}>
-                    {user.name.charAt(0)}
+                    {user.avatar ? (
+                      <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                    ) : (
+                      user.name.charAt(0)
+                    )}
                   </div>
 
                   {/* Info */}
