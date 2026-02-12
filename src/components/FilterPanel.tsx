@@ -36,6 +36,7 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
     >
       <div
         className="bg-white w-full rounded-t-3xl max-h-[80vh] flex flex-col shadow-2xl animate-in slide-in-from-bottom duration-300"
+        style={{ maxHeight: '80vh' }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -65,7 +66,7 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
         </div>
 
         {/* Filters Content - Scrollable */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar min-h-0 overscroll-contain">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar min-h-0 overscroll-contain" style={{ minHeight: 0, WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain' }}>
           {/* Accessibility Filter */}
           <div>
             <div className="flex items-center gap-2 mb-3">
