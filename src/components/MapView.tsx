@@ -65,7 +65,11 @@ const options = {
   gestureHandling: "greedy" as const,
 };
 
-export function MapView() {
+interface MapViewProps {
+  onNavigate?: (view: 'chat' | 'profile' | 'leaderboard' | 'map' | 'settings', params?: any) => void;
+}
+
+export function MapView({ onNavigate }: MapViewProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFountain, setSelectedFountain] = useState<Fountain | null>(
     null
@@ -298,6 +302,7 @@ export function MapView() {
         }}
         isFavorite={isFavorite}
         toggleFavorite={toggleFavorite}
+        onNavigate={onNavigate}
       />
     );
   }

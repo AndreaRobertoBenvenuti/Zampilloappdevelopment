@@ -12,21 +12,27 @@ type View = 'map' | 'leaderboard' | 'profile' | 'chat' | 'settings';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<View>('map');
+  const [viewParams, setViewParams] = useState<any>(null);
+
+  const handleNavigate = (view: View, params?: any) => {
+    setCurrentView(view);
+    setViewParams(params || null);
+  };
 
   const renderView = () => {
     switch (currentView) {
       case 'map':
-        return <MapView />;
+        return <MapView onNavigate={handleNavigate} />;
       case 'leaderboard':
-        return <LeaderboardView onNavigateToProfile={() => setCurrentView('profile')} />;
+        return <LeaderboardView onNavigate={handleNavigate} />;
       case 'profile':
         return <ProfileView />;
       case 'chat':
-        return <ChatView />;
+        return <ChatView initialParams={viewParams} />;
       case 'settings':
         return <SettingsView onBack={() => setCurrentView('map')} />;
       default:
-        return <MapView />;
+        return <MapView onNavigate={handleNavigate} />;
     }
   };
 
@@ -42,7 +48,7 @@ export default function App() {
       
       {/* Bottom Navigation - Hidden on settings */}
       {currentView !== 'settings' && (
-        <BottomNavigation currentView={currentView} onViewChange={setCurrentView} />
+        <BottomNavigation currentView={currentView} onViewChange={(view) => handleNavigate(view)} />
       )}
 
       {/* Onboarding Tutorial - Shows on first visit */}

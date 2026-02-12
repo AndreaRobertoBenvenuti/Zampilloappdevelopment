@@ -12,7 +12,11 @@ const initialJoinedChatIds = ['1', '2', '3'];
 const districts = ['Tutti', 'Centro', 'Brera', 'Navigli', 'Sempione', 'Porta Venezia', 'Città Studi', 'Isola'];
 const chatTypes = ['Tutte', 'Con Eventi', 'Attive'];
 
-export function ChatView() {
+interface ChatViewProps {
+  initialParams?: { district?: string };
+}
+
+export function ChatView({ initialParams }: ChatViewProps) {
   const [selectedChat, setSelectedChat] = useState<FountainChat | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEventsModal, setShowEventsModal] = useState(false);
@@ -30,6 +34,13 @@ export function ChatView() {
     });
     return unsubscribe;
   }, []);
+
+  // Imposta il filtro iniziale se passato tramite props
+  useEffect(() => {
+    if (initialParams?.district && districts.includes(initialParams.district)) {
+      setSelectedDistrict(initialParams.district);
+    }
+  }, [initialParams]);
 
   const formatTime = (date: Date) => {
     const now = new Date();
@@ -66,6 +77,15 @@ export function ChatView() {
     return districtMatch && typeMatch;
   });
 
+  // Filtra anche le chat unite in base ai filtri (richiesta utente)
+  const filteredJoinedChats = joinedChats.filter(chat => {
+    const districtMatch = selectedDistrict === 'Tutti' || getFountainDistrict(chat.fountainName) === selectedDistrict;
+    const typeMatch = selectedType === 'Tutte' || 
+                     (selectedType === 'Con Eventi' && chat.hasEvents) ||
+                     (selectedType === 'Attive' && chat.lastMessageTime);
+    return districtMatch && typeMatch;
+  });
+
   // Gestione unione alla chat
   const handleJoinChat = () => {
     if (showJoinDialog) {
@@ -88,12 +108,12 @@ export function ChatView() {
   }
 
   if (showCreateModal) {
-      return (
-          <CreateChatModal
-              onClose={() => setShowCreateModal(false)}
-              onChatCreated={handleChatCreated}
-          />
-      );
+    return (
+      <CreateChatModal 
+        onClose={() => setShowCreateModal(false)} 
+        onChatCreated={handleChatCreated}
+      />
+    );
   }
 
   // Render item per chat a cui sei già unito
@@ -206,93 +226,95 @@ export function ChatView() {
 
       {/* Content - Scrollable */}
       <div className="flex-1 overflow-y-auto">
+        {/* Filters - Spostati in alto per applicarsi a tutto */}
+        <div className="p-4 bg-gray-50 sticky top-0 z-10 border-b border-gray-200">
+          <div className="flex gap-2">
+            <div className="flex-1 relative">
+              <button
+                onClick={() => {
+                  setShowDistrictFilter(!showDistrictFilter);
+                  setShowTypeFilter(false);
+                }}
+                className="w-full flex items-center justify-between gap-2 bg-white rounded-lg px-3 py-2 hover:bg-gray-100 transition-colors border border-gray-200"
+              >
+                <div className="flex items-center gap-2">
+                  <Filter className="w-4 h-4 text-gray-600" />
+                  <span className="text-sm text-gray-700">{selectedDistrict}</span>
+                </div>
+                <ChevronDown className="w-4 h-4 text-gray-600" />
+              </button>
+              {showDistrictFilter && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-20 max-h-60 overflow-y-auto">
+                  {districts.map(district => (
+                    <button
+                      key={district}
+                      onClick={() => {
+                        setSelectedDistrict(district);
+                        setShowDistrictFilter(false);
+                      }}
+                      className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
+                        selectedDistrict === district ? 'bg-teal-50 text-teal-700' : 'text-gray-700'
+                      }`}
+                    >
+                      {district}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="flex-1 relative">
+              <button
+                onClick={() => {
+                  setShowTypeFilter(!showTypeFilter);
+                  setShowDistrictFilter(false);
+                }}
+                className="w-full flex items-center justify-between gap-2 bg-white rounded-lg px-3 py-2 hover:bg-gray-100 transition-colors border border-gray-200"
+              >
+                <span className="text-sm text-gray-700">{selectedType}</span>
+                <ChevronDown className="w-4 h-4 text-gray-600" />
+              </button>
+              {showTypeFilter && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-20">
+                  {chatTypes.map(type => (
+                    <button
+                      key={type}
+                      onClick={() => {
+                        setSelectedType(type);
+                        setShowTypeFilter(false);
+                      }}
+                      className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
+                        selectedType === type ? 'bg-teal-50 text-teal-700' : 'text-gray-700'
+                      }`}
+                    >
+                      {type}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* Le Tue Chat */}
-        {joinedChats.length > 0 && (
+        {filteredJoinedChats.length > 0 && (
           <div className="border-b-8 border-gray-100">
             <div className="p-4 bg-gray-50">
               <h2 className="font-medium text-gray-900">Le Tue Chat</h2>
-              <p className="text-sm text-gray-600">{joinedChats.length} chat attive</p>
+              <p className="text-sm text-gray-600">{filteredJoinedChats.length} chat attive</p>
             </div>
             <div>
-              {joinedChats.map(renderJoinedChatItem)}
+              {filteredJoinedChats.map(renderJoinedChatItem)}
             </div>
           </div>
         )}
 
         {/* Scopri Chat Section */}
         <div>
-          <div className="p-4 bg-gray-50 sticky top-0 z-10">
+          <div className="p-4 bg-gray-50">
             <div className="flex items-center justify-between mb-3">
               <div>
                 <h2 className="font-medium text-gray-900">Scopri Chat</h2>
                 <p className="text-sm text-gray-600">{filteredAvailableChats.length} chat disponibili</p>
-              </div>
-            </div>
-            
-            {/* Filters */}
-            <div className="flex gap-2">
-              <div className="flex-1 relative">
-                <button
-                  onClick={() => {
-                    setShowDistrictFilter(!showDistrictFilter);
-                    setShowTypeFilter(false);
-                  }}
-                  className="w-full flex items-center justify-between gap-2 bg-white rounded-lg px-3 py-2 hover:bg-gray-100 transition-colors border border-gray-200"
-                >
-                  <div className="flex items-center gap-2">
-                    <Filter className="w-4 h-4 text-gray-600" />
-                    <span className="text-sm text-gray-700">{selectedDistrict}</span>
-                  </div>
-                  <ChevronDown className="w-4 h-4 text-gray-600" />
-                </button>
-                {showDistrictFilter && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-20 max-h-60 overflow-y-auto">
-                    {districts.map(district => (
-                      <button
-                        key={district}
-                        onClick={() => {
-                          setSelectedDistrict(district);
-                          setShowDistrictFilter(false);
-                        }}
-                        className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
-                          selectedDistrict === district ? 'bg-teal-50 text-teal-700' : 'text-gray-700'
-                        }`}
-                      >
-                        {district}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div className="flex-1 relative">
-                <button
-                  onClick={() => {
-                    setShowTypeFilter(!showTypeFilter);
-                    setShowDistrictFilter(false);
-                  }}
-                  className="w-full flex items-center justify-between gap-2 bg-white rounded-lg px-3 py-2 hover:bg-gray-100 transition-colors border border-gray-200"
-                >
-                  <span className="text-sm text-gray-700">{selectedType}</span>
-                  <ChevronDown className="w-4 h-4 text-gray-600" />
-                </button>
-                {showTypeFilter && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-20">
-                    {chatTypes.map(type => (
-                      <button
-                        key={type}
-                        onClick={() => {
-                          setSelectedType(type);
-                          setShowTypeFilter(false);
-                        }}
-                        className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
-                          selectedType === type ? 'bg-teal-50 text-teal-700' : 'text-gray-700'
-                        }`}
-                      >
-                        {type}
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
           </div>
@@ -325,14 +347,7 @@ export function ChatView() {
 
       {/* Join Chat Dialog */}
       {showJoinDialog && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{
-            backgroundColor: 'rgba(0, 0, 0, 0.2)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-          }}
-        >
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-xl">
             {/* Header */}
             <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white p-6">

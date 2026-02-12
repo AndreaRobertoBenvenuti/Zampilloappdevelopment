@@ -11,10 +11,10 @@ type LeaderboardTab = 'fountains' | 'users';
 type ViewMode = 'leaderboard' | 'fountain-detail' | 'user-profile';
 
 interface LeaderboardViewProps {
-  onNavigateToProfile?: () => void;
+  onNavigate?: (view: 'chat' | 'profile' | 'leaderboard' | 'map' | 'settings', params?: any) => void;
 }
 
-export function LeaderboardView({ onNavigateToProfile }: LeaderboardViewProps) {
+export function LeaderboardView({ onNavigate }: LeaderboardViewProps) {
   const [activeTab, setActiveTab] = useState<LeaderboardTab>('fountains');
   const [viewMode, setViewMode] = useState<ViewMode>('leaderboard');
   const [selectedFountain, setSelectedFountain] = useState<Fountain | null>(null);
@@ -54,8 +54,8 @@ export function LeaderboardView({ onNavigateToProfile }: LeaderboardViewProps) {
   };
 
   const handleUserClick = (userId: string) => {
-    if (userId === currentUser.id && onNavigateToProfile) {
-      onNavigateToProfile();
+    if (userId === currentUser.id && onNavigate) {
+      onNavigate('profile');
       return;
     }
     setSelectedUserId(userId);
@@ -77,6 +77,7 @@ export function LeaderboardView({ onNavigateToProfile }: LeaderboardViewProps) {
         onBack={handleBackToLeaderboard}
         isFavorite={isFavorite}
         toggleFavorite={toggleFavorite}
+        onNavigate={onNavigate}
       />
     );
   }

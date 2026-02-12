@@ -4,7 +4,7 @@ import {
   Droplet,
   Calendar,
   Users,
-  Camera,
+  QrCode,
   MessageSquare,
   Navigation,
   Clock,
@@ -31,9 +31,10 @@ interface FountainDetailViewProps {
   onBack: () => void;
   isFavorite: (id: string) => boolean;
   toggleFavorite: (id: string) => void;
+  onNavigate?: (view: 'chat' | 'profile' | 'leaderboard' | 'map' | 'settings', params?: any) => void;
 }
 
-export function FountainDetailView({ fountain, distance, onBack, isFavorite, toggleFavorite }: FountainDetailViewProps) {
+export function FountainDetailView({ fountain, distance, onBack, isFavorite, toggleFavorite, onNavigate }: FountainDetailViewProps) {
   const [userReview, setUserReview] = useState<'up' | 'down' | null>(null);
 
   // Mock data per galleria foto
@@ -83,8 +84,24 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
     alert('Check-in completato! +15 punti guadagnati! 🎉');
   };
 
+  const getFountainDistrict = (fountainName: string): string => {
+    if (fountainName.includes('Duomo')) return 'Centro';
+    if (fountainName.includes('Brera')) return 'Brera';
+    if (fountainName.includes('Navigli')) return 'Navigli';
+    if (fountainName.includes('Sempione')) return 'Sempione';
+    if (fountainName.includes('Porta Venezia')) return 'Porta Venezia';
+    if (fountainName.includes('Città Studi')) return 'Città Studi';
+    if (fountainName.includes('Isola')) return 'Isola';
+    return 'Centro';
+  };
+
   const handleJoinChat = () => {
-    alert(`Ti sei unito alla chat "${fountain.name}"!`);
+    if (onNavigate) {
+      const district = getFountainDistrict(fountain.name);
+      onNavigate('chat', { district });
+    } else {
+      alert(`Ti sei unito alla chat "${fountain.name}"!`);
+    }
   };
 
   const handleShare = () => {
@@ -95,6 +112,10 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
     // Apre Google Maps con navigazione verso la fontanella
     const url = `https://www.google.com/maps/dir/?api=1&destination=${fountain.lat},${fountain.lng}`;
     window.open(url, '_blank');
+  };
+
+  const handleQRScan = () => {
+    alert('Fotocamera QR Code: Inquadra il codice QR su una vedovella per accedere rapidamente alle sue informazioni!');
   };
 
   // Mock data per attività recenti
@@ -154,7 +175,7 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto pb-24">
+      <div className="flex-1 overflow-y-auto pb-32">
         {/* Title & Info */}
         <div className="p-6 border-b border-gray-200">
           <h1 className="text-gray-900 mb-3">{fountain.name}</h1>
@@ -454,10 +475,13 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
             </button>
           </div>
         </div>
+
+        {/* Bottom Spacing for fixed buttons */}
+        <div className="h-24" />
       </div>
 
       {/* Fixed Bottom Actions */}
-      <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg">
+      <div className="absolute bottom-20 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg">
         <div className="flex gap-3">
           <button
             onClick={handleCheckIn}
@@ -471,8 +495,11 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
           >
             <MessageSquare className="w-5 h-5" />
           </button>
-          <button className="px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center">
-            <Camera className="w-5 h-5" />
+          <button 
+            onClick={handleQRScan}
+            className="px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
+          >
+            <QrCode className="w-5 h-5" />
           </button>
         </div>
       </div>
