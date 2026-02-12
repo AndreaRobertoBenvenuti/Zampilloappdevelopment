@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
-import { MapView } from './components/MapView';
-import { LeaderboardView } from './components/LeaderboardView';
-import { ProfileView } from './components/ProfileView';
-import { ChatView } from './components/ChatView';
-import { SettingsView } from './components/SettingsView';
-import { BottomNavigation } from './components/BottomNavigation';
-import { TopBar } from './components/TopBar';
-import { OnboardingTutorial } from './components/OnboardingTutorial';
+import { useState, useEffect } from "react";
+import { MapView } from "./components/MapView";
+import { LeaderboardView } from "./components/LeaderboardView";
+import { ProfileView } from "./components/ProfileView";
+import { ChatView } from "./components/ChatView";
+import { SettingsView } from "./components/SettingsView";
+import { BottomNavigation } from "./components/BottomNavigation";
+import { TopBar } from "./components/TopBar";
+import { OnboardingTutorial } from "./components/OnboardingTutorial";
 
-type View = 'map' | 'leaderboard' | 'profile' | 'chat' | 'settings';
+type View = "map" | "leaderboard" | "profile" | "chat" | "settings";
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<View>('map');
+  const [currentView, setCurrentView] = useState<View>("map");
   const [viewParams, setViewParams] = useState<any>(null);
   const [isLandscape, setIsLandscape] = useState(false);
 
@@ -22,7 +22,7 @@ export default function App() {
       try {
         const orientation = screen.orientation;
         if (orientation?.lock) {
-          await orientation.lock('portrait');
+          await orientation.lock("portrait");
         }
       } catch {
         // L'API potrebbe non essere supportata o il lock potrebbe fallire
@@ -36,8 +36,8 @@ export default function App() {
       setIsLandscape(window.innerWidth > window.innerHeight);
     };
     checkOrientation();
-    window.addEventListener('resize', checkOrientation);
-    return () => window.removeEventListener('resize', checkOrientation);
+    window.addEventListener("resize", checkOrientation);
+    return () => window.removeEventListener("resize", checkOrientation);
   }, []);
 
   const handleNavigate = (view: View, params?: any) => {
@@ -47,16 +47,16 @@ export default function App() {
 
   const renderView = () => {
     switch (currentView) {
-      case 'map':
+      case "map":
         return <MapView onNavigate={handleNavigate} />;
-      case 'leaderboard':
+      case "leaderboard":
         return <LeaderboardView onNavigate={handleNavigate} />;
-      case 'profile':
+      case "profile":
         return <ProfileView />;
-      case 'chat':
+      case "chat":
         return <ChatView initialParams={viewParams} />;
-      case 'settings':
-        return <SettingsView onBack={() => setCurrentView('map')} />;
+      case "settings":
+        return <SettingsView onBack={() => setCurrentView("map")} />;
       default:
         return <MapView onNavigate={handleNavigate} />;
     }
@@ -80,20 +80,21 @@ export default function App() {
   return (
     <div className="h-full w-full bg-gray-50 flex flex-col max-w-md mx-auto">
       {/* Top Bar - Always visible */}
-      <TopBar onSettingsClick={() => setCurrentView('settings')} />
+      <TopBar onSettingsClick={() => setCurrentView("settings")} />
 
       {/* Main Content */}
-      <div className="flex-1 overflow-hidden">
-        {renderView()}
-      </div>
-
-      {/* Bottom Navigation - Hidden on settings */}
-      {currentView !== 'settings' && (
-        <BottomNavigation currentView={currentView} onViewChange={(view) => handleNavigate(view)} />
-      )}
+      <div className="flex-1 overflow-hidden">{renderView()}</div>
 
       {/* Onboarding Tutorial - Shows on first visit */}
       <OnboardingTutorial />
+
+      {/* Bottom Navigation - Hidden on settings */}
+      {currentView !== "settings" && (
+        <BottomNavigation
+          currentView={currentView}
+          onViewChange={(view) => handleNavigate(view)}
+        />
+      )}
     </div>
   );
 }

@@ -36,7 +36,10 @@ export function BottomNavigation({
   ];
 
   return (
-    <nav className="bg-white border-t border-gray-200 px-4 py-2 flex-shrink-0" style={{ paddingBottom: 'max(8px, env(safe-area-inset-bottom))' }}>
+    <nav
+      className="bg-white border-t border-gray-200 px-4 py-2 flex-shrink-0"
+      style={{ paddingBottom: "max(8px, env(safe-area-inset-bottom))" }}
+    >
       <div className="flex justify-around items-center max-w-md mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
