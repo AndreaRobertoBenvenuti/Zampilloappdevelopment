@@ -90,7 +90,7 @@ export function LeaderboardView() {
       <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white p-6 pb-8">
         <div className="flex items-center gap-2 mb-4">
           <Trophy className="w-6 h-6" />
-          <h1>Community</h1>
+          <h1>Leaderboard</h1>
         </div>
         <p className="text-teal-50">
           Scopri le fontanelle più amate e gli utenti più attivi di Milano
