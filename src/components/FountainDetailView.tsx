@@ -18,7 +18,8 @@ import {
   CheckCircle2,
   ExternalLink,
   ThumbsUp,
-  ThumbsDown
+  ThumbsDown,
+  Camera
 } from 'lucide-react';
 import { useState } from 'react';
 import { Fountain } from '../types';
@@ -116,6 +117,10 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
 
   const handleQRScan = () => {
     alert('Fotocamera QR Code: Inquadra il codice QR su una vedovella per accedere rapidamente alle sue informazioni!');
+  };
+
+  const handleAddPhoto = () => {
+    alert('Funzionalità per aggiungere una foto in arrivo!');
   };
 
   // Mock data per attività recenti
@@ -274,7 +279,16 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
 
         {/* Photo Gallery */}
         <div className="p-6 border-b border-gray-200">
-          <h3 className="font-medium text-gray-900 mb-4">Foto dalla Community</h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-medium text-gray-900">Foto dalla Community</h3>
+            <button
+              onClick={handleAddPhoto}
+              className="flex items-center gap-1 text-sm font-medium text-teal-600 hover:text-teal-700 transition-colors"
+            >
+              <Camera className="w-4 h-4" />
+              Aggiungi foto
+            </button>
+          </div>
           <PhotoGallery photos={fountainPhotos} />
         </div>
 
