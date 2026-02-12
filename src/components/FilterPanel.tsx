@@ -150,7 +150,7 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
                     : 'border-gray-200 text-gray-600 hover:border-gray-300'
                 }`}
               >
-                Media ✓
+                Discreta ✓
               </button>
             </div>
           </div>
