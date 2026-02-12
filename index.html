@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="screen-orientation" content="portrait">
 
     <!-- PWA Configuration for iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -10,11 +11,38 @@
     <meta name="apple-mobile-web-app-title" content="Zampillo" />
     <meta name="theme-color" content="#14b8a6" />
 
+    <link rel="manifest" href="/manifest.json">
+
     <title>Zampillo App</title>
+
+    <style>
+      /* Forza l'orientamento portrait via CSS come fallback */
+      @media screen and (orientation: landscape) {
+        body {
+          transform: rotate(-90deg);
+          transform-origin: left top;
+          width: 100vh;
+          height: 100vw;
+          overflow-x: hidden;
+          position: absolute;
+          top: 100%;
+          left: 0;
+        }
+      }
+    </style>
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Tenta di bloccare l'orientamento via JS se supportato
+      if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('portrait').catch(function(error) {
+          // L'orientamento potrebbe non essere bloccabile su alcuni dispositivi/browser
+          console.log('Orientation lock not supported or failed:', error);
+        });
+      }
+    </script>
   </body>
 </html>
