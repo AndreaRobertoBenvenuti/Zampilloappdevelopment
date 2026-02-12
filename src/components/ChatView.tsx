@@ -347,8 +347,15 @@ export function ChatView({ initialParams }: ChatViewProps) {
 
       {/* Join Chat Dialog */}
       {showJoinDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-xl">
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200"
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+          }}
+        >
+          <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-xl animate-in zoom-in-95 duration-200">
             {/* Header */}
             <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white p-6">
               <div className="flex items-center justify-between mb-2">
