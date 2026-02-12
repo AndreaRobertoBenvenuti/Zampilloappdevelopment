@@ -180,7 +180,7 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto pb-32">
+      <div className="flex-1 overflow-y-auto pb-24">
         {/* Title & Info */}
         <div className="p-6 border-b border-gray-200">
           <h1 className="text-gray-900 mb-3">{fountain.name}</h1>
@@ -495,7 +495,7 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
       </div>
 
       {/* Fixed Bottom Actions */}
-      <div className="absolute bottom-20 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg">
+      <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg">
         <div className="flex gap-3">
           <button
             onClick={handleCheckIn}
