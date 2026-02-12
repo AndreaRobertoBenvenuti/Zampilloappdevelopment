@@ -62,7 +62,14 @@ export function BadgeUnlockModal({ badge, isOpen, onClose }: BadgeUnlockModalPro
   }));
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-black/20">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+      }}
+    >
       {/* Confetti Animation */}
       {showConfetti && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
