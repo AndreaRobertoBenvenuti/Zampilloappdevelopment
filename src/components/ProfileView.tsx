@@ -77,8 +77,8 @@ export function ProfileView() {
 
   const getIconForReward = (iconName: string) => {
     switch (iconName) {
-      case 'snowflake': return '❄️';
-      case 'sparkles': return '✨';
+      case 'map': return '🗺️';
+      case 'chart': return '📊';
       case 'bike': return '🚲';
       case 'bus': return '🚌';
       case 'gift': return '🎁';

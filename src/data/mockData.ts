@@ -192,23 +192,23 @@ export const mockRewards: Reward[] = [
   // Premi Permanenti (Sbloccabili con Livello/Utilizzi)
   {
     id: '1',
-    title: 'Acqua Fredda',
-    description: 'Sblocca la funzione acqua refrigerata',
+    title: 'Mappa Offline',
+    description: 'Scarica la mappa delle fontanelle per usarla senza connessione',
     type: 'permanent',
     requiredUses: 25,
     requiredLevel: 3,
     unlocked: true,
-    icon: 'snowflake'
+    icon: 'map'
   },
   {
     id: '2',
-    title: 'Acqua Frizzante',
-    description: 'Sblocca la funzione acqua frizzante',
+    title: 'Statistiche Avanzate',
+    description: 'Sblocca grafici dettagliati e analisi dei tuoi consumi e risparmi',
     type: 'permanent',
     requiredUses: 50,
     requiredLevel: 5,
     unlocked: true,
-    icon: 'sparkles'
+    icon: 'chart'
   },
   
   // Premi Consumabili (Acquistabili con Punti)
