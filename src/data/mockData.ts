@@ -90,7 +90,7 @@ export const mockChats: FountainChat[] = [
   {
     id: '1',
     fountainId: '3',
-    fountainName: 'Vedovella Parco Sempione',
+    fountainName: 'Runner Parco Sempione', // Modificato: Gruppo Runner
     memberCount: 234,
     hasEvents: true,
     lastMessage: 'Ci vediamo domani mattina alle 8!',
@@ -99,7 +99,7 @@ export const mockChats: FountainChat[] = [
   {
     id: '2',
     fountainId: '4',
-    fountainName: 'Drago Verde Navigli',
+    fountainName: 'Amici dei Navigli', // Modificato: Gruppo Zona
     memberCount: 189,
     hasEvents: true,
     lastMessage: 'Ottima idea il picnic di sabato',
@@ -108,7 +108,7 @@ export const mockChats: FountainChat[] = [
   {
     id: '3',
     fountainId: '1',
-    fountainName: 'Vedovella Duomo',
+    fountainName: 'Vedovella Duomo', // Lasciato originale
     memberCount: 312,
     hasEvents: false,
     lastMessage: 'Qualcuno sa se funziona oggi?',
@@ -117,7 +117,7 @@ export const mockChats: FountainChat[] = [
   {
     id: '4',
     fountainId: '2',
-    fountainName: 'Drago Verde Brera',
+    fountainName: 'Fotografi di Brera', // Modificato: Gruppo Interesse
     memberCount: 156,
     hasEvents: true,
     lastMessage: 'Tour fotografico questo weekend',
@@ -126,7 +126,7 @@ export const mockChats: FountainChat[] = [
   {
     id: '5',
     fountainId: '8',
-    fountainName: 'Drago Verde Isola',
+    fountainName: 'Drago Verde Isola', // Lasciato originale
     memberCount: 201,
     hasEvents: false,
     lastMessage: 'Grazie per la segnalazione!',
@@ -135,7 +135,7 @@ export const mockChats: FountainChat[] = [
   {
     id: '6',
     fountainId: '5',
-    fountainName: 'Vedovella Porta Venezia',
+    fountainName: 'Porta Venezia Active', // Modificato: Gruppo Attivo
     memberCount: 178,
     hasEvents: true,
     lastMessage: 'Runner del mattino, ci siete?',
@@ -144,7 +144,7 @@ export const mockChats: FountainChat[] = [
   {
     id: '7',
     fountainId: '6',
-    fountainName: 'Drago Verde Città Studi',
+    fountainName: 'Studenti Città Studi', // Modificato: Gruppo Studenti
     memberCount: 124,
     hasEvents: false,
     lastMessage: 'Studio group per gli esami?',
@@ -153,7 +153,7 @@ export const mockChats: FountainChat[] = [
   {
     id: '8',
     fountainId: '7',
-    fountainName: 'Vedovella Corso Buenos Aires',
+    fountainName: 'Vedovella Corso Buenos Aires', // Lasciato originale
     memberCount: 95,
     hasEvents: true,
     lastMessage: 'Pulizia prevista per sabato',
@@ -192,23 +192,23 @@ export const mockRewards: Reward[] = [
   // Premi Permanenti (Sbloccabili con Livello/Utilizzi)
   {
     id: '1',
-    title: 'Mappa Offline',
-    description: 'Scarica la mappa delle fontanelle per usarla senza connessione',
+    title: 'Acqua Fredda',
+    description: 'Sblocca la funzione acqua refrigerata',
     type: 'permanent',
     requiredUses: 25,
     requiredLevel: 3,
     unlocked: true,
-    icon: 'map'
+    icon: 'snowflake'
   },
   {
     id: '2',
-    title: 'Statistiche Avanzate',
-    description: 'Sblocca grafici dettagliati e analisi dei tuoi consumi e risparmi',
+    title: 'Acqua Frizzante',
+    description: 'Sblocca la funzione acqua frizzante',
     type: 'permanent',
     requiredUses: 50,
     requiredLevel: 5,
     unlocked: true,
-    icon: 'chart'
+    icon: 'sparkles'
   },
   
   // Premi Consumabili (Acquistabili con Punti)
