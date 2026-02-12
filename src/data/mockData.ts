@@ -182,8 +182,8 @@ export const mockRewards: Reward[] = [
   // Premi Permanenti (Sbloccabili con Livello/Utilizzi)
   {
     id: '1',
-    title: 'Acqua Fredda',
-    description: 'Sblocca la funzione acqua refrigerata',
+    title: 'Statistiche Avanzate',
+    description: 'Grafici dettagliati e analisi dei consumi e risparmi',
     type: 'permanent',
     requiredUses: 25,
     requiredLevel: 3,
@@ -192,8 +192,8 @@ export const mockRewards: Reward[] = [
   },
   {
     id: '2',
-    title: 'Acqua Frizzante',
-    description: 'Sblocca la funzione acqua frizzante',
+    title: 'Percorsi Idratazione',
+    description: 'Crea percorsi a piedi che passano per più fontanelle',
     type: 'permanent',
     requiredUses: 50,
     requiredLevel: 5,
