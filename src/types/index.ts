@@ -12,7 +12,6 @@ export interface Fountain {
   accessibility?: 'wheelchair' | 'limited' | 'none';
   waterQuality?: 'excellent' | 'good' | 'average';
   hasPetBowl?: boolean;
-  isRefrigerated?: boolean;
 }
 
 export interface User {
@@ -86,7 +85,6 @@ export interface FilterOptions {
   accessibility?: 'wheelchair' | 'limited' | 'none' | 'all';
   waterQuality?: 'excellent' | 'good' | 'average' | 'all';
   hasPetBowl?: boolean | null;
-  isRefrigerated?: boolean | null;
   condition?: 'Ottima' | 'Buona' | 'Discreta' | 'all';
 }
 
