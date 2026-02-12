@@ -65,7 +65,7 @@ export default function App() {
   // Overlay per orientamento landscape
   if (isLandscape) {
     return (
-      <div className="h-screen w-full bg-gradient-to-br from-teal-600 to-green-600 flex items-center justify-center p-8">
+      <div className="h-full w-full bg-gradient-to-br from-teal-600 to-green-600 flex items-center justify-center p-8">
         <div className="text-center text-white">
           <div className="text-6xl mb-4">📱</div>
           <h2 className="text-xl font-semibold mb-2">Ruota il dispositivo</h2>
@@ -78,7 +78,7 @@ export default function App() {
   }
 
   return (
-    <div className="h-screen w-full bg-gray-50 flex flex-col max-w-md mx-auto">
+    <div className="h-full w-full bg-gray-50 flex flex-col max-w-md mx-auto">
       {/* Top Bar - Always visible */}
       <TopBar onSettingsClick={() => setCurrentView('settings')} />
 
