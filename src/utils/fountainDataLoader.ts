@@ -61,6 +61,10 @@ export function loadMilanFountains(): Fountain[] {
     // Ogni fontanella ha il suo generatore deterministico basato sull'indice
     const rand = seededRandom(index + 42);
 
+    // Warm-up: i seed sequenziali producono primi valori troppo simili nel LCG,
+    // servono alcune iterazioni per far divergere gli stati
+    rand(); rand(); rand();
+
     // Genera nome descrittivo basato sulla zona
     const name = generateFountainName(props, index);
 
@@ -134,8 +138,8 @@ function formatNILName(nil: string): string {
  */
 function generateCondition(rand: () => number): 'Ottima' | 'Buona' | 'Discreta' {
   const val = rand();
-  if (val < 0.35) return 'Ottima';    // 35%
-  if (val < 0.75) return 'Buona';     // 40%
+  if (val < 0.4) return 'Ottima';     // 40%
+  if (val < 0.75) return 'Buona';     // 35%
   return 'Discreta';                    // 25%
 }
 
@@ -179,7 +183,7 @@ function generateAccessibility(rand: () => number): 'wheelchair' | 'limited' | '
  */
 function generateWaterQuality(rand: () => number): 'excellent' | 'good' | 'average' {
   const val = rand();
-  if (val < 0.35) return 'excellent';  // 35% eccellente
-  if (val < 0.75) return 'good';       // 40% buona
+  if (val < 0.4) return 'excellent';   // 40% eccellente
+  if (val < 0.75) return 'good';       // 35% buona
   return 'average';                      // 25% media
 }
