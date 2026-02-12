@@ -186,11 +186,18 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  body {
-    line-height: inherit;
-    overscroll-behavior: none; /* Previene il bounce effect su tutta la pagina */
-    position: fixed; /* Blocca il body */
-  }
+    body {
+        line-height: inherit;
+        background-color: var(--background);
+        color: var(--foreground);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        /* Sostituisci le proprietà precedenti con queste: */
+        min-height: 100vh;
+        overscroll-behavior-y: none; /* Blocca il bounce senza rompere il layout */
+        scrollbar-gutter: stable;    /* Impedisce lo scatto laterale quando apri modali */
+    }
 
   hr {
     height: 0;
