@@ -325,7 +325,14 @@ export function ChatView() {
 
       {/* Join Chat Dialog */}
       {showJoinDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+          }}
+        >
           <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-xl">
             {/* Header */}
             <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white p-6">
