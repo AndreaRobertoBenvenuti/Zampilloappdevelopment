@@ -16,6 +16,7 @@ import {
   Mail,
   Trash2
 } from 'lucide-react';
+import { currentUser } from '../data/mockData';
 
 interface SettingsViewProps {
   onBack: () => void;
@@ -106,18 +107,18 @@ export function SettingsView({ onBack }: SettingsViewProps) {
         <div className="bg-white m-4 rounded-xl p-4 shadow-sm">
           <div className="flex items-center gap-3">
             <img
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+              src={currentUser.avatar}
               alt="Profilo"
               className="w-16 h-16 rounded-full object-cover"
             />
             <div className="flex-1">
-              <h3 className="font-medium text-gray-900">Marco Rossi</h3>
+              <h3 className="font-medium text-gray-900">{currentUser.name}</h3>
               <p className="text-sm text-gray-600">marco.rossi@email.com</p>
               <div className="flex items-center gap-2 mt-1">
                 <span className="px-2 py-0.5 bg-teal-100 text-teal-700 rounded-full text-xs">
-                  Livello 7
+                  Livello {currentUser.level}
                 </span>
-                <span className="text-xs text-gray-500">2.450 punti</span>
+                <span className="text-xs text-gray-500">{currentUser.points} punti</span>
               </div>
             </div>
           </div>
