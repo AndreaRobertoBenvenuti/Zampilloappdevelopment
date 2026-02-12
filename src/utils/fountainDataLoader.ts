@@ -134,9 +134,9 @@ function formatNILName(nil: string): string {
  */
 function generateCondition(rand: () => number): 'Ottima' | 'Buona' | 'Discreta' {
   const val = rand();
-  if (val < 0.7) return 'Ottima';  // 70%
-  if (val < 0.95) return 'Buona';  // 25%
-  return 'Discreta';                 // 5%
+  if (val < 0.35) return 'Ottima';    // 35%
+  if (val < 0.75) return 'Buona';     // 40%
+  return 'Discreta';                    // 25%
 }
 
 /**
@@ -179,7 +179,7 @@ function generateAccessibility(rand: () => number): 'wheelchair' | 'limited' | '
  */
 function generateWaterQuality(rand: () => number): 'excellent' | 'good' | 'average' {
   const val = rand();
-  if (val < 0.75) return 'excellent';  // 75% eccellente
-  if (val < 0.95) return 'good';       // 20% buona
-  return 'average';                      // 5% media
+  if (val < 0.35) return 'excellent';  // 35% eccellente
+  if (val < 0.75) return 'good';       // 40% buona
+  return 'average';                      // 25% media
 }

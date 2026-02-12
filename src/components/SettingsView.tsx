@@ -106,11 +106,13 @@ export function SettingsView({ onBack }: SettingsViewProps) {
         {/* User Info Card */}
         <div className="bg-white m-4 rounded-xl p-4 shadow-sm">
           <div className="flex items-center gap-3">
-            <img
-              src={currentUser.avatar}
-              alt="Profilo"
-              className="w-16 h-16 rounded-full object-cover"
-            />
+            <div className="w-16 h-16 rounded-full border-3 border-teal-200 overflow-hidden flex-shrink-0 shadow-md">
+              <img
+                src={currentUser.avatar}
+                alt="Profilo"
+                className="w-full h-full object-cover"
+              />
+            </div>
             <div className="flex-1">
               <h3 className="font-medium text-gray-900">{currentUser.name}</h3>
               <p className="text-sm text-gray-600">marco.rossi@email.com</p>

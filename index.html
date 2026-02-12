@@ -2,15 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
     <!-- PWA Configuration for iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Zampillo" />
     <meta name="theme-color" content="#14b8a6" />
+    <link rel="manifest" href="/manifest.json" />
 
     <title>Zampillo App</title>
+
+    <style>
+      /* Blocca overscroll/bounce su aree non scorribili */
+      html, body {
+        overscroll-behavior: none;
+        -webkit-overflow-scrolling: auto;
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        touch-action: pan-x pan-y;
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+    </style>
   </head>
 
   <body>
