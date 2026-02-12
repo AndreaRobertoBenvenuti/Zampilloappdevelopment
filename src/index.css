@@ -188,6 +188,8 @@
 
   body {
     line-height: inherit;
+    overscroll-behavior: none; /* Previene il bounce effect su tutta la pagina */
+    overflow: hidden; /* Impedisce lo scroll del body */
   }
 
   hr {
