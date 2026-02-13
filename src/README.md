@@ -1,6 +1,6 @@
 # 🌊 Zampillo - App Fontanelle Storiche di Milano
 
-![Zampillo](https://img.shields.io/badge/Version-2.0.0-teal)
+![Zampillo](https://img.shields.io/badge/Version-1.0.0-teal)
 ![React](https://img.shields.io/badge/React-18+-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue)
 ![Tailwind](https://img.shields.io/badge/Tailwind-4.0-teal)
