@@ -1,4 +1,4 @@
-import { X, Accessibility, Droplets, Dog, Snowflake, CheckCircle2 } from 'lucide-react';
+import { X, Accessibility, Droplets, Dog, CheckCircle2 } from 'lucide-react';
 import { FilterOptions } from '../types';
 
 interface FilterPanelProps {
@@ -16,7 +16,6 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
       accessibility: 'all',
       waterQuality: 'all',
       hasPetBowl: null,
-      isRefrigerated: null,
       condition: 'all'
     });
   };
@@ -25,7 +24,6 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
     filters.accessibility !== 'all' && filters.accessibility !== undefined,
     filters.waterQuality !== 'all' && filters.waterQuality !== undefined,
     filters.hasPetBowl !== null,
-    filters.isRefrigerated !== null,
     filters.condition !== 'all' && filters.condition !== undefined
   ].filter(Boolean).length;
 
@@ -152,7 +150,7 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
                     : 'border-gray-200 text-gray-600 hover:border-gray-300'
                 }`}
               >
-                Media ✓
+                Discreta ✓
               </button>
             </div>
           </div>
@@ -241,27 +239,6 @@ export function FilterPanel({ isOpen, onClose, filters, onFiltersChange }: Filte
                   <span className="font-medium">Senza ciotola</span>
                 </button>
               </div>
-
-              <button
-                onClick={() => onFiltersChange({ ...filters, isRefrigerated: filters.isRefrigerated === true ? null : true })}
-                className={`w-full p-4 rounded-lg border-2 transition-all flex items-center justify-between ${
-                  filters.isRefrigerated === true
-                    ? 'border-teal-600 bg-teal-50'
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Snowflake className="w-5 h-5 text-teal-600" />
-                  <span className={filters.isRefrigerated === true ? 'text-teal-700 font-medium' : 'text-gray-700'}>
-                    Acqua refrigerata
-                  </span>
-                </div>
-                {filters.isRefrigerated === true && (
-                  <div className="w-6 h-6 rounded-full bg-teal-600 flex items-center justify-center">
-                    <span className="text-white text-sm">✓</span>
-                  </div>
-                )}
-              </button>
             </div>
           </div>
         </div>

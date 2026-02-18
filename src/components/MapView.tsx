@@ -84,7 +84,6 @@ export function MapView({ onNavigate }: MapViewProps) {
     accessibility: "all",
     waterQuality: "all",
     hasPetBowl: null,
-    isRefrigerated: null,
     condition: "all",
   });
   const [distanceFilter, setDistanceFilter] = useState<number | null>(null); // in metri
@@ -187,13 +186,6 @@ export function MapView({ onNavigate }: MapViewProps) {
       }
     }
 
-    // Filtro acqua refrigerata
-    if (filters.isRefrigerated === true) {
-      if (!fountain.isRefrigerated) {
-        return false;
-      }
-    }
-
     return true;
   };
 
@@ -232,7 +224,6 @@ export function MapView({ onNavigate }: MapViewProps) {
     filters.accessibility !== "all" && filters.accessibility !== undefined,
     filters.waterQuality !== "all" && filters.waterQuality !== undefined,
     filters.hasPetBowl !== null,
-    filters.isRefrigerated !== null,
     filters.condition !== "all" && filters.condition !== undefined,
   ].filter(Boolean).length;
 
@@ -620,11 +611,6 @@ export function MapView({ onNavigate }: MapViewProps) {
                 {showPopup.accessibility === "wheelchair" && (
                   <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium flex items-center gap-1">
                     ♿ Accessibile
-                  </span>
-                )}
-                {showPopup.isRefrigerated && (
-                  <span className="px-2 py-1 bg-cyan-100 text-cyan-700 rounded-full text-xs font-medium flex items-center gap-1">
-                    ❄️ Refrigerata
                   </span>
                 )}
                 {showPopup.hasPetBowl && (
