@@ -56,15 +56,34 @@ export function ChatView({ initialParams }: ChatViewProps) {
   const joinedChats = chats.filter(chat => joinedChatIds.includes(chat.id));
   const availableChats = chats.filter(chat => !joinedChatIds.includes(chat.id));
 
+  // Controlla dinamicamente se una chat ha eventi associati
+  const allEvents = store.getEvents();
+  const chatHasEvents = (chat: FountainChat): boolean => {
+    return allEvents.some(e => e.fountainName === chat.fountainName);
+  };
+
   // Funzione per ottenere il quartiere dalla fontana
   const getFountainDistrict = (fountainName: string): string => {
-    if (fountainName.includes('Duomo')) return 'Centro';
-    if (fountainName.includes('Brera')) return 'Brera';
-    if (fountainName.includes('Navigli')) return 'Navigli';
-    if (fountainName.includes('Sempione')) return 'Sempione';
-    if (fountainName.includes('Porta Venezia')) return 'Porta Venezia';
-    if (fountainName.includes('Città Studi')) return 'Città Studi';
-    if (fountainName.includes('Isola')) return 'Isola';
+    const text = fountainName.toLowerCase();
+
+    const districtKeywords: [string, string[]][] = [
+      ['Centro', ['duomo', 'guastalla', 'vetra', 'centro storico', 'magenta', 's. vittore', 'vigentina', 'lodovica', 'pta romana']],
+      ['Brera', ['brera', 'sarpi', 'garibaldi', 'porta nuova']],
+      ['Navigli', ['navigli', 'naviglio', 'conca del naviglio', 'conchetta', 'porta genova', 'tortona', 'solari']],
+      ['Sempione', ['sempione', 'portello', 'de angeli', 'monte rosa', 'pagano', 'tre torri', 'fiera']],
+      ['Porta Venezia', ['porta venezia', 'buenos aires', 'porta monforte', 'loreto', 'casoretto', 'nolo', 'corsica', 'giardini p.ta venezia']],
+      ['Città Studi', ['città studi', 'citta studi', 'lambrate', 'ortica']],
+      ['Isola', ['isola', 'farini', 'maciachini', 'maggiolina']],
+    ];
+
+    for (const [district, keywords] of districtKeywords) {
+      for (const keyword of keywords) {
+        if (text.includes(keyword)) {
+          return district;
+        }
+      }
+    }
+
     return 'Centro';
   };
 
@@ -72,7 +91,7 @@ export function ChatView({ initialParams }: ChatViewProps) {
   const filteredAvailableChats = availableChats.filter(chat => {
     const districtMatch = selectedDistrict === 'Tutti' || getFountainDistrict(chat.fountainName) === selectedDistrict;
     const typeMatch = selectedType === 'Tutte' || 
-                     (selectedType === 'Con Eventi' && chat.hasEvents) ||
+                     (selectedType === 'Con Eventi' && chatHasEvents(chat)) ||
                      (selectedType === 'Attive' && chat.lastMessageTime);
     return districtMatch && typeMatch;
   });
@@ -81,7 +100,7 @@ export function ChatView({ initialParams }: ChatViewProps) {
   const filteredJoinedChats = joinedChats.filter(chat => {
     const districtMatch = selectedDistrict === 'Tutti' || getFountainDistrict(chat.fountainName) === selectedDistrict;
     const typeMatch = selectedType === 'Tutte' || 
-                     (selectedType === 'Con Eventi' && chat.hasEvents) ||
+                     (selectedType === 'Con Eventi' && chatHasEvents(chat)) ||
                      (selectedType === 'Attive' && chat.lastMessageTime);
     return districtMatch && typeMatch;
   });
@@ -148,7 +167,7 @@ export function ChatView({ initialParams }: ChatViewProps) {
               <Users className="w-4 h-4" />
               {chat.memberCount} membri
             </span>
-            {chat.hasEvents && (
+            {chatHasEvents(chat) && (
               <span className="flex items-center gap-1 text-sm text-teal-600">
                 <Calendar className="w-4 h-4" />
                 Eventi
@@ -191,7 +210,7 @@ export function ChatView({ initialParams }: ChatViewProps) {
               <Users className="w-4 h-4" />
               {chat.memberCount} membri
             </span>
-            {chat.hasEvents && (
+            {chatHasEvents(chat) && (
               <span className="flex items-center gap-1 text-sm text-teal-600">
                 <Calendar className="w-4 h-4" />
                 Eventi
@@ -390,7 +409,7 @@ export function ChatView({ initialParams }: ChatViewProps) {
                       <Users className="w-4 h-4" />
                       {showJoinDialog.memberCount} membri
                     </span>
-                    {showJoinDialog.hasEvents && (
+                    {chatHasEvents(showJoinDialog) && (
                       <span className="flex items-center gap-1 text-sm text-teal-600">
                         <Calendar className="w-4 h-4" />
                         Con eventi

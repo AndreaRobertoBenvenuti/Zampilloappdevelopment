@@ -85,20 +85,34 @@ export function FountainDetailView({ fountain, distance, onBack, isFavorite, tog
     alert('Check-in completato! +15 punti guadagnati! 🎉');
   };
 
-  const getFountainDistrict = (fountainName: string): string => {
-    if (fountainName.includes('Duomo')) return 'Centro';
-    if (fountainName.includes('Brera')) return 'Brera';
-    if (fountainName.includes('Navigli')) return 'Navigli';
-    if (fountainName.includes('Sempione')) return 'Sempione';
-    if (fountainName.includes('Porta Venezia')) return 'Porta Venezia';
-    if (fountainName.includes('Città Studi')) return 'Città Studi';
-    if (fountainName.includes('Isola')) return 'Isola';
-    return 'Centro';
+  const getFountainDistrict = (fountainName: string, description?: string): string => {
+    const text = (fountainName + ' ' + (description || '')).toLowerCase();
+
+    // Mappa le zone NIL di Milano ai distretti della chat
+    const districtKeywords: [string, string[]][] = [
+      ['Centro', ['duomo', 'guastalla', 'vetra', 'centro storico', 'magenta', 's. vittore', 'vigentina', 'lodovica', 'pta romana']],
+      ['Brera', ['brera', 'sarpi', 'garibaldi', 'porta nuova']],
+      ['Navigli', ['navigli', 'naviglio', 'conca del naviglio', 'conchetta', 'porta genova', 'tortona', 'solari']],
+      ['Sempione', ['sempione', 'portello', 'de angeli', 'monte rosa', 'pagano', 'tre torri', 'fiera']],
+      ['Porta Venezia', ['porta venezia', 'buenos aires', 'porta monforte', 'loreto', 'casoretto', 'nolo', 'corsica', 'giardini p.ta venezia']],
+      ['Città Studi', ['città studi', 'citta studi', 'lambrate', 'ortica']],
+      ['Isola', ['isola', 'farini', 'maciachini', 'maggiolina']],
+    ];
+
+    for (const [district, keywords] of districtKeywords) {
+      for (const keyword of keywords) {
+        if (text.includes(keyword)) {
+          return district;
+        }
+      }
+    }
+
+    return 'Tutti';
   };
 
   const handleJoinChat = () => {
     if (onNavigate) {
-      const district = getFountainDistrict(fountain.name);
+      const district = getFountainDistrict(fountain.name, fountain.description);
       onNavigate('chat', { district });
     } else {
       alert(`Ti sei unito alla chat "${fountain.name}"!`);

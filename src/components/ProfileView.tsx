@@ -4,6 +4,7 @@ import { currentUser, mockChallenges, mockRewards, mockBadges } from '../data/mo
 import { BadgeCollection } from './BadgeCollection';
 import { ActivityChart } from './ActivityChart';
 import { BadgeUnlockModal } from './BadgeUnlockModal';
+import { EarnPointsModal } from './EarnPointsModal';
 import { Badge, Reward } from '../types';
 
 type StatsTab = 'weekly' | 'monthly';
@@ -13,6 +14,7 @@ export function ProfileView() {
   const [unlockedBadge, setUnlockedBadge] = useState<Badge | null>(null);
   const [showUnlockModal, setShowUnlockModal] = useState(false);
   const [userSpendablePoints, setUserSpendablePoints] = useState(currentUser.spendablePoints);
+  const [showEarnModal, setShowEarnModal] = useState(false);
 
   const handleBadgeClick = (badge: Badge) => {
     if (!currentUser.badges?.includes(badge.id)) {
@@ -154,7 +156,10 @@ export function ProfileView() {
                 <p className="text-2xl font-bold text-gray-900">{userSpendablePoints}</p>
               </div>
             </div>
-            <button className="bg-amber-50 text-amber-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-100 transition-colors">
+            <button
+              onClick={() => setShowEarnModal(true)}
+              className="bg-amber-50 text-amber-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-100 transition-colors"
+            >
               Come guadagnare?
             </button>
           </div>
@@ -389,6 +394,12 @@ export function ProfileView() {
         badge={unlockedBadge}
         isOpen={showUnlockModal}
         onClose={() => setShowUnlockModal(false)}
+      />
+
+      {/* Earn Points Modal */}
+      <EarnPointsModal
+        isOpen={showEarnModal}
+        onClose={() => setShowEarnModal(false)}
       />
     </div>
   );

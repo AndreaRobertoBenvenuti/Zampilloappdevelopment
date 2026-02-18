@@ -100,7 +100,7 @@ export const mockChats: FountainChat[] = [
     fountainId: '1',
     fountainName: 'Vedovella Duomo', // Lasciato originale
     memberCount: 312,
-    hasEvents: false,
+    hasEvents: true,
     lastMessage: 'Qualcuno sa se funziona oggi?',
     lastMessageTime: new Date(2025, 11, 18, 18, 45)
   },
@@ -145,7 +145,7 @@ export const mockChats: FountainChat[] = [
     fountainId: '7',
     fountainName: 'Vedovella Corso Buenos Aires', // Lasciato originale
     memberCount: 95,
-    hasEvents: true,
+    hasEvents: false,
     lastMessage: 'Pulizia prevista per sabato',
     lastMessageTime: new Date(2025, 11, 15, 12, 20)
   }
@@ -414,7 +414,7 @@ export const mockEvents: Event[] = [
   {
     id: '2',
     title: 'Aperitivo Natalizio',
-    fountainName: 'Drago Verde Navigli',
+    fountainName: 'Amici dei Navigli',
     district: 'Navigli',
     type: 'Incontro',
     date: '2025-12-21',
@@ -425,7 +425,7 @@ export const mockEvents: Event[] = [
   {
     id: '3',
     title: 'Tour delle Vedovelle di Brera',
-    fountainName: 'Drago Verde Brera',
+    fountainName: 'Fotografi di Brera',
     district: 'Brera',
     type: 'Passeggiata',
     date: '2025-12-23',
@@ -436,7 +436,7 @@ export const mockEvents: Event[] = [
   {
     id: '4',
     title: 'Pulizia Post-Natale',
-    fountainName: 'Vedovella Parco Sempione',
+    fountainName: 'Runner Parco Sempione',
     district: 'Sempione',
     type: 'Pulizia',
     date: '2025-12-27',
@@ -458,7 +458,7 @@ export const mockEvents: Event[] = [
   {
     id: '6',
     title: 'Passeggiata di Fine Anno',
-    fountainName: 'Vedovella Porta Venezia',
+    fountainName: 'Porta Venezia Active',
     district: 'Porta Venezia',
     type: 'Passeggiata',
     date: '2025-12-30',
@@ -471,7 +471,7 @@ export const mockEvents: Event[] = [
   {
     id: '7',
     title: 'Brindisi di Capodanno',
-    fountainName: 'Drago Verde Brera',
+    fountainName: 'Fotografi di Brera',
     district: 'Brera',
     type: 'Incontro',
     date: '2026-01-01',
@@ -482,7 +482,7 @@ export const mockEvents: Event[] = [
   {
     id: '8',
     title: 'Pulizia Inizio Anno',
-    fountainName: 'Drago Verde Navigli',
+    fountainName: 'Amici dei Navigli',
     district: 'Navigli',
     type: 'Pulizia',
     date: '2026-01-04',
@@ -504,7 +504,7 @@ export const mockEvents: Event[] = [
   {
     id: '10',
     title: 'Passeggiata Befana',
-    fountainName: 'Vedovella Parco Sempione',
+    fountainName: 'Runner Parco Sempione',
     district: 'Sempione',
     type: 'Passeggiata',
     date: '2026-01-06',
@@ -515,7 +515,7 @@ export const mockEvents: Event[] = [
   {
     id: '11',
     title: 'Incontro Community Gennaio',
-    fountainName: 'Vedovella Porta Venezia',
+    fountainName: 'Porta Venezia Active',
     district: 'Porta Venezia',
     type: 'Incontro',
     date: '2026-01-08',
@@ -526,7 +526,7 @@ export const mockEvents: Event[] = [
   {
     id: '12',
     title: 'Pulizia Collaborativa',
-    fountainName: 'Drago Verde Brera',
+    fountainName: 'Fotografi di Brera',
     district: 'Brera',
     type: 'Pulizia',
     date: '2026-01-11',
@@ -537,7 +537,7 @@ export const mockEvents: Event[] = [
   {
     id: '13',
     title: 'Workshop Sostenibilità',
-    fountainName: 'Vedovella Parco Sempione',
+    fountainName: 'Runner Parco Sempione',
     district: 'Sempione',
     type: 'Workshop',
     date: '2026-01-12',
@@ -548,7 +548,7 @@ export const mockEvents: Event[] = [
   {
     id: '14',
     title: 'Aperitivo alla Vedovella',
-    fountainName: 'Drago Verde Navigli',
+    fountainName: 'Amici dei Navigli',
     district: 'Navigli',
     type: 'Incontro',
     date: '2026-01-14',
@@ -570,7 +570,7 @@ export const mockEvents: Event[] = [
   {
     id: '16',
     title: 'Pulizia Weekend',
-    fountainName: 'Vedovella Porta Venezia',
+    fountainName: 'Porta Venezia Active',
     district: 'Porta Venezia',
     type: 'Pulizia',
     date: '2026-01-18',
@@ -581,7 +581,7 @@ export const mockEvents: Event[] = [
   {
     id: '17',
     title: 'Workshop Idratazione',
-    fountainName: 'Drago Verde Brera',
+    fountainName: 'Fotografi di Brera',
     district: 'Brera',
     type: 'Workshop',
     date: '2026-01-21',
@@ -592,7 +592,7 @@ export const mockEvents: Event[] = [
   {
     id: '18',
     title: 'Incontro Giovani Zampillo',
-    fountainName: 'Drago Verde Navigli',
+    fountainName: 'Amici dei Navigli',
     district: 'Navigli',
     type: 'Incontro',
     date: '2026-01-23',
@@ -603,7 +603,7 @@ export const mockEvents: Event[] = [
   {
     id: '19',
     title: 'Passeggiata Domenicale',
-    fountainName: 'Vedovella Parco Sempione',
+    fountainName: 'Runner Parco Sempione',
     district: 'Sempione',
     type: 'Passeggiata',
     date: '2026-01-25',
@@ -625,7 +625,7 @@ export const mockEvents: Event[] = [
   {
     id: '21',
     title: 'Workshop Arte Urbana',
-    fountainName: 'Vedovella Porta Venezia',
+    fountainName: 'Porta Venezia Active',
     district: 'Porta Venezia',
     type: 'Workshop',
     date: '2026-01-30',
@@ -638,7 +638,7 @@ export const mockEvents: Event[] = [
   {
     id: '22',
     title: 'Incontro Mensile Community',
-    fountainName: 'Drago Verde Brera',
+    fountainName: 'Fotografi di Brera',
     district: 'Brera',
     type: 'Incontro',
     date: '2026-02-01',
@@ -660,7 +660,7 @@ export const mockEvents: Event[] = [
   {
     id: '24',
     title: 'Passeggiata Carnevale',
-    fountainName: 'Drago Verde Navigli',
+    fountainName: 'Amici dei Navigli',
     district: 'Navigli',
     type: 'Passeggiata',
     date: '2026-02-05',
@@ -671,7 +671,7 @@ export const mockEvents: Event[] = [
   {
     id: '25',
     title: 'Pulizia Vedovella Navigli',
-    fountainName: 'Drago Verde Navigli',
+    fountainName: 'Amici dei Navigli',
     district: 'Navigli',
     type: 'Pulizia',
     date: '2026-02-07',
@@ -682,7 +682,7 @@ export const mockEvents: Event[] = [
   {
     id: '26',
     title: 'Workshop Bambini',
-    fountainName: 'Vedovella Parco Sempione',
+    fountainName: 'Runner Parco Sempione',
     district: 'Sempione',
     type: 'Workshop',
     date: '2026-02-08',
@@ -693,7 +693,7 @@ export const mockEvents: Event[] = [
   {
     id: '27',
     title: 'Incontro San Valentino',
-    fountainName: 'Vedovella Porta Venezia',
+    fountainName: 'Porta Venezia Active',
     district: 'Porta Venezia',
     type: 'Incontro',
     date: '2026-02-12',
@@ -704,7 +704,7 @@ export const mockEvents: Event[] = [
   {
     id: '28',
     title: 'Tour Fotografico Vedovelle',
-    fountainName: 'Drago Verde Brera',
+    fountainName: 'Fotografi di Brera',
     district: 'Brera',
     type: 'Passeggiata',
     date: '2026-02-14',
@@ -715,7 +715,7 @@ export const mockEvents: Event[] = [
   {
     id: '29',
     title: 'Aperitivo Sostenibile',
-    fountainName: 'Vedovella Parco Sempione',
+    fountainName: 'Runner Parco Sempione',
     district: 'Sempione',
     type: 'Incontro',
     date: '2026-02-14',
@@ -737,7 +737,7 @@ export const mockEvents: Event[] = [
   {
     id: '31',
     title: 'Workshop Idratazione e Salute',
-    fountainName: 'Drago Verde Navigli',
+    fountainName: 'Amici dei Navigli',
     district: 'Navigli',
     type: 'Workshop',
     date: '2026-02-19',
@@ -748,7 +748,7 @@ export const mockEvents: Event[] = [
   {
     id: '32',
     title: 'Passeggiata Weekend',
-    fountainName: 'Vedovella Porta Venezia',
+    fountainName: 'Porta Venezia Active',
     district: 'Porta Venezia',
     type: 'Passeggiata',
     date: '2026-02-21',
@@ -759,7 +759,7 @@ export const mockEvents: Event[] = [
   {
     id: '33',
     title: 'Incontro Volontari',
-    fountainName: 'Drago Verde Brera',
+    fountainName: 'Fotografi di Brera',
     district: 'Brera',
     type: 'Incontro',
     date: '2026-02-24',
@@ -770,7 +770,7 @@ export const mockEvents: Event[] = [
   {
     id: '34',
     title: 'Pulizia Parco Sempione',
-    fountainName: 'Vedovella Parco Sempione',
+    fountainName: 'Runner Parco Sempione',
     district: 'Sempione',
     type: 'Pulizia',
     date: '2026-02-26',
@@ -794,7 +794,7 @@ export const mockEvents: Event[] = [
   {
     id: '36',
     title: 'Passeggiata Storica Milano',
-    fountainName: 'Drago Verde Brera',
+    fountainName: 'Fotografi di Brera',
     district: 'Brera',
     type: 'Passeggiata',
     date: '2026-03-01',
@@ -805,7 +805,7 @@ export const mockEvents: Event[] = [
   {
     id: '37',
     title: 'Incontro Primavera',
-    fountainName: 'Drago Verde Navigli',
+    fountainName: 'Amici dei Navigli',
     district: 'Navigli',
     type: 'Incontro',
     date: '2026-03-03',
@@ -816,7 +816,7 @@ export const mockEvents: Event[] = [
   {
     id: '38',
     title: 'Workshop Fotografia Avanzata',
-    fountainName: 'Vedovella Porta Venezia',
+    fountainName: 'Porta Venezia Active',
     district: 'Porta Venezia',
     type: 'Workshop',
     date: '2026-03-05',
@@ -827,7 +827,7 @@ export const mockEvents: Event[] = [
   {
     id: '39',
     title: 'Pulizia di Primavera',
-    fountainName: 'Vedovella Parco Sempione',
+    fountainName: 'Runner Parco Sempione',
     district: 'Sempione',
     type: 'Pulizia',
     date: '2026-03-07',
@@ -849,7 +849,7 @@ export const mockEvents: Event[] = [
   {
     id: '41',
     title: 'Workshop Ecologia',
-    fountainName: 'Drago Verde Brera',
+    fountainName: 'Fotografi di Brera',
     district: 'Brera',
     type: 'Workshop',
     date: '2026-03-10',
@@ -860,7 +860,7 @@ export const mockEvents: Event[] = [
   {
     id: '42',
     title: 'Incontro Studenti',
-    fountainName: 'Drago Verde Navigli',
+    fountainName: 'Amici dei Navigli',
     district: 'Navigli',
     type: 'Incontro',
     date: '2026-03-12',
@@ -882,7 +882,7 @@ export const mockEvents: Event[] = [
   {
     id: '44',
     title: 'Incontro Zampillo Kids',
-    fountainName: 'Vedovella Parco Sempione',
+    fountainName: 'Runner Parco Sempione',
     district: 'Sempione',
     type: 'Incontro',
     date: '2026-03-15',
@@ -893,7 +893,7 @@ export const mockEvents: Event[] = [
   {
     id: '45',
     title: 'Passeggiata Naturalistica',
-    fountainName: 'Vedovella Porta Venezia',
+    fountainName: 'Porta Venezia Active',
     district: 'Porta Venezia',
     type: 'Passeggiata',
     date: '2026-03-18',
@@ -904,7 +904,7 @@ export const mockEvents: Event[] = [
   {
     id: '46',
     title: 'Workshop Arte e Vedovelle',
-    fountainName: 'Drago Verde Navigli',
+    fountainName: 'Amici dei Navigli',
     district: 'Navigli',
     type: 'Workshop',
     date: '2026-03-20',
@@ -915,7 +915,7 @@ export const mockEvents: Event[] = [
   {
     id: '47',
     title: 'Pulizia Weekend Brera',
-    fountainName: 'Drago Verde Brera',
+    fountainName: 'Fotografi di Brera',
     district: 'Brera',
     type: 'Pulizia',
     date: '2026-03-21',
@@ -937,7 +937,7 @@ export const mockEvents: Event[] = [
   {
     id: '49',
     title: 'Passeggiata Primavera',
-    fountainName: 'Vedovella Parco Sempione',
+    fountainName: 'Runner Parco Sempione',
     district: 'Sempione',
     type: 'Passeggiata',
     date: '2026-03-28',
@@ -948,7 +948,7 @@ export const mockEvents: Event[] = [
   {
     id: '50',
     title: 'Workshop Storytelling',
-    fountainName: 'Vedovella Porta Venezia',
+    fountainName: 'Porta Venezia Active',
     district: 'Porta Venezia',
     type: 'Workshop',
     date: '2026-03-29',

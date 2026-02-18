@@ -183,8 +183,16 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
 
       {/* Events Calendar (if shown) */}
       {showCalendar && events.length > 0 && (
-        <div className="bg-teal-50 border-b border-teal-200 p-4 animate-in slide-in-from-top duration-200">
-          <div className="space-y-2 max-h-52 overflow-y-auto pr-1" style={{ maxHeight: '13rem', WebkitOverflowScrolling: 'touch' }}>
+        <div className="bg-teal-50 border-b border-teal-200 p-4 animate-in slide-in-from-top duration-200 relative">
+          <div
+            className="events-scroll-list space-y-2 overflow-y-scroll pr-2"
+            style={{
+              maxHeight: '13rem',
+              WebkitOverflowScrolling: 'touch',
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(20, 184, 166, 0.5) rgba(229, 231, 235, 0.3)',
+            }}
+          >
             {events.map((event) => (
               <div
                 key={event.id}
@@ -204,6 +212,25 @@ export function ChatRoom({ chat, onBack }: ChatRoomProps) {
               </div>
             ))}
           </div>
+          {events.length > 3 && (
+            <div className="absolute bottom-4 left-4 right-6 h-8 bg-gradient-to-t from-teal-50 to-transparent pointer-events-none" />
+          )}
+          <style>{`
+            .events-scroll-list::-webkit-scrollbar {
+              width: 6px;
+            }
+            .events-scroll-list::-webkit-scrollbar-track {
+              background: rgba(229, 231, 235, 0.3);
+              border-radius: 10px;
+            }
+            .events-scroll-list::-webkit-scrollbar-thumb {
+              background: rgba(20, 184, 166, 0.5);
+              border-radius: 10px;
+            }
+            .events-scroll-list::-webkit-scrollbar-thumb:hover {
+              background: rgba(20, 184, 166, 0.7);
+            }
+          `}</style>
         </div>
       )}
 
